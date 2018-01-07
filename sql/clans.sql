@@ -1,0 +1,22 @@
+CREATE TABLE `clans` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `tag` varchar(12) NOT NULL,
+  `name` varchar(15) DEFAULT NULL,
+  `description` varchar(512) DEFAULT NULL,
+  `location` varchar(25) DEFAULT NULL,
+  `badge` varchar(100) DEFAULT NULL,
+  `clanLevel` int(11) DEFAULT NULL,
+  `clanPoints` int(11) DEFAULT NULL,
+  `clanVersusPoints` int(11) DEFAULT NULL,
+  `requiredTrophies` int(11) DEFAULT NULL,
+  `warFrequency` varchar(15) DEFAULT NULL,
+  `warWinStreak` int(11) DEFAULT NULL,
+  `warWins` int(11) DEFAULT NULL,
+  `warTies` int(11) DEFAULT NULL,
+  `warLosses` int(11) DEFAULT NULL,
+  `members` int(11) DEFAULT NULL,
+  `autoupdate` int(11) DEFAULT '0',
+  `timestamp` datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `tag_UNIQUE` (`tag`)
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=latin1;

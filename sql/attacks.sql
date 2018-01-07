@@ -1,0 +1,20 @@
+CREATE TABLE `attacks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `startTime` datetime DEFAULT NULL,
+  `attacker_tag` varchar(12) DEFAULT NULL,
+  `defender_tag` varchar(12) DEFAULT NULL,
+  `attacker_clan` varchar(15) DEFAULT NULL,
+  `defender_clan` varchar(15) DEFAULT NULL,
+  `attacker_th` int(11) DEFAULT NULL,
+  `defender_th` int(11) DEFAULT NULL,
+  `attacker_map_pos` int(11) DEFAULT NULL,
+  `defender_map_pos` int(11) DEFAULT NULL,
+  `attack_stars` int(11) DEFAULT NULL,
+  `destructionPercentage` decimal(10,0) DEFAULT NULL,
+  `order` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `attack` (`startTime`,`attacker_tag`,`defender_tag`),
+  KEY `attacker` (`attacker_tag`),
+  KEY `defender` (`defender_tag`)
+) ENGINE=InnoDB AUTO_INCREMENT=1036 DEFAULT CHARSET=latin1;
