@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clanid = $_GET['clanid'];
 
-$api_token = "Your_API_Token";
+include "token.php";
 
 $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar";
 
@@ -77,14 +77,14 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= "', @attacker_th = ";
                             $attack_sql .= $attacker_th;
                             
-                            $key = array_search($attack["defenderTag"], array_column($players, 'tag'));
+                            $key = array_search($attack["defenderTag"], array_column($opponent["members"], 'tag'));
                             $attack_sql .= ", @defender_th = ";
-                            $attack_sql .= $players[$key]["townhallLevel"];
+                            $attack_sql .= $opponent["members"][$key]["townhallLevel"];
                             
                             $attack_sql .= ", @attacker_map_pos = ";
                             $attack_sql .= $attacker_map_pos;
                             $attack_sql .= ", @defender_map_pos = ";
-                            $attack_sql .= $players[$key]["mapPosition"];
+                            $attack_sql .= $opponent["members"][$key]["mapPosition"];
                             
                             $attack_sql .= ", @attack_stars = ";
                             $attack_sql .= $attack["stars"];
@@ -95,7 +95,7 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= ", @startTime=STR_TO_DATE('" . $startTime . "', '%Y-%m-%d %H:%i:%s'); ";
                             
                             $attack_sql .= "INSERT INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
-                            $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attacker_stars, @destructionPercentage, @startTime, @order);";
+                            $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attack_stars, @destructionPercentage, @startTime, @order);";
                            
                             include "mysql_coc.php";
                             if (mysqli_multi_query($conn, $attack_sql)) {

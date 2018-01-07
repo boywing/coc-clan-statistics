@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $playerid = $_GET['playerid'];
 
-$api_token = "Your_API_Token";
+include "token.php";
 
 $url = "https://api.clashofclans.com/v1/players/" . urlencode($playerid);
 
