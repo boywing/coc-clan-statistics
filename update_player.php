@@ -59,4 +59,35 @@ if (mysqli_multi_query($conn, $player_sql)) {
 }
 mysqli_close($conn);
 
+update_troops('troops', $player["troops"]);
+update_troops('spells', $player["spells"]);
+update_troops('heroes', $player["heroes"]);
+
+function update_troops($type, $troops)
+{
+    global $playerid;
+    
+    foreach($troops as $troop)
+        {
+            $troop_sql  = "SET @player_tag = '" . $playerid . "'";
+            $troop_sql .= ", @type = '" . $type . "'";
+            $troop_sql .= ", @name = '" . $troop["name"] . "'";
+            $troop_sql .= ", @level = " . $troop["level"];
+                $troop_sql .= ", @maxLevel = " . $troop["maxLevel"];
+                $troop_sql .= ", @village = '" . $troop["village"] . "'";
+                $troop_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
+                $troop_sql .= "INSERT INTO troops (`player_tag`, `type`, `name`, `level`, `maxLevel`, `village`, `timestamp`) ";
+                $troop_sql .= "VALUES (@player_tag, @type, @name, @level, @maxLevel, @village, @timestamp) ";
+                $troop_sql .= "ON DUPLICATE KEY UPDATE player_tag=@player_tag, type=@type, name=@name, level=@level, maxLevel=@maxLevel, village=@village, timestamp=@timestamp;";
+
+                include "mysql_coc.php";
+            if (mysqli_multi_query($conn, $troop_sql)) {
+                echo "Record for \"" . $troop["name"] . "\" updated successfully" . "\n";
+            } else {
+                echo "Error updating troop record for " . $troop["name"] . ": " . mysqli_error($conn) . "\n";
+            }
+            mysqli_close($conn);
+        }
+    
+}
 ?>
