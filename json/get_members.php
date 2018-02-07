@@ -4,7 +4,10 @@
 
 $clantag = $_GET['clantag'];
 
-$clan_sql = "SELECT * FROM players WHERE clan_tag = '" . $clantag . "'";
+if ($clantag == "ALL")
+    $clan_sql = "SELECT * FROM players";
+else
+    $clan_sql = "SELECT * FROM players WHERE clan_tag = '" . $clantag . "'";
 
 include "../mysql_coc.php";
 

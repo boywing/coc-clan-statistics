@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clanid = $_GET['clanid'];
 
-include "token.php";
+include "../token.php";
 
 $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar";
 
@@ -97,7 +97,7 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= "INSERT INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
                             $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attack_stars, @destructionPercentage, @startTime, @order);";
                            
-                            include "mysql_coc.php";
+                            include "../mysql_coc.php";
                             if (mysqli_multi_query($conn, $attack_sql)) {
                                 echo "Attack record for \"" . $player["name"] . "\" updated successfully" . "\n";
                             } else {
@@ -120,7 +120,7 @@ function update_clan($clan)
     $clan_sql .= $clan['clanLevel'];
     $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n" . "INSERT INTO clans (`tag`,`name`,`clanLevel`,`timestamp`) VALUES (@tag,@name,@clanLevel,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,clanLevel=@clanLevel,timestamp=@timestamp;";
     
-    include "mysql_coc.php";
+    include "../mysql_coc.php";
     
     if (mysqli_multi_query($conn, $clan_sql)) {
         echo "Record for \"" . $clan["name"] . "\" updated successfully" . "\n";
@@ -134,10 +134,12 @@ function update_players($players, $clan)
 {
     foreach($players as $player)
         {
+            include "../mysql_coc.php";
+
             $player_sql  = "SET @tag = '";
             $player_sql .= $player["tag"];
             $player_sql .= "', @name = '";
-            $player_sql .= $player["name"];
+            $player_sql .= mysqli_real_escape_string($conn, $player["name"]);
             $player_sql .= "', @clan_tag = '";
             $player_sql .= $clan["tag"];
             $player_sql .= "', @clan_name = '";
@@ -147,7 +149,6 @@ function update_players($players, $clan)
             $player_sql .= "VALUES (@tag, @name, @clan_tag, @clan_name, @timestamp) ";
             $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, clan_tag=@clan_tag, clan_name=@clan_name, timestamp=@timestamp;";
 
-            include "mysql_coc.php";
             if (mysqli_multi_query($conn, $player_sql)) {
                 echo "Record for \"" . $player["name"] . "\" updated successfully" . "\n";
             } else {

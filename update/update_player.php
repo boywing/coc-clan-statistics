@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $playerid = $_GET['playerid'];
 
-include "token.php";
+include "../token.php";
 
 $url = "https://api.clashofclans.com/v1/players/" . urlencode($playerid);
 
@@ -26,8 +26,10 @@ if (isset($player["reason"])) {
     echo "\n";
 }
 
+include "../mysql_coc.php";
+
 $player_sql  = "SET @tag = '" . $player["tag"];
-$player_sql .= "', @name = '" . $player["name"];
+$player_sql .= "', @name = '" . mysqli_real_escape_string($conn, $player["name"]);
 $player_sql .= "', @role = '" . $player["role"];
 $player_sql .= "', @expLevel = " . $player["expLevel"];
 if(isset($player["league"]["iconUrls"]["medium"]))
@@ -51,7 +53,6 @@ $player_sql .= "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`
 $player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @townHallLevel, @bestTrophies, @warStars, @builderHallLevel, @versusTrophies, @bestVersusTrophies, @versusBattleWins, @timestamp) ";
 $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, townHallLevel=@townHallLevel, bestTrophies=@bestTrophies, warStars=@warStars, builderHallLevel=@builderHallLevel, versusTrophies=@versusTrophies, bestVersusTrophies=@bestVersusTrophies, versusBattleWins=@versusBattleWins, timestamp=@timestamp;";
 
-include "mysql_coc.php";
 if (mysqli_multi_query($conn, $player_sql)) {
     echo "Record for \"" . $player["name"] . "\" updated successfully" . "\n";
 } else {
@@ -80,7 +81,7 @@ function update_troops($type, $troops)
                 $troop_sql .= "VALUES (@player_tag, @type, @name, @level, @maxLevel, @village, @timestamp) ";
                 $troop_sql .= "ON DUPLICATE KEY UPDATE player_tag=@player_tag, type=@type, name=@name, level=@level, maxLevel=@maxLevel, village=@village, timestamp=@timestamp;";
 
-                include "mysql_coc.php";
+                include "../mysql_coc.php";
             if (mysqli_multi_query($conn, $troop_sql)) {
                 echo "Record for \"" . $troop["name"] . "\" updated successfully" . "\n";
             } else {

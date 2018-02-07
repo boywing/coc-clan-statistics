@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clanid = $_GET['clanid'];
 
-include "token.php";
+include "../token.php";
 
 $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid);
 $curl = curl_init($url);
@@ -50,7 +50,7 @@ else
 $clan_sql .= ", @members = " . $clan_data['members'];
 $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n" . "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
 
-include "mysql_coc.php";
+include "../mysql_coc.php";
 
 if (mysqli_multi_query($conn, $clan_sql)) {
     echo "Record for \"" . $clan_data["name"] . "\" updated successfully" . "\n";
@@ -66,9 +66,11 @@ foreach ($players as $player)
     {
         #$player_tag_url = urlencode($player["tag"]);
         $current_members .= ",'" . $player["tag"] . "'";
-            
+
+        include "../mysql_coc.php";
+
         $player_sql  = "SET @tag = '" . $player["tag"];
-        $player_sql .= "', @name = '" . $player["name"];
+        $player_sql .= "', @name = '" . mysqli_real_escape_string($conn, $player["name"]);
         $player_sql .= "', @role = '" . $player["role"];
         $player_sql .= "', @expLevel = " . $player["expLevel"];
         if(isset($player["league"]["iconUrls"]["medium"]))
@@ -85,7 +87,6 @@ foreach ($players as $player)
         $player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @timestamp) ";
         $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, timestamp=@timestamp;";
         
-        include "mysql_coc.php";
         if (mysqli_multi_query($conn, $player_sql)) {
             echo "Record for \"" . $player["name"] . "\" updated successfully" . "\n";
         } else {
@@ -97,7 +98,7 @@ foreach ($players as $player)
 $current_members .= ")";
 $remove_sql = "UPDATE players SET clan_tag=NULL, clan_name=NULL WHERE clan_tag='" . $clan_data["tag"] . "' AND tag NOT IN " . $current_members;
 
-include "mysql_coc.php";
+include "../mysql_coc.php";
 if (!mysqli_multi_query($conn, $remove_sql)) {
     echo "Error removing old members in clan: " . mysqli_error($conn) . "\n";
 }
