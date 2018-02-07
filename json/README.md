@@ -1,0 +1,1 @@
+In this folder we have the json API for reading data from the database.

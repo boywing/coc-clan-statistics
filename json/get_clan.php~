@@ -1,0 +1,24 @@
+<?php
+
+parse_str(implode('&', array_slice($argv, 1)), $_GET);
+$clanid = $_GET['clanid'];
+
+$clan_sql = "SELECT * FROM clans WHERE tag = '" . $clanid . "';";
+
+include "..\mysql_coc.php";
+
+$result = (mysqli_query($conn, $clan_sql);
+
+if (mysqli_num_rows($result) > 0)
+    {
+        $json_result = json_encode($result);
+        echo $json_result;
+    }
+else
+    {
+        echo "Error fetching data...";
+    }
+
+mysqli_close($conn);
+
+?>
