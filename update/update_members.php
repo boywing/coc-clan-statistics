@@ -56,7 +56,10 @@ if($result = mysqli_query($conn, $clan_sql)) {
                     $player_sql .= "', @townHallLevel = " . $player["townHallLevel"];
                     $player_sql .= ", @bestTrophies = " . $player["bestTrophies"];
                     $player_sql .= ", @warStars = " . $player["warStars"];
-                    $player_sql .= ", @builderHallLevel = " . $player["builderHallLevel"];
+                    if(isset($player["builderHallLevel"]))
+                        {
+                            $player_sql .= ", @builderHallLevel = " . $player["builderHallLevel"];
+                        }
                     $player_sql .= ", @versusTrophies = " . $player["versusTrophies"];
                     $player_sql .= ", @bestVersusTrophies = " . $player["bestVersusTrophies"];
                     $player_sql .= ", @versusBattleWins = " . $player["versusBattleWins"];

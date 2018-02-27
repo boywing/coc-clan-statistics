@@ -4,6 +4,8 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clanid = $_GET['clanid'];
 
+chdir("/var/www/html/clash_of_clans/coc-clan-statistics/update/");
+
 include "../token.php";
 
 $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid);
