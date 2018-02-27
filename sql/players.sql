@@ -1,7 +1,7 @@
 CREATE TABLE `players` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `tag` varchar(12) NOT NULL,
-  `name` varchar(12) NOT NULL,
+  `name` varchar(15) NOT NULL,
   `townHallLevel` int(11) NOT NULL DEFAULT '0',
   `clan_name` varchar(15) DEFAULT NULL,
   `expLevel` int(11) DEFAULT '0',
