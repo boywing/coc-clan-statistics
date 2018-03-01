@@ -49,7 +49,7 @@ if($result = mysqli_query($conn, $members_sql))
                 while($member = mysqli_fetch_assoc($result))
                     {
                         $content .= '<tr><td><img src="' . $member['league'] . '" height=30></td>';
-                        $content .= '<td><a href="' . $member['tag'] . '"><b>' . $member['name'] . '</b></a></td>';
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . $member['name'] . '</b></a></td>';
                         $content .= "<td>" . $member['role'] . "</td>";
                         $content .= "<td>" . $member['townHallLevel'] . "</td>";
                         $content .= "<td>" . $member['expLevel'] . "</td>";

@@ -25,27 +25,35 @@ curl_close($curl);
 if (isset($war_data["reason"])) {
     $error = true;
     echo $war_data["reason"];
+    echo $war_data["message"];
     echo "\n";
 }
 
-#if (($war_data["clan"]["stars"] - $war_data["opponent"]["stars"]) > 0)
-#    $result = "Win";
-#else
-#    $result = "Loss";
-
-$our_players = $war_data["clan"]["members"];
-$their_players = $war_data["opponent"]["members"];
-$our_clan = $war_data["clan"];
-$their_clan = $war_data["opponent"];
-
-update_clan($our_clan);
-update_clan($their_clan);
-update_players($our_players, $our_clan);
-update_players($their_players, $their_clan);
-if($war_data["state"] == "inWar")
+if ($war_data["state"] == "notInWar")
     {
-        update_attacks($our_players, $our_clan,  $their_clan);
-        update_attacks($their_players, $their_clan, $our_clan);
+        echo "Clan " . $clanid . " not in war...\n";
+    }
+else
+    {
+        #if (($war_data["clan"]["stars"] - $war_data["opponent"]["stars"]) > 0)
+        #    $result = "Win";
+        #else
+        #    $result = "Loss";
+        
+        $our_players = $war_data["clan"]["members"];
+        $their_players = $war_data["opponent"]["members"];
+        $our_clan = $war_data["clan"];
+        $their_clan = $war_data["opponent"];
+        
+        update_clan($our_clan);
+        update_clan($their_clan);
+        update_players($our_players, $our_clan);
+        update_players($their_players, $their_clan);
+        if($war_data["state"] == "inWar")
+            {
+                update_attacks($our_players, $our_clan,  $their_clan);
+                update_attacks($their_players, $their_clan, $our_clan);
+            }
     }
 
 function update_attacks($players, $clan, $opponent)
