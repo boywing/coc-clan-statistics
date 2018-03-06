@@ -24,8 +24,8 @@ else
 mysqli_close($conn);
 
 $content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . $player['name'] . "</h1>";
-$content .= '<table class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
-$content .= "<tr><td>tag </td><td> " . $player['tag'] . "</td></tr>";
+$content .= '<table width=400 class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
+$content .= "<tr><td>Tag </td><td> " . $player['tag'] . "</td></tr>";
 $content .= "<tr><td>TH </td><td> " . $player['townHallLevel'] . "</td></tr>";
 $content .= "<tr><td>Clan </td><td> " . $player['clan_name'] . "</td></tr>";
 $content .= "<tr><td>Level </td><td> " . $player['expLevel'] . "</td></tr>";
@@ -42,7 +42,7 @@ $content .= "<tr><td>Received </td><td> " . $player['donationsReceived'] . "</td
 $content .= "<tr><td>Updated </td><td> " . $player['timestamp'] . "</td></tr>";
 $content .= "</table>";
 
-$content .= '<br><div class="left small-shadow"><span><b>Troops</b></span><br>';
+$content .= '<br><div class="left small-shadow"><h2>Troops</h2>';
 
 include "../mysql_coc.php";
 $content .= '<table width=200 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;"><tr>';
@@ -70,6 +70,42 @@ else
 mysqli_close($conn);
 
 $content .= "</div></tr></table>";
+
+$content .= "<p><h2>Attacks</h2>";
+$content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
+$content .= '<thead class="thead-dark"><th>Date</th><th>Defender</th><th>TH</th><th>Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= "<tbody>";
+
+$attack_sql = "SELECT startTime, defender_tag, (SELECT name FROM players WHERE tag=a.defender_tag) AS defender, defender_clan, (SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, attack_stars, destructionPercentage, defender_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE attacker_tag = '" . $playertag . "'";
+
+    
+include "../mysql_coc.php";
+if($result = mysqli_query($conn, $attack_sql))
+    {
+        if (mysqli_num_rows($result) > 0)
+            {
+                while($attack = mysqli_fetch_assoc($result))
+                    {
+                        $content .= "<tr>";
+                        $content .= "<td>" . $attack['startTime'] . '</td><td><a href="?mode=player&playertag=' . urlencode($attack['defender_tag']) . '">' . $attack['defender'] . "</a></td>";
+                        $content .= "<td>" . $attack['defender_th'] . "</th>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . $attack['defender_clan_name'] . "</a></td>";
+                        $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</th>";
+                        $content .= "</tr>";
+                    }
+            }
+        else
+            {
+                echo "Error fetching data for player $playertag <br>";
+            }
+    }
+else
+    {
+        echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
+    }
+$content .= "</tbody></table>";
+
+mysqli_close($conn);
 
 echo $content;
 ?>
