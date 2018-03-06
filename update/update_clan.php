@@ -27,9 +27,11 @@ if (isset($clan_data["reason"])) {
     echo "\n";
 }
 
+include "../mysql_coc.php";
+
 $clan_sql  = "SET @tag = '" . $clan_data["tag"];
-$clan_sql .= "', @name = '" . $clan_data["name"];
-$clan_sql .= "', @description = '" . $clan_data["description"];
+$clan_sql .= "', @name = '" . mysqli_real_escape_string($conn, $clan_data["name"]);
+$clan_sql .= "', @description = '" . mysqli_real_escape_string($conn, $clan_data["description"]);
 $clan_sql .= "', @location = '" . $clan_data['location']['name'];
 $clan_sql .= "', @badge = '" . $clan_data['badgeUrls']['medium'];
 $clan_sql .= "', @clanLevel = " . $clan_data['clanLevel'];
@@ -51,8 +53,6 @@ else
     }
 $clan_sql .= ", @members = " . $clan_data['members'];
 $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n" . "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
-
-include "../mysql_coc.php";
 
 if (mysqli_multi_query($conn, $clan_sql)) {
     echo "Record for \"" . $clan_data["name"] . "\" updated successfully" . "\n";
