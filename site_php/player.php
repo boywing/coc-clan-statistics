@@ -1,6 +1,6 @@
 <?php
 
-$player_sql = "select *, (select avg(attack_stars) from attacks where attacker_tag = p.tag) as stars, (select avg(destructionPercentage) from attacks where attacker_tag = p.tag) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, donations, donationsReceived FROM players p WHERE tag = '" . $playertag . "'";
+$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks FROM players p WHERE tag = '" . $playertag . "'";
 
 $troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' ORDER by type desc, name";
 
@@ -32,6 +32,9 @@ $content .= "<tr><td>Level </td><td> " . $player['expLevel'] . "</td></tr>";
 $content .= "<tr><td>Trophies </td><td> " . $player['trophies'] . "</td></tr>";
 $content .= "<tr><td>Best Trophies </td><td> " . $player['bestTrophies'] . "</td></tr>";
 $content .= "<tr><td>War Stars </td><td> " . $player['warStars'] . "</td></tr>";
+$content .= "<tr><td>Attack stars per war</td><td> " . $player['stars'] . " @ " . $player['percentage'] . "%</td></tr>";
+$content .= "<tr><td>Def stars per war</td><td> " . $player['def_stars'] . " @ " . $player['def_percentage'] . "%</td></tr>";
+$content .= "<tr><td>3-Stars </td><td> " . $player['three_stars'] . "</td></tr>";
 $content .= "<tr><td>BH </td><td> " . $player['builderHallLevel'] . "</td></tr>";
 $content .= "<tr><td>BH Trophies </td><td> " . $player['versusTrophies'] . "</td></tr>";
 $content .= "<tr><td>BH Best Trophies </td><td> " . $player['bestVersusTrophies'] . "</td></tr>";
@@ -90,6 +93,42 @@ if($result = mysqli_query($conn, $attack_sql))
                         $content .= "<td>" . $attack['startTime'] . '</td><td><a href="?mode=player&playertag=' . urlencode($attack['defender_tag']) . '">' . $attack['defender'] . "</a></td>";
                         $content .= "<td>" . $attack['defender_th'] . "</th>";
                         $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . $attack['defender_clan_name'] . "</a></td>";
+                        $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</th>";
+                        $content .= "</tr>";
+                    }
+            }
+        else
+            {
+                echo "Error fetching data for player $playertag <br>";
+            }
+    }
+else
+    {
+        echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
+    }
+$content .= "</tbody></table>";
+
+mysqli_close($conn);
+
+$content .= "<p><h2>Defences</h2>";
+$content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
+$content .= '<thead class="thead-dark"><th>Date</th><th>Defender</th><th>TH</th><th>Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= "<tbody>";
+
+$attack_sql = "SELECT startTime, attacker_tag, (SELECT name FROM players WHERE tag=a.attacker_tag) AS attacker, attacker_clan, (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE defender_tag = '" . $playertag . "'";
+
+    
+include "../mysql_coc.php";
+if($result = mysqli_query($conn, $attack_sql))
+    {
+        if (mysqli_num_rows($result) > 0)
+            {
+                while($attack = mysqli_fetch_assoc($result))
+                    {
+                        $content .= "<tr>";
+                        $content .= "<td>" . $attack['startTime'] . '</td><td><a href="?mode=player&playertag=' . urlencode($attack['attacker_tag']) . '">' . $attack['attacker'] . "</a></td>";
+                        $content .= "<td>" . $attack['attacker_th'] . "</th>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . $attack['attacker_clan_name'] . "</a></td>";
                         $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</th>";
                         $content .= "</tr>";
                     }

@@ -53,7 +53,7 @@ else
     }
 $clan_sql .= ", @members = " . $clan_data['members'];
 $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n" . "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
-
+echo $clan_sql;
 if (mysqli_multi_query($conn, $clan_sql)) {
     echo "Record for \"" . $clan_data["name"] . "\" updated successfully" . "\n";
 } else {
