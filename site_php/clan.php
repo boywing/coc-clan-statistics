@@ -120,12 +120,14 @@ break;
                         $content .= "<td align=center>" . $member['attacks'] . "</td>";
                         
                         $donation_count = round($member['donations']/$member['donationsReceived'], 2);
-                        if (($donation_count < 0.8) || ($member['donations'] < 2))
+                        if ($member['donations'] == 0)
+                            $donation_colour = 'style="background-color:rgb(255,0,0)"';
+                        else if (($donation_count < 0.4) || ($member['donations'] < 2))
                             $donation_colour = 'class="table-danger"';
-                        else if ($donation_count > 1.1)
-                            $donation_colour = 'class="table-success"';
-                        else if (($donation_count <= 1.1) || ($donation_count >= 0.8) || (($member['donations'] < 50) && ($member['donations'] > 1)))
+                        else if ((($donation_count <= 0.6) && ($donation_count >= 0.4)) || (($member['donations'] < 50) && ($member['donations'] > 1)))
                             $donation_colour = 'class="table-warning"';
+                        else if ($donation_count > 0.6)
+                            $donation_colour = 'class="table-success"';
                         else
                             $donation_colour = 'class="table-secondary"';
                         $content .= '<td align=right ' . $donation_colour . ' >' . $member['donations'] . " / " . $member['donationsReceived'] . "</td>";

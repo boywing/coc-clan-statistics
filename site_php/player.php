@@ -112,7 +112,7 @@ mysqli_close($conn);
 
 $content .= "<p><h2>Defences</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>Date</th><th>Defender</th><th>TH</th><th>Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= '<thead class="thead-dark"><th>Date</th><th>Attacker</th><th>TH</th><th>Clan</th><th>Stars</th><th>Delta</th></thead>';
 $content .= "<tbody>";
 
 $attack_sql = "SELECT startTime, attacker_tag, (SELECT name FROM players WHERE tag=a.attacker_tag) AS attacker, attacker_clan, (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE defender_tag = '" . $playertag . "'";
