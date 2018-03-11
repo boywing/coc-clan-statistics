@@ -6,6 +6,7 @@ include("html/menu.html");
 $clantag = htmlspecialchars($_GET["clantag"]);
 $playertag = htmlspecialchars($_GET["playertag"]);
 $mode = htmlspecialchars($_GET["mode"]);
+$scope = htmlspecialchars($_GET["scope"]);
 
 if(empty($clantag) && empty($mode))
     {
@@ -17,6 +18,10 @@ if ($mode == "clan")
     include("clan.php");
 else if ($mode == "player")
     include("player.php");
+else if ($mode == "clans")
+    include("all_clans.php");
+else if ($mode == "players")
+    include("all_players.php");
 
 include("html/tail.html");
 

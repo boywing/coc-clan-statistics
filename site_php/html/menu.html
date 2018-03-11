@@ -1,7 +1,44 @@
-<div class="btn-group">
-  <button onclick="window.location.href='?mode=clan&clantag=%239V8RQ2PR'" type="button" class="btn btn-primary">Aktiva Vikingar</button>
-  <button onclick="window.location.href='?mode=clan&clantag=%2380L9VRJR'" type="button" class="btn btn-primary">AktivaVikingar2</button>
-  <button onclick="window.location.href='?mode=clan&clantag=%23YJJ8UGG2'" type="button" class="btn btn-primary">AktivaVikingar3</button>
-  <button onclick="window.location.href='?mode=clan&clantag=%23PU2CRG2Y'" type="button" class="btn btn-primary">VilandeVikingar</button>
-  <button onclick="window.location.href='?mode=clan&clantag=%23LRRPUR88'" type="button" class="btn btn-primary">VilandeViking2</button>
-</div>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <a class="navbar-brand" href="#"><img src="images/Barbarian King.png" width="30" height="30" class="d-inline-block align-top" alt="">&nbsp;AV Statistik</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Klaner
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="?mode=clan&clantag=%239V8RQ2PR">Aktiva Vikingar</a>
+          <a class="dropdown-item" href="?mode=clan&clantag=%2380L9VRJR">AktivaVikingar2</a>
+          <a class="dropdown-item" href="?mode=clan&clantag=%23YJJ8UGG2">AktivaVikingar3</a>
+	  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?mode=clan&clantag=%23PU2CRG2Y">VilandeVikingar</a>
+          <a class="dropdown-item" href="?mode=clan&clantag=%23LRRPUR88">VilandeViking2</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?mode=clans">Alla klaner</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Funktioner
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item disabled" style="color:gray">Nuvarande krig</a>
+          <a class="dropdown-item disabled" style="color:gray">Alla krig</a>
+	  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?mode=players&scope=AV">Alla vikingar</a>
+          <a class="dropdown-item" href="?mode=players&scope=ALL">Alla spelare</a>
+	  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" style="color:gray">Blandad statistik</a>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
