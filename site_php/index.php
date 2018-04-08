@@ -22,6 +22,8 @@ else if ($mode == "clans")
     include("all_clans.php");
 else if ($mode == "players")
     include("all_players.php");
+else if ($mode == "wars")
+    include("wars.php");
 
 include("html/tail.html");
 

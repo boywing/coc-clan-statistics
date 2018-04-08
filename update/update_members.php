@@ -23,6 +23,7 @@ if($result = mysqli_query($conn, $clan_sql)) {
                     $curl = curl_init($url);
                     $header = array();
                     $header[] = "Accept: application/json";
+                    $header[] = "Content-type: text/html; charset=UTF-8";
                     $header[] = "Authorization: Bearer ".$api_token;
                     curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
                     curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);

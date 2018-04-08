@@ -13,6 +13,7 @@ $url = "https://api.clashofclans.com/v1/players/" . urlencode($playerid);
 $curl = curl_init($url);
 $header = array();
 $header[] = "Accept: application/json";
+$header[] = "Content-type: text/html; charset=UTF-8";
 $header[] = "Authorization: Bearer ".$api_token;
 curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);

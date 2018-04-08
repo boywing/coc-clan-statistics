@@ -1,9 +1,9 @@
 <?php
 
-$servername = "srv";
+$servername = "localhost";
 $username = "user";
-$password = "pwd";
-$dbname = "db";
+$password = "password";
+$dbname = "database";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
@@ -12,5 +12,11 @@ $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
+
+ini_set("default_charset", "UTF-8");
+iconv_set_encoding("internal_encoding", "UTF-8");
+iconv_set_encoding("output_encoding", "UTF-8");
+
+mysqli_query ($conn, 'SET NAMES utf8mb4');
 
 ?>
