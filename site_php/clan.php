@@ -36,14 +36,19 @@ $content .= "<tr><td><b>Updated</b></td><td colspan=3>" . $clan['timestamp'] . "
 $content .= "<p></p>";
 
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
-$content .= '<thead align=center class="thead-dark"><th>&nbsp;</th><th>Name</th><th>Role</th><th>TH</th><th>Lvl</th>';
-$content .= '<th><img height=25 src="images/Trophy.png"></th>';
-$content .= '<th>War stars</th><th><img height=25 src="images/Barbarian King.png"></th><th><img height=25 src="images/Archer Queen.png"></th><th><img height=25 src="images/Grand Warden.png"></th><th>Avg stars</th><th>Def stars</th><th>3-stars</th><th>Attacks</th>';
-$content .= '<th>Donations</th>';
-$content .= '<th>Ratio</th></thead>';
+$content .= '<thead align=center class="thead-dark"><th>&nbsp;</th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=name%20asc">Name</a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=role%20asc">Role</a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=townHallLevel%20desc">TH</a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=expLevel%20desc">Lvl</a></th>';
+#$content .= '<th><img height=25 src="images/Trophy.png"></th>';
+$content .= '<th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warStars%20desc">War stars</a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a>-<a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a>-<a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars%20desc">Avg stars</a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=def_stars%20asc">Defence</a></th><th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=three_stars%20desc">3* attack</a></th>';
+#$content .= '<th>Donations</th>';
+$content .= '<th><a href="?mode=clan&clantag='. urlencode($clantag) . '&sort=donations%20desc">Ratio</a></th></thead>';
 $content .= "<tbody>";
 
-$members_sql = 'select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,(select level from troops where player_tag=p.tag and name="Barbarian King") as king,(select level from troops where player_tag=p.tag and name="Archer Queen") as queen,(select level from troops where player_tag=p.tag and name="Grand Warden") as warden, (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, donations, donationsReceived from players p where clan_tag = "' . $clantag . '" order by townHallLevel desc, stars desc, three_stars desc';
+if (empty($sort))
+    {
+        $sort = "townHallLevel desc, stars desc, three_stars desc";
+    }
+
+$members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,(select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,(select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,(select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, (select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
 include "../mysql_coc.php";
 if($result = mysqli_query($conn, $members_sql))
@@ -78,11 +83,20 @@ break;
                         $content .= "<td align=center " . $role_color . ">" . $member['role'] . "</td>";
                         $content .= "<td align=center>" . $member['townHallLevel'] . "</td>";
                         $content .= "<td align=center>" . $member['expLevel'] . "</td>";
-                        $content .= '<td align=center>' . $member['trophies'] . "</td>";
+#                        $content .= '<td align=center>' . $member['trophies'] . "</td>";
                         $content .= "<td align=center>" . $member['warStars'] . "</td>";
-                        $content .= "<td align=center>" . $member['king'] . "</td>";
-                        $content .= "<td align=center>" . $member['queen'] . "</td>";
-                        $content .= "<td align=center>" . $member['warden'] . "</td>";
+                        if(isset($member['king']))
+                            $content .= "<td align=center>" . $member['king'] . "-";
+                        else
+                            $content .= "<td align=center>0-";
+                        if(isset($member['queen']))
+                            $content .= "" . $member['queen'] . "-";
+                        else
+                            $content .= "0-";
+                        if(isset($member['warden']))
+                            $content .= "" . $member['warden'] . "</td>";
+                        else
+                            $content .= "0</td>";
                         if (!isset($member['stars']))
                             $member['stars'] = 0;
                         if (!isset($member['def_stars']))
@@ -116,8 +130,8 @@ break;
                         
                         $content .= "<td align=center " . $stars_color . " >" . $member['stars'] . " @ " . $member['percentage'] . "%</td>";
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
-                        $content .= "<td align=center>" . $member['three_stars'] . "</td>";
-                        $content .= "<td align=center>" . $member['attacks'] . "</td>";
+                        $content .= "<td align=center>" . $member['three_stars'] . " / ";
+                        $content .= $member['attacks'] . "</td>";
                         
                         $donation_count = round($member['donations']/$member['donationsReceived'], 2);
                         if ($member['donations'] == 0)
@@ -130,7 +144,7 @@ break;
                             $donation_colour = 'class="table-success"';
                         else
                             $donation_colour = 'class="table-secondary"';
-                        $content .= '<td align=right ' . $donation_colour . ' >' . $member['donations'] . " / " . $member['donationsReceived'] . "</td>";
+#                        $content .= '<td align=right ' . $donation_colour . ' >' . $member['donations'] . " / " . $member['donationsReceived'] . "</td>";
                         $content .= "<td align=center " . $donation_colour . ">" . $donation_count . "</td>";
                         $content .= "</tr>";
                         

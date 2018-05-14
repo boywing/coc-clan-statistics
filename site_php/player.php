@@ -1,6 +1,6 @@
 <?php
 
-$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks FROM players p WHERE tag = '" . $playertag . "'";
+$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, createDate FROM players p WHERE tag = '" . $playertag . "'";
 
 $troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' ORDER by type desc, name";
 
@@ -43,6 +43,7 @@ $content .= "<tr><td>Role </td><td> " . $player['role'] . "<br></td></tr>";
 $content .= "<tr><td>Donations </td><td> " . $player['donations'] . "</td></tr>";
 $content .= "<tr><td>Received </td><td> " . $player['donationsReceived'] . "</td></tr>";
 $content .= "<tr><td>Updated </td><td> " . $player['timestamp'] . "</td></tr>";
+$content .= "<tr><td>Create Date </td><td> " . $player['createDate'] . "</td></tr>";
 $content .= "</table>";
 
 $content .= '<br><div class="left small-shadow"><h2>Troops</h2>';
