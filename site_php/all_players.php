@@ -3,7 +3,7 @@ $content .= '<h1>Spelare ' . $scope . '</h1>';
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead align=center class="thead-dark"><th>&nbsp;</th><th>Name</th><th>Clan</th><th>Role</th><th>TH</th><th>Lvl</th>';
 $content .= '<th><img height=25 src="images/Trophy.png"></th>';
-$content .= '<th>War stars</th><th><img height=25 src="images/Barbarian King.png"></th><th><img height=25 src="images/Archer Queen.png"></th><th><img height=25 src="images/Grand Warden.png"></th><th>Avg stars</th><th>Def stars</th><th>3-stars</th><th>Attacks</th>';
+$content .= '<th>War stars</th><th><img height=25 src="images/Barbarian King.png"></th><th><img height=25 src="images/Archer Queen.png"></th><th><img height=25 src="images/Grand Warden.png"></th><th>Avg stars</th><th>Def stars</th><th>3-stars</th><th>Attacks</th><th>Last War</th>';
 $content .= '<th>Donations</th>';
 $content .= '<th>Ratio</th></thead>';
 $content .= "<tbody>";
@@ -13,7 +13,7 @@ if($scope == "AV")
 else
     $scope_sql = " ";
 
-$members_sql = 'select name, clan_name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,(select level from troops where player_tag=p.tag and name="Barbarian King") as king,(select level from troops where player_tag=p.tag and name="Archer Queen") as queen,(select level from troops where player_tag=p.tag and name="Grand Warden") as warden, (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, donations, donationsReceived from players p' . $scope_sql . 'order by townHallLevel desc, stars desc, three_stars desc';
+$members_sql = 'select name, clan_name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,(select level from troops where player_tag=p.tag and name="Barbarian King") as king,(select level from troops where player_tag=p.tag and name="Archer Queen") as queen,(select level from troops where player_tag=p.tag and name="Grand Warden") as warden, (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, (select MAX(startTime) from attacks where attacker_tag = tag) AS last_war, donations, donationsReceived from players p' . $scope_sql . 'order by townHallLevel desc, stars desc, three_stars desc';
 
 
 include "../mysql_coc.php";
@@ -91,6 +91,7 @@ break;
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['three_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['attacks'] . "</td>";
+                        $content .= "<td align=center>" . $member['last_war'] . "</td>";
                         
                         $donation_count = round($member['donations']/$member['donationsReceived'], 2);
                         if ($member['donations'] == 0)
