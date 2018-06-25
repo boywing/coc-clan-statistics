@@ -1,6 +1,6 @@
 <?php
 
-$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, createDate FROM players p WHERE tag = '" . $playertag . "'";
+$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, (select MAX(startTime) from attacks where attacker_tag = tag) AS last_war,(select ROUND(AVG(attack_stars),1) from attacks where defender_th = 3 AND attacker_tag = p.tag) AS th3, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 4 AND attacker_tag = p.tag) AS th4, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 5 AND attacker_tag = p.tag) AS th5, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 6 AND attacker_tag = p.tag) AS th6, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 7 AND attacker_tag = p.tag) AS th7, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 8 AND attacker_tag = p.tag) AS th8, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 9 AND attacker_tag = p.tag) AS th9, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 10 AND attacker_tag = p.tag) AS th10, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 11 AND attacker_tag = p.tag) AS th11, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12, createDate FROM players p WHERE tag = '" . $playertag . "'";
 
 $troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' ORDER by type desc, name";
 
@@ -43,6 +43,7 @@ $content .= "<tr><td>Role </td><td> " . $player['role'] . "<br></td></tr>";
 $content .= "<tr><td>Donations </td><td> " . $player['donations'] . "</td></tr>";
 $content .= "<tr><td>Received </td><td> " . $player['donationsReceived'] . "</td></tr>";
 $content .= "<tr><td>Updated </td><td> " . $player['timestamp'] . "</td></tr>";
+$content .= "<tr><td>Last war </td><td> " . $player['last_war'] . "</td></tr>";
 $content .= "<tr><td>Create Date </td><td> " . $player['createDate'] . "</td></tr>";
 $content .= "</table>";
 
@@ -74,6 +75,22 @@ else
 mysqli_close($conn);
 
 $content .= "</div></tr></table>";
+
+$content .= "<p><h2>Average stars against TH</h2>";
+$content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
+$content .= '<thead class="thead-dark"><th>TH12</th><th>TH11</th><th>TH10</th><th>TH9</th><th>TH8</th><th>TH7</th><th>TH6</th><th>TH5</th><th>TH4</th><th>TH3</th></thead>';
+$content .= "<tbody>";
+$content .= "<tr><td>" . $player['th12'] . "</td>";
+$content .= "<td>" . $player['th11'] . "</td>";
+$content .= "<td>" . $player['th10'] . "</td>";
+$content .= "<td>" . $player['th9'] . "</td>";
+$content .= "<td>" . $player['th8'] . "</td>";
+$content .= "<td>" . $player['th7'] . "</td>";
+$content .= "<td>" . $player['th6'] . "</td>";
+$content .= "<td>" . $player['th5'] . "</td>";
+$content .= "<td>" . $player['th4'] . "</td>";
+$content .= "<td>" . $player['th3'] . "</td></tr>";
+$content .= "</body></table>";
 
 $content .= "<p><h2>Attacks</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
