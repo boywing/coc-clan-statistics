@@ -9,7 +9,7 @@ $content .= '<th>Ratio</th></thead>';
 $content .= "<tbody>";
 
 if($scope == "AV")
-    $scope_sql = " WHERE clan_tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#PU2CRG2Y', '#LRRPUR88') ";
+    $scope_sql = " WHERE clan_tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#22OCLU8GO')"; #, '#PU2CRG2Y', '#LRRPUR88') ";
 else
     $scope_sql = " ";
 
