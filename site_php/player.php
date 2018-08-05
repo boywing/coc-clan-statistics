@@ -1,6 +1,6 @@
 <?php
 
-$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, (select MAX(startTime) from attacks where attacker_tag = tag) AS last_war,(select ROUND(AVG(attack_stars),1) from attacks where defender_th = 3 AND attacker_tag = p.tag) AS th3, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 4 AND attacker_tag = p.tag) AS th4, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 5 AND attacker_tag = p.tag) AS th5, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 6 AND attacker_tag = p.tag) AS th6, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 7 AND attacker_tag = p.tag) AS th7, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 8 AND attacker_tag = p.tag) AS th8, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 9 AND attacker_tag = p.tag) AS th9, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 10 AND attacker_tag = p.tag) AS th10, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 11 AND attacker_tag = p.tag) AS th11, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12, createDate FROM players p WHERE tag = '" . $playertag . "'";
+$player_sql = "select *,(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, (select MAX(startTime) from attacks where attacker_tag = tag) AS last_war,(select ROUND(AVG(attack_stars),1) from attacks where defender_th = 3 AND attacker_tag = p.tag) AS th3, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 4 AND attacker_tag = p.tag) AS th4, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 5 AND attacker_tag = p.tag) AS th5, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 6 AND attacker_tag = p.tag) AS th6, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 7 AND attacker_tag = p.tag) AS th7, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 8 AND attacker_tag = p.tag) AS th8, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 9 AND attacker_tag = p.tag) AS th9, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 10 AND attacker_tag = p.tag) AS th10, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 11 AND attacker_tag = p.tag) AS th11, (select ROUND(AVG(attack_stars),1) from attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 3 AND attacker_tag = p.tag) as th3_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 4 AND attacker_tag = p.tag) as th4_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 5 AND attacker_tag = p.tag) as th5_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 6 AND attacker_tag = p.tag) as th6_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 7 AND attacker_tag = p.tag) as th7_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 8 AND attacker_tag = p.tag) as th8_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 9 AND attacker_tag = p.tag) as th9_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 10 AND attacker_tag = p.tag) as th10_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 11 AND attacker_tag = p.tag) as th11_percent, (SELECT round(avg(destructionPercentage)) FROM attacks WHERE defender_th = 12 AND attacker_tag = p.tag) as th12_percent, createDate FROM players p WHERE tag = '" . $playertag . "'";
 
 $troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' ORDER by type desc, name";
 
@@ -79,25 +79,55 @@ $content .= "</div></tr></table>";
 $content .= "<p><h2>Average stars against TH</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
 $content .= '<thead class="thead-dark"><th>TH12</th><th>TH11</th><th>TH10</th><th>TH9</th><th>TH8</th><th>TH7</th><th>TH6</th><th>TH5</th><th>TH4</th><th>TH3</th></thead>';
-$content .= "<tbody>";
-$content .= "<tr><td>" . $player['th12'] . "</td>";
-$content .= "<td>" . $player['th11'] . "</td>";
-$content .= "<td>" . $player['th10'] . "</td>";
-$content .= "<td>" . $player['th9'] . "</td>";
-$content .= "<td>" . $player['th8'] . "</td>";
-$content .= "<td>" . $player['th7'] . "</td>";
-$content .= "<td>" . $player['th6'] . "</td>";
-$content .= "<td>" . $player['th5'] . "</td>";
-$content .= "<td>" . $player['th4'] . "</td>";
-$content .= "<td>" . $player['th3'] . "</td></tr>";
-$content .= "</body></table>";
+$content .= "<tbody><tr>";
+if(empty($player['th12']))
+    $content .= "<td></td>";
+else
+    $content .= "<td>" . $player['th12'] . " @ " . $player['th12_percent'] . "%</td>";
+if(empty($player['th11']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th11'] . " @ " . $player['th11_percent'] . "%</td>";
+if(empty($player['th10']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th10'] . " @ " . $player['th10_percent'] . "%</td>";
+if(empty($player['th9']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th9'] . " @ " . $player['th9_percent'] . "%</td>";
+if(empty($player['th8']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th8'] . " @ " . $player['th8_percent'] . "%</td>";
+if(empty($player['th7']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th7'] . " @ " . $player['th7_percent'] . "%</td>";
+if(empty($player['th6']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th6'] . " @ " . $player['th6_percent'] . "%</td>";
+if(empty($player['th5']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th5'] . " @ " . $player['th5_percent'] . "%</td>";
+if(empty($player['th4']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th4'] . " @ " . $player['th4_percent'] . "%</td>";
+if(empty($player['th3']))
+    $content .= "<td></td>";
+else
+$content .= "<td>" . $player['th3'] . " @ " . $player['th3_percent'] . "%</td>";
+$content .= "</tr></body></table>";
 
 $content .= "<p><h2>Attacks</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>Date</th><th>Defender</th><th>TH</th><th>Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= '<thead class="thead-dark"><th>Date</th><th>Attacker clan</th><th>Attacker TH</th><th>Defender</th><th>Defender TH</th><th>Defender Clan</th><th>Stars</th><th>Delta</th></thead>';
 $content .= "<tbody>";
 
-$attack_sql = "SELECT startTime, defender_tag, (SELECT name FROM players WHERE tag=a.defender_tag) AS defender, defender_clan, (SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, attack_stars, destructionPercentage, defender_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE attacker_tag = '" . $playertag . "'";
+$attack_sql = "SELECT startTime, defender_tag, (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, (SELECT name FROM players WHERE tag=a.defender_tag) AS defender, attacker_clan, defender_clan, (SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE attacker_tag = '" . $playertag . "'";
 
     
 include "../mysql_coc.php";
@@ -108,10 +138,13 @@ if($result = mysqli_query($conn, $attack_sql))
                 while($attack = mysqli_fetch_assoc($result))
                     {
                         $content .= "<tr>";
-                        $content .= "<td>" . $attack['startTime'] . '</td><td><a href="?mode=player&playertag=' . urlencode($attack['defender_tag']) . '">' . $attack['defender'] . "</a></td>";
-                        $content .= "<td>" . $attack['defender_th'] . "</th>";
+                        $content .= "<td>" . $attack['startTime'] . '</td>';
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . $attack['attacker_clan_name'] . "</a></td>";
+                        $content .= "<td>" . $attack['attacker_th'] . '</td>';
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($attack['defender_tag']) . '">' . $attack['defender'] . "</a></td>";
+                        $content .= "<td>" . $attack['defender_th'] . "</td>";
                         $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . $attack['defender_clan_name'] . "</a></td>";
-                        $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</th>";
+                        $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</td>";
                         $content .= "</tr>";
                     }
             }

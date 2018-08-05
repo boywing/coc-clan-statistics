@@ -1,6 +1,6 @@
 <?php
 
-if(!isset($clantag))
+if(empty($clantag))
     $clantag = "#9V8RQ2PR";
 
 $content .= "<h2>Wars</h2>";
