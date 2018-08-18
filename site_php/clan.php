@@ -19,7 +19,6 @@ else
     {
         echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
     }
-mysqli_close($conn);
 
 $content = "<h1><img src=\"" . $clan['badge'] . "\" height=100>" . $clan['name'] . "</h1>";
 $content .= '<table class="table-light" width=670 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
@@ -43,14 +42,24 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clant
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=donations%20desc">Ratio</a></th></thead>';
 $content .= "<tbody>";
 
+mysqli_free_result($result);
+
 if (empty($sort))
     {
         $sort = "townHallLevel desc, stars desc, three_stars desc";
     }
 
-$members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,(select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,(select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,(select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, (select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
+$members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,
+(select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,
+(select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,
+(select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, 
+(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as stars, 
+(select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
+(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as percentage, 
+(select count(*) from attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
+(select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
+donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
-include "../mysql_coc.php";
 if($result = mysqli_query($conn, $members_sql))
     {
         if (mysqli_num_rows($result) > 0)
