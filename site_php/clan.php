@@ -53,9 +53,9 @@ $members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallL
 (select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,
 (select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,
 (select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, 
-(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as stars, 
+(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as stars, 
 (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
-(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as percentage, 
+(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as percentage, 
 (select count(*) from attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
 (select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
 donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";

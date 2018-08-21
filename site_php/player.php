@@ -165,7 +165,12 @@ $content .= '<table class="table table-light" style="border-collapse: separate; 
 $content .= '<thead class="thead-dark"><th>Date</th><th>Attacker clan</th><th>Attacker TH</th><th>Defender</th><th>Defender TH</th><th>Defender Clan</th><th>Stars</th><th>Delta</th></thead>';
 $content .= "<tbody>";
 
-$attack_sql = "SELECT startTime, defender_tag, (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, (SELECT name FROM players WHERE tag=a.defender_tag) AS defender, attacker_clan, defender_clan, (SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE attacker_tag = '" . $playertag . "'";
+$attack_sql = "SELECT startTime, defender_tag, 
+(SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, 
+(SELECT name FROM players WHERE tag=a.defender_tag) AS defender, 
+attacker_clan, defender_clan, 
+(SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, 
+attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE attacker_tag = '" . $playertag . "'";
 
     
 include "../mysql_coc.php";
@@ -201,10 +206,15 @@ mysqli_close($conn);
 
 $content .= "<p><h2>Defences</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>Date</th><th>Attacker</th><th>TH</th><th>Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= '<thead class="thead-dark"><th>Date</th><th>Defender Clan</th><th>Attacker</th><th>TH</th><th>Attacker Clan</th><th>Stars</th><th>Delta</th></thead>';
 $content .= "<tbody>";
 
-$attack_sql = "SELECT startTime, attacker_tag, (SELECT name FROM players WHERE tag=a.attacker_tag) AS attacker, attacker_clan, (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE defender_tag = '" . $playertag . "'";
+$attack_sql = "SELECT startTime, attacker_tag, 
+(SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, 
+(SELECT name FROM players WHERE tag=a.attacker_tag) AS attacker, 
+attacker_clan, 
+(SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, 
+attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE defender_tag = '" . $playertag . "'";
 
     
 include "../mysql_coc.php";
@@ -215,10 +225,12 @@ if($result = mysqli_query($conn, $attack_sql))
                 while($attack = mysqli_fetch_assoc($result))
                     {
                         $content .= "<tr>";
-                        $content .= "<td>" . $attack['startTime'] . '</td><td><a href="?mode=player&playertag=' . urlencode($attack['attacker_tag']) . '">' . $attack['attacker'] . "</a></td>";
-                        $content .= "<td>" . $attack['attacker_th'] . "</th>";
+                        $content .= "<td>" . $attack['startTime'] . '</td>';
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . $attack['defender_clan_name'] . "</a></td>";                        
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($attack['attacker_tag']) . '">' . $attack['attacker'] . "</a></td>";
+                        $content .= "<td>" . $attack['attacker_th'] . "</td>";
                         $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . $attack['attacker_clan_name'] . "</a></td>";
-                        $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</th>";
+                        $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</td>";
                         $content .= "</tr>";
                     }
             }

@@ -1,11 +1,32 @@
 <?php
+
+if (empty($sort))
+    {
+        $sort = 'townHallLevel DESC, stars DESC, three_stars DESC';
+    }
+
 $content .= '<h1>Spelare ' . $scope . '</h1>';
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
-$content .= '<thead align=center class="thead-dark"><th>&nbsp;</th><th>Name</th><th>Clan</th><th>Role</th><th>TH</th><th>Lvl</th>';
-$content .= '<th><img height=25 src="images/Trophy.png"></th>';
-$content .= '<th>War stars</th><th><img height=25 src="images/Barbarian King.png"></th><th><img height=25 src="images/Archer Queen.png"></th><th><img height=25 src="images/Grand Warden.png"></th><th>Avg stars</th><th>Def stars</th><th>3-stars</th><th>Attacks</th><th>Last War</th>';
-$content .= '<th>Donations</th>';
-$content .= '<th>Ratio</th></thead>';
+$content .= '<thead align=center class="thead-dark"><th>&nbsp;</th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=name%20asc">Name</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name">Clan</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=role">Role</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=townHallLevel%20desc">TH</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=expLevel%20desc">Lvl</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=trophies%20desc"><img height=25 src="images/Trophy.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warStars%20desc">War stars</a</th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks">Avg stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level">TH avg stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="Average stars the opponent made to own base">Def stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="Total amount of attacks resulting in three stars">3-stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="Total amount of attacks played">Attacks</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=createDate" title="When players first appeared in our database">First seen</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=last_war%20desc">Last War</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc">Donations</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc">Ratio</a></th></thead>';
 $content .= "<tbody>";
 
 if($scope == "AV")
@@ -13,7 +34,31 @@ if($scope == "AV")
 else
     $scope_sql = " ";
 
-$members_sql = 'select name, clan_name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,(select level from troops where player_tag=p.tag and name="Barbarian King") as king,(select level from troops where player_tag=p.tag and name="Archer Queen") as queen,(select level from troops where player_tag=p.tag and name="Grand Warden") as warden, (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, (select count(*) from attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, (select count(*) from attacks where attacker_tag = p.tag) as attacks, (select MAX(startTime) from attacks where attacker_tag = tag) AS last_war, donations, donationsReceived from players p' . $scope_sql . 'order by townHallLevel desc, stars desc, three_stars desc';
+$members_sql = 'SELECT name, 
+clan_name, 
+role, 
+tag, 
+trophies, 
+expLevel, 
+clan_name, 
+townHallLevel, 
+league, 
+warStars,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name="Barbarian King") AS king,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name="Archer Queen") AS queen,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name="Grand Warden") AS warden, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag) AS stars, 
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag) AS percentage, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_stars,
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_percentage, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE defender_tag = p.tag) AS def_stars, 
+(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND attack_stars=3) AS three_stars, 
+(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag) AS attacks, 
+(SELECT MAX(startTime) FROM attacks WHERE attacker_tag = tag) AS last_war, 
+donations, 
+donationsReceived, 
+createDate 
+FROM players p' . $scope_sql . 'ORDER BY ' . $sort;
 
 
 include "../mysql_coc.php";
@@ -58,10 +103,14 @@ break;
                         $content .= "<td align=center>" . $member['warden'] . "</td>";
                         if (!isset($member['stars']))
                             $member['stars'] = 0;
-                        if (!isset($member['def_stars']))
-                            $member['def_stars'] = '-';
                         if (!isset($member['percentage']))
                             $member['percentage'] = 0;
+                        if (!isset($member['th_stars']))
+                            $member['th_stars'] = 0;
+                        if (!isset($member['th_percentage']))
+                            $member['th_percentage'] = 0;
+                        if (!isset($member['def_stars']))
+                            $member['def_stars'] = '-';
                         if($member['stars'] <= 2.0)
                             {
                                 $r = 255-255;
@@ -88,9 +137,36 @@ break;
                             $stars_color = "";
                         
                         $content .= "<td align=center " . $stars_color . " >" . $member['stars'] . " @ " . $member['percentage'] . "%</td>";
+                        if($member['th_stars'] <= 2.0)
+                            {
+                                $r = 255-255;
+                                $g = 255-155;
+                                $b = 255-155;
+                                $s = 2 - $member['th_stars'];
+                                $r1 = round($r*$s+255,0);
+                                $g1 = round(230-$g*$s,0);
+                                $b1 = round(230-$b*$s,0);
+                                $stars_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
+                            }                            
+                        else if($member['th_stars'] > 2.0)
+                            {
+                                $r = 255-100;
+                                $g = 255-200;
+                                $b = 255-110;
+                                $s = 3 - $member['th_stars'];
+                                $r1 = round($r*$s+108,0);
+                                $g1 = round($g*$s+215,0);
+                                $b1 = round($b*$s+111,0);
+                                $stars_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
+                            }
+                        else
+                            $stars_color = "";
+                        
+                        $content .= "<td align=center " . $stars_color . " >" . $member['th_stars'] . " @ " . $member['th_percentage'] . "%</td>";
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['three_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['attacks'] . "</td>";
+                        $content .= "<td align=center>" . $member['createDate'] . "</td>";
                         $content .= "<td align=center>" . $member['last_war'] . "</td>";
                         
                         $donation_count = round($member['donations']/$member['donationsReceived'], 2);
