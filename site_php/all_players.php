@@ -19,7 +19,8 @@ $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sor
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks">Avg stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level">TH avg stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="Average stars from mirror attacks">Avg mirror stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level">Avg TH stars</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="Average stars the opponent made to own base">Def stars</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="Total amount of attacks resulting in three stars">3-stars</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="Total amount of attacks played">Attacks</a></th>';
@@ -51,6 +52,8 @@ warStars,
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag) AS percentage, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_stars,
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_percentage, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND attacker_map_pos = defender_map_pos) as mirr_stars,
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND attacker_map_pos = defender_map_pos) as mirr_percentage, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE defender_tag = p.tag) AS def_stars, 
 (SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND attack_stars=3) AS three_stars, 
 (SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag) AS attacks, 
@@ -109,6 +112,10 @@ break;
                             $member['th_stars'] = 0;
                         if (!isset($member['th_percentage']))
                             $member['th_percentage'] = 0;
+                        if (!isset($member['mirr_stars']))
+                            $member['mirr_stars'] = 0;
+                        if (!isset($member['mirr_percentage']))
+                            $member['mirr_percentage'] = 0;
                         if (!isset($member['def_stars']))
                             $member['def_stars'] = '-';
                         if($member['stars'] <= 2.0)
@@ -137,6 +144,34 @@ break;
                             $stars_color = "";
                         
                         $content .= "<td align=center " . $stars_color . " >" . $member['stars'] . " @ " . $member['percentage'] . "%</td>";
+                        
+                        if($member['mirr_stars'] <= 2.0)
+                            {
+                                $r = 255-255;
+                                $g = 255-155;
+                                $b = 255-155;
+                                $s = 2 - $member['mirr_stars'];
+                                $r1 = round($r*$s+255,0);
+                                $g1 = round(230-$g*$s,0);
+                                $b1 = round(230-$b*$s,0);
+                                $stars_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
+                            }                            
+                        else if($member['mirr_stars'] > 2.0)
+                            {
+                                $r = 255-100;
+                                $g = 255-200;
+                                $b = 255-110;
+                                $s = 3 - $member['mirr_stars'];
+                                $r1 = round($r*$s+108,0);
+                                $g1 = round($g*$s+215,0);
+                                $b1 = round($b*$s+111,0);
+                                $stars_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
+                            }
+                        else
+                            $stars_color = "";
+                        
+                        $content .= "<td align=center " . $stars_color . " >" . $member['mirr_stars'] . " @ " . $member['mirr_percentage'] . "%</td>";
+                        
                         if($member['th_stars'] <= 2.0)
                             {
                                 $r = 255-255;
