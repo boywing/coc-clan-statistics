@@ -1,9 +1,9 @@
 <?php
 
 $player_sql = "select *,
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND attacker_map_pos = defender_map_pos) as mirr_stars,
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos) as mirr_stars,
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_stars,
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND attacker_map_pos = defender_map_pos) as mirr_percentage, 
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos) as mirr_percentage, 
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_percentage, 
 (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, 
 (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, 
