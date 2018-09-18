@@ -5,7 +5,7 @@ if (empty($sort))
         $sort = 'townHallLevel DESC, stars DESC, three_stars DESC';
     }
 
-$content .= '<h1>Spelare ' . $scope . '</h1>';
+$content = '<h1>Spelare ' . $scope . '</h1>';
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead align=center class="thead-dark"><th>&nbsp;</th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=name%20asc">Name</a></th>';

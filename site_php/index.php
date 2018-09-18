@@ -4,7 +4,7 @@ include("html/head.html");
 include("html/menu.html");
 
 # Global variables
-$days = 30; # Amount of days to show in statistics.
+$days = 300; # Amount of days to show in statistics.
 
 # Parameters sent to the form
 $clantag = htmlspecialchars($_GET["clantag"]);
@@ -19,6 +19,8 @@ if(empty($clantag) && empty($mode))
         $mode = "clan";
         $clantag = "#9V8RQ2PR";
     }
+
+include("top_clans.php");
 
 # Switch mode
 if ($mode == "clan")

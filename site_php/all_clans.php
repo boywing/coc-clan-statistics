@@ -1,7 +1,7 @@
 <?php
 
 
-$content .= '<h1>Clans</h1>';
+$content = '<h1>Clans</h1>';
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead class="thead-dark"><th>&nbsp;</th><th>Name</th><th>Tag</th><th>Location</th><th>Lvl</th>';
 $content .= '<th><img height=25 src="images/Trophy.png"></th>';

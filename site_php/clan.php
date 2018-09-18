@@ -17,11 +17,11 @@ if($result = mysqli_query($conn, $clan_sql))
     }
 else
     {
-        echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
+        echo "<br>FAIL! Clan - " . mysqli_error($conn) . "<br>";
     }
 
 $content = "<h1><img src=\"" . $clan['badge'] . "\" height=100>" . $clan['name'] . "</h1>";
-$content .= '<table class="table-light" width=670 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
+$content .= '<table width=100%><tr><td><table class="table-light" width=670 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
 $content .= "<tr><td colspan=4 valign=top width=100>" . $clan['description'] . "</td></tr>";
 $content .= "<tr><td colspan=4>&nbsp;</td></tr>";
 $content .= "<tr><td width=100 ><b>Tag</b></td><td>" . $clan['tag'] ."</td><td width=100><b>Frequency</b></td><td>" . $clan['warFrequency'] . "</td></tr>";
@@ -32,7 +32,8 @@ $content .= "<tr><td><b>vs Points</b></td><td>" . $clan['clanVersusPoints'] . "<
 $content .= "<tr><td><b>Trophies</b></td><td>" . $clan['requiredTrophies'] . "</td><td><b>Members</b></td><td>" . $clan['members'] . "</td></tr>";
 $content .= "<tr><td><b>Updated</b></td><td colspan=3>" . $clan['timestamp'] . "</td></tr></table>";
 
-$content .= "<p></p>";
+mysqli_free_result($result);
+$content .= "<p/>";
 
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead align=center class="thead-dark"><th>&nbsp;</th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=name%20asc">Name</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=role%20asc">Role</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=townHallLevel%20desc">TH</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=expLevel%20desc">Lvl</a></th>';
@@ -41,8 +42,6 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clant
 #$content .= '<th>Donations</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=donations%20desc">Ratio</a></th></thead>';
 $content .= "<tbody>";
-
-mysqli_free_result($result);
 
 if (empty($sort))
     {
@@ -166,7 +165,7 @@ break;
     }
 else
     {
-        echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
+        echo "<br>FAIL! Member - " . mysqli_error($conn) . "<br>";
     }
 mysqli_close($conn);
 
