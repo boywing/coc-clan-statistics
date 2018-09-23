@@ -4,7 +4,7 @@ include("html/head.html");
 include("html/menu.html");
 
 # Global variables
-$days = 300; # Amount of days to show in statistics.
+$days = 60; # Amount of days to show in statistics.
 
 # Parameters sent to the form
 $clantag = htmlspecialchars($_GET["clantag"]);

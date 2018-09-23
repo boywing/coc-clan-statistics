@@ -35,7 +35,7 @@ if($scope == "AV")
 else
     $scope_sql = " ";
 
-$members_sql = 'SELECT name, 
+$members_sql = "SELECT name, 
 clan_name, 
 role, 
 tag, 
@@ -45,23 +45,23 @@ clan_name,
 townHallLevel, 
 league, 
 warStars,
-(SELECT level FROM troops WHERE player_tag=p.tag AND name="Barbarian King") AS king,
-(SELECT level FROM troops WHERE player_tag=p.tag AND name="Archer Queen") AS queen,
-(SELECT level FROM troops WHERE player_tag=p.tag AND name="Grand Warden") AS warden, 
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag) AS stars, 
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag) AS percentage, 
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_stars,
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_percentage, 
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos) as mirr_stars,
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos) as mirr_percentage, 
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE defender_tag = p.tag) AS def_stars, 
-(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND attack_stars=3) AS three_stars, 
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Barbarian King\") AS king,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Archer Queen\") AS queen,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Grand Warden\") AS warden, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS stars, 
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS percentage, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_percentage, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_stars,
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS def_stars, 
+(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) AS three_stars, 
 (SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag) AS attacks, 
 (SELECT MAX(startTime) FROM attacks WHERE attacker_tag = tag) AS last_war, 
 donations, 
 donationsReceived, 
 createDate 
-FROM players p' . $scope_sql . 'ORDER BY ' . $sort;
+FROM players p" . $scope_sql . "ORDER BY " . $sort;
 
 
 include "../mysql_coc.php";
