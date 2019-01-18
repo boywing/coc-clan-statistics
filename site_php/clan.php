@@ -20,27 +20,36 @@ else
         echo "<br>FAIL! Clan - " . mysqli_error($conn) . "<br>";
     }
 
-$content = "<h1><img src=\"" . $clan['badge'] . "\" height=100>" . $clan['name'] . "</h1>";
+$content = "<h1><img src=\"" . $clan['badge'] . "\" height=100>" . htmlspecialchars($clan['name'], ENT_QUOTES) . "</h1>";
 $content .= '<table width=100%><tr><td><table class="table-light" width=670 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
 $content .= "<tr><td colspan=4 valign=top width=100>" . $clan['description'] . "</td></tr>";
 $content .= "<tr><td colspan=4>&nbsp;</td></tr>";
-$content .= "<tr><td width=100 ><b>Tag</b></td><td>" . $clan['tag'] ."</td><td width=100><b>Frequency</b></td><td>" . $clan['warFrequency'] . "</td></tr>";
-$content .= "<tr><td><b>Location</b></td><td>" . $clan['location'] . "</td><td><b>Win streak</b></td><td>" . $clan['warWinStreak'] . "</td></tr>";
-$content .= "<tr><td><b>Level</b></td><td>" . $clan['clanLevel'] . "</td><td><b>Wins</b></td><td>" . $clan['warWins'] . "</td></tr>";
-$content .= "<tr><td><b>Points</b></td><td>" . $clan['clanPoints'] . "</td><td><b>Ties</b></td><td>" . $clan['warTies'] . "</td></tr>";
-$content .= "<tr><td><b>vs Points</b></td><td>" . $clan['clanVersusPoints'] . "</td><td><b>Losses</b></td><td>" . $clan['warLosses'] . "</td></tr>";
-$content .= "<tr><td><b>Trophies</b></td><td>" . $clan['requiredTrophies'] . "</td><td><b>Members</b></td><td>" . $clan['members'] . "</td></tr>";
-$content .= "<tr><td><b>Updated</b></td><td colspan=3>" . $clan['timestamp'] . "</td></tr></table>";
+$content .= "<tr><td width=160 ><b>Tag</b></td><td>" . $clan['tag'] ."</td><td width=100><b>Frequency</b></td><td>" . $clan['warFrequency'] . "</td></tr>";
+$content .= "<tr><td><b>Location</b></td><td>" . $clan['location'] . "</td><td><b>Win Streak</b></td><td>" . $clan['warWinStreak'] . " war</td></tr>";
+$content .= "<tr><td><b>Clan Level</b></td><td>" . $clan['clanLevel'] . "</td><td><b>CW Wins</b></td><td>" . $clan['warWins'] . "</td></tr>";
+$content .= "<tr><td><b>Clan Points</b></td><td>" . $clan['clanPoints'] . "</td><td><b>CW Ties</b></td><td>" . $clan['warTies'] . "</td></tr>";
+$content .= "<tr><td><b>vs Points</b></td><td>" . $clan['clanVersusPoints'] . "</td><td><b>CW Losses</b></td><td>" . $clan['warLosses'] . "</td></tr>";
+$content .= "<tr><td><b>Required Trophies</b></td><td>" . $clan['requiredTrophies'] . "</td><td><b>Members</b></td><td>" . $clan['members'] . " of 50</td></tr>";
+$content .= "<tr><td><b>Info Updated</b></td><td colspan=3>" . $clan['timestamp'] . "</td></tr></table>";
 
 mysqli_free_result($result);
 $content .= "<p/>";
 
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
-$content .= '<thead align=center class="thead-dark"><th>&nbsp;</th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=name%20asc">Name</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=role%20asc">Role</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=townHallLevel%20desc">TH</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=expLevel%20desc">Lvl</a></th>';
+$content .= '<thead align=center class="thead-dark">';
+$content .= '<th>&nbsp;</th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=name%20asc" title="Players name">Name</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=role%20asc" title="Players role in the clan">Role</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=townHallLevel%20desc" title="Players Town Hall level">TH</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=expLevel%20desc" title="Players level">Lvl</a></th>';
 #$content .= '<th><img height=25 src="images/Trophy.png"></th>';
-$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warStars%20desc">War stars</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars%20desc" title="Average stars from mirror attacks">Avg stars</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=def_stars%20asc">Defence</a></th><th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=three_stars%20desc">3* attack</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warStars%20desc" title="Players collected stars in War">War stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png" title="King"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png" title="Queen"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png" title="Grand Warden"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars%20desc" title="Average stars from mirror attacks during the last '. $days . ' days">Avg stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=def_stars%20asc" title="Average stars taken by opponents attacks during the last ' . $days . ' days">Defence</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=three_stars%20desc" title="Amount of 3-star attacks during the last ' . $days . ' days">3* attack</a></th>';
 #$content .= '<th>Donations</th>';
-$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=donations%20desc">Ratio</a></th></thead>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=donations%20desc" title="Donations ratio donated/recieved during the season">Ratio</a></th></thead>';
 $content .= "<tbody>";
 
 if (empty($sort))
@@ -66,7 +75,7 @@ if($result = mysqli_query($conn, $members_sql))
                 while($member = mysqli_fetch_assoc($result))
                     {
                         $content .= '<tr><td><img src="' . $member['league'] . '" height=30></td>';
-                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . $member['name'] . '</b></a></td>';
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a></td>';
 
                         switch ($member['role']) {
                         case "leader":

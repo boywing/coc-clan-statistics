@@ -11,7 +11,7 @@ $content .= '<th>Members</th>';
 $content .= '<th>Avg stars</th>';
 $content .= "<tbody>";
 
-$cl_sql = "SELECT *,(select round(avg(attack_stars),1) from attacks where attacker_clan = c.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars,(SELECT SUM(warStars) FROM players where clan_tag = c.tag) as warStars FROM clans c WHERE tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#220CLU8G0', '#PU2CRG2Y') ORDER BY clanpoints DESC";
+$cl_sql = "SELECT *,(select round(avg(attack_stars),1) from attacks where attacker_clan = c.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars,(SELECT SUM(warStars) FROM players where clan_tag = c.tag) as warStars FROM clans c WHERE tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#220CLU8G0', '#PU2CRG2Y', '#209QPLUV2') ORDER BY clanpoints DESC";
 
 include "../mysql_coc.php";
 
@@ -23,7 +23,7 @@ if($result = mysqli_query($conn, $cl_sql))
                     {
                         
                         $content .= "<tr><td><img src=\"" . $cl['badge'] . "\" height=30></td>";
-                        $content .= "<td><a href=?mode=clan&clantag=" . urlencode($cl['tag']) . "><b>" . $cl['name'] . "</b></a></td>";
+                        $content .= "<td><a href=?mode=clan&clantag=" . urlencode($cl['tag']) . "><b>" . htmlspecialchars($cl['name'], ENT_QUOTES) . "</b></a></td>";
                         $content .= "<td align=center>" . $cl['clanLevel'] . "</td>";
                         $content .= "<td align=center>" . $cl['warStars'] . "</td>";
                         $content .= "<td align=center>" . $cl['clanPoints'] . "</td>";

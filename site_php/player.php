@@ -65,11 +65,11 @@ else
     }
 mysqli_close($conn);
 
-$content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . $player['name'] . "</h1>";
+$content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . htmlspecialchars($player['name'], ENT_QUOTES) . "</h1>";
 $content .= '<table width=400 class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
 $content .= "<tr><td>Tag </td><td> " . $player['tag'] . "</td></tr>";
 $content .= "<tr><td>TH </td><td> " . $player['townHallLevel'] . "</td></tr>";
-$content .= "<tr><td>Clan </td><td> " . $player['clan_name'] . "</td></tr>";
+$content .= "<tr><td>Clan </td><td> " . htmlspecialchars($player['clan_name'], ENT_QUOTES) . "</td></tr>";
 $content .= "<tr><td>Level </td><td> " . $player['expLevel'] . "</td></tr>";
 $content .= "<tr><td>Trophies </td><td> " . $player['trophies'] . "</td></tr>";
 $content .= "<tr><td>Best Trophies </td><td> " . $player['bestTrophies'] . "</td></tr>";
@@ -188,11 +188,11 @@ if($result = mysqli_query($conn, $attack_sql))
                     {
                         $content .= "<tr>";
                         $content .= "<td>" . $attack['startTime'] . '</td>';
-                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . $attack['attacker_clan_name'] . "</a></td>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . htmlspecialchars($attack['attacker_clan_name'], ENT_QUOTES) . "</a></td>";
                         $content .= "<td>" . $attack['attacker_th'] . '</td>';
-                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($attack['defender_tag']) . '">' . $attack['defender'] . "</a></td>";
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($attack['defender_tag']) . '">' . htmlspecialchars($attack['defender'], ENT_QUOTES) . "</a></td>";
                         $content .= "<td>" . $attack['defender_th'] . "</td>";
-                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . $attack['defender_clan_name'] . "</a></td>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . htmlspecialchars($attack['defender_clan_name'], ENT_QUOTES) . "</a></td>";
                         $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</td>";
                         $content .= "</tr>";
                     }
@@ -232,10 +232,10 @@ if($result = mysqli_query($conn, $attack_sql))
                     {
                         $content .= "<tr>";
                         $content .= "<td>" . $attack['startTime'] . '</td>';
-                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . $attack['defender_clan_name'] . "</a></td>";                        
-                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($attack['attacker_tag']) . '">' . $attack['attacker'] . "</a></td>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['defender_clan']) . '">' . htmlspecialchars($attack['defender_clan_name'], ENT_QUOTES) . "</a></td>";                        
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($attack['attacker_tag']) . '">' . htmlspecialchars($attack['attacker'], ENT_QUOTES) . "</a></td>";
                         $content .= "<td>" . $attack['attacker_th'] . "</td>";
-                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . $attack['attacker_clan_name'] . "</a></td>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($attack['attacker_clan']) . '">' . htmlspecialchars($attack['attacker_clan_name'], ENT_QUOTES) . "</a></td>";
                         $content .= "<td>" . $attack['attack_stars'] . "* " . $attack['destructionPercentage'] . "%</td><td>" . $attack['delta'] . "</td>";
                         $content .= "</tr>";
                     }

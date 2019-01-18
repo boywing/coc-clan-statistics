@@ -8,26 +8,26 @@ if (empty($sort))
 $content = '<h1>Spelare ' . $scope . '</h1>';
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead align=center class="thead-dark"><th>&nbsp;</th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=name%20asc">Name</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name">Clan</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=role">Role</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=townHallLevel%20desc">TH</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=expLevel%20desc">Lvl</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=name%20asc" title="Players name">Name</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name" title="Player is member of clan">Clan</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=role" title="Players role in the clan">Role</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=townHallLevel%20desc" title="Players Town Hall level">TH</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=expLevel%20desc" title="Players level">Lvl</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=trophies%20desc"><img height=25 src="images/Trophy.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warStars%20desc">War stars</a</th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warStars%20desc" title="Players collected stars in War">War stars</a</th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks">Avg stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="Average stars from mirror attacks">Avg mirror stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level">Avg TH stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="Average stars the opponent made to own base">Def stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="Total amount of attacks resulting in three stars">3-stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks during the last '. $days . ' days">Avg stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="Average stars from mirror attacks during the last '. $days . ' days">Avg mirror stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level during the last '. $days . ' days">Avg TH stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="Average stars the opponent made to own base during the last '. $days . ' days">Def stars</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="Total amount of attacks resulting in three stars during the last '. $days . ' days">3-stars</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="Total amount of attacks played">Attacks</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=createDate" title="When players first appeared in our database">First seen</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=last_war%20desc">Last War</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc">Donations</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc">Ratio</a></th></thead>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="Donations ratio donated/recieved during the season">Ratio</a></th></thead>';
 $content .= "<tbody>";
 
 if($scope == "AV")
@@ -72,9 +72,9 @@ if($result = mysqli_query($conn, $members_sql))
             {
                 while($member = mysqli_fetch_assoc($result))
                     {
-                                                $content .= '<tr><td><img src="' . $member['league'] . '" height=30></td>';
-                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . $member['name'] . '</b></a></td>';
-                        $content .= '<td>' . $member['clan_name'] . '</td>';
+                        $content .= '<tr><td><img src="' . $member['league'] . '" height=30></td>';
+                        $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a></td>';
+                        $content .= '<td>' . htmlspecialchars($member['clan_name'], ENT_QUOTES) . '</td>';
 
                         switch ($member['role']) {
                         case "leader":

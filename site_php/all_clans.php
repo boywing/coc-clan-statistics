@@ -20,7 +20,7 @@ if($result = mysqli_query($conn, $clan_sql))
                     {
                         
                         $content .= "<tr><td><img src=\"" . $clan['badge'] . "\" height=30></td>";
-                        $content .= "<td><a href=?mode=clan&clantag=" . urlencode($clan['tag']) . "><b>" . $clan['name'] . "</b></a></td>";
+                        $content .= "<td><a href=?mode=clan&clantag=" . urlencode($clan['tag']) . "><b>" . htmlspecialchars($clan['name'], ENT_QUOTES . "</b></a></td>";
                         $content .= "<td>" . $clan['tag'] . "</td>";
                         $content .= "<td>" . $clan['location'] . "</td>";
                         $content .= "<td>" . $clan['clanLevel'] . "</td>";
