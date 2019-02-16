@@ -2,7 +2,7 @@
 
 if (empty($sort))
     {
-        $sort = 'townHallLevel DESC, stars DESC, three_stars DESC';
+        $sort = 'clan_name ASC, townHallLevel DESC, stars DESC, three_stars DESC';
     }
 
 $content = '<h1>Spelare ' . $scope . '</h1>';
@@ -12,12 +12,46 @@ $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sor
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name" title="Player is member of clan">Clan</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=role" title="Players role in the clan">Role</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=townHallLevel%20desc" title="Players Town Hall level">TH</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=expLevel%20desc" title="Players level">Lvl</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=trophies%20desc"><img height=25 src="images/Trophy.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warStars%20desc" title="Players collected stars in War">War stars</a</th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
+
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=barbarian%20desc"><img height=25 src="images/Barbarian.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=archer%20desc"><img height=25 src="images/Archer.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=giant%20desc"><img height=25 src="images/Giant.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=goblin%20desc"><img height=25 src="images/Goblin.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=wall_breaker%20desc"><img height=25 src="images/Wall Breaker.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=balloon%20desc"><img height=25 src="images/Balloon.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=wizard%20desc"><img height=25 src="images/Wizard.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=healer%20desc"><img height=25 src="images/Healer.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=dragon%20desc"><img height=25 src="images/Dragon.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=pekka%20desc"><img height=25 src="images/P.E.K.K.A.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=baby_dragon%20desc"><img height=25 src="images/Baby Dragon.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=miner%20desc"><img height=25 src="images/Miner.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=minion%20desc"><img height=25 src="images/Minion.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=hog_rider%20desc"><img height=25 src="images/Hog Rider.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=valkyrie%20desc"><img height=25 src="images/Valkyrie.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=golem%20desc"><img height=25 src="images/Golem.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=witch%20desc"><img height=25 src="images/Witch.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=lava_hound%20desc"><img height=25 src="images/Lava Hound.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=bowler%20desc"><img height=25 src="images/Bowler.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=ice_golem%20desc"><img height=25 src="images/Ice Golem.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=wall_wrecker%20desc"><img height=25 src="images/Wall Wrecker.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=battle_blimp%20desc"><img height=25 src="images/Battle Blimp.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stone_slammer%20desc"><img height=25 src="images/Stone Slammer.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=lightning_spell%20desc"><img height=25 src="images/Lightning Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=healing_spell%20desc"><img height=25 src="images/Healing Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=rage_spell%20desc"><img height=25 src="images/Rage Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=jump_spell%20desc"><img height=25 src="images/Jump Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=freeze_spell%20desc"><img height=25 src="images/Freeze Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clone_spell%20desc"><img height=25 src="images/Clone Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=poison_spell%20desc"><img height=25 src="images/Poison Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=earthquake_spell%20desc"><img height=25 src="images/Earthquake Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=haste_spell%20desc"><img height=25 src="images/Haste Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=skeleton_spell%20desc"><img height=25 src="images/Skeleton Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=bat_spell%20desc"><img height=25 src="images/Bat Spell.png"></a></th>';
+
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks during the last '. $days . ' days">Avg stars</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="Average stars from mirror attacks during the last '. $days . ' days">Avg mirror stars</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level during the last '. $days . ' days">Avg TH stars</a></th>';
@@ -26,9 +60,7 @@ $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sor
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="Total amount of attacks played">Attacks</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=createDate" title="When players first appeared in our database">First seen</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=last_war%20desc">Last War</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc">Donations</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="Donations ratio donated/recieved during the season">Ratio</a></th></thead>';
-$content .= "<tbody>";
+$content .= "</thead><tbody>";
 
 if($scope == "AV")
     $scope_sql = " WHERE clan_tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#220CLU8G0', '#209QPLUV2')"; #, '#PU2CRG2Y', '#LRRPUR88') ";
@@ -47,7 +79,45 @@ league,
 warStars,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Barbarian King\") AS king,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Archer Queen\") AS queen,
-(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Grand Warden\") AS warden, 
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Grand Warden\") AS warden,
+
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Barbarian\") AS barbarian,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Archer\") AS archer,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Baby Dragon\") AS baby_dragon,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Balloon\") AS balloon,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Battle Blimp\") AS battle_blimp,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Bowler\") AS bowler,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Dragon\") AS dragon,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Electro Dragon\") AS electro_dragon,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Giant\") AS giant,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Goblin\") AS goblin,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Golem\") AS golem,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Healer\") AS healer,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Hog Rider\") AS hog_rider,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Ice Golem\") AS ice_golem,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Lava Hound\") AS lava_hound,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Miner\") AS miner,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Minion\") AS minion,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"P.E.K.K.A\") AS pekka,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Stone Slammer\") AS stone_slammer,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Valkyrie\") AS valkyrie,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Wall Breaker\") AS wall_breaker,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Wall Wrecker\") AS wall_wrecker,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Witch\") AS witch,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Wizard\") AS wizard,
+
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Bat Spell\") AS bat_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Clone Spell\") AS clone_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Earthquake Spell\") AS earthquake_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Freeze Spell\") AS freeze_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Haste Spell\") AS haste_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Healing Spell\") AS healing_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Jump Spell\") AS jump_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Lightning Spell\") AS lightning_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Poison Spell\") AS poison_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Rage Spell\") AS rage_spell,
+(SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Skeleton Spell\") AS skeleton_spell,
+
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS stars, 
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS percentage, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,
@@ -98,13 +168,47 @@ break;
 
                         $content .= "<td align=center " . $role_color . ">" . $member['role'] . "</td>";
                         $content .= "<td align=center>" . $member['townHallLevel'] . "</td>";
-                        $content .= "<td align=center>" . $member['expLevel'] . "</td>";
-                        $content .= '<td align=center>' . $member['trophies'] . "</td>";
                         $content .= "<td align=center>" . $member['warStars'] . "</td>";
-                        $content .= "<td align=center>" . $member['king'] . "</td>";
-                        $content .= "<td align=center>" . $member['queen'] . "</td>";
-                        $content .= "<td align=center>" . $member['warden'] . "</td>";
-                        if (!isset($member['stars']))
+                        $content .= "<td align=center style=\"background-color:rgb(200,200,255)\">" . $member['king'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(210,210,255)\">" . $member['queen'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(200,200,255)\">" . $member['warden'] . "</td>";
+
+                        $content .= "<td align=center>" . $member['barbarian'] . "</td>";
+                        $content .= "<td align=center>" . $member['archer'] . "</td>";
+                        $content .= "<td align=center>" . $member['giant'] . "</td>";
+                        $content .= "<td align=center>" . $member['goblin'] . "</td>";
+                        $content .= "<td align=center>" . $member['wall_breaker'] . "</td>";
+                        $content .= "<td align=center class=\"table-danger\">" . $member['balloon'] . "</td>";
+                        $content .= "<td align=center>" . $member['wizard'] . "</td>";
+                        $content .= "<td align=center>" . $member['healer'] . "</td>";
+                        $content .= "<td align=center class=\"table-danger\">" . $member['dragon'] . "</td>";
+                        $content .= "<td align=center>" . $member['pekka'] . "</td>";
+                        $content .= "<td align=center>" . $member['baby_dragon'] . "</td>";
+                        $content .= "<td align=center>" . $member['miner'] . "</td>";
+                        $content .= "<td align=center>" . $member['minion'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,200,200)\">" . $member['hog_rider'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,210,210)\">" . $member['valkyrie'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,200,200)\">" . $member['golem'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,210,210)\">" . $member['witch'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,200,200)\">" . $member['lava_hound'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,210,210)\">" . $member['bowler'] . "</td>";
+                        $content .= "<td align=center>" . $member['ice_golem'] . "</td>";
+                        $content .= "<td align=center>" . $member['wall_wrecker'] . "</td>";
+                        $content .= "<td align=center>" . $member['battle_blimp'] . "</td>";
+                        $content .= "<td align=center>" . $member['stone_slammer'] . "</td>";
+                        $content .= "<td align=center>" . $member['lightning_spell'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,200,200)\">" . $member['healing_spell'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,210,210)\">" . $member['rage_spell'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(255,200,200)\">" . $member['jump_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['freeze_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['clone_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['poison_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['earthquake_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['haste_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['skeleton_spell'] . "</td>";
+                        $content .= "<td align=center>" . $member['bat_spell'] . "</td>";
+
+			if (!isset($member['stars']))
                             $member['stars'] = 0;
                         if (!isset($member['percentage']))
                             $member['percentage'] = 0;

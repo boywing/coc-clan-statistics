@@ -22,8 +22,8 @@ if($result = mysqli_query($conn, $wars_sql))
                         else
                             $content .= '<tr class="table-danger">';
                         $content .= "<td>" . $war['endTime'] . '</td><td>' . $war['result'] . '</td><td>' . $war['teamSize'] . '</td>';
-                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($war['clan1_tag']) . '">' . $war['clan1_name'] . "</a></td>";
-                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($war['clan2_tag']) . '">' . $war['clan2_name'] . "</a></td>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($war['clan1_tag']) . '">' . htmlspecialchars($war['clan1_name'], ENT_QUOTES) . "</a></td>";
+                        $content .= '<td><a href="?mode=clan&clantag=' . urlencode($war['clan2_tag']) . '">' . htmlspecialchars($war['clan2_name'], ENT_QUOTES) . "</a></td>";
                         $content .= "</tr>";
                     }
             }
