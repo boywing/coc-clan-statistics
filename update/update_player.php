@@ -51,17 +51,19 @@ $player_sql .= ", @builderHallLevel = " . $player["builderHallLevel"];
 $player_sql .= ", @versusTrophies = " . $player["versusTrophies"];
 $player_sql .= ", @bestVersusTrophies = " . $player["bestVersusTrophies"];
 $player_sql .= ", @versusBattleWins = " . $player["versusBattleWins"];
-$player_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n";
-$player_sql .= "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `townHallLevel`, `bestTrophies`, `warStars`, `builderHallLevel`, `versusTrophies`, `bestVersusTrophies`, `versusBattleWins`, `timestamp`) ";
+$player_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
+
+mysqli_query($conn, $player_sql);
+
+$player_sql = "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `townHallLevel`, `bestTrophies`, `warStars`, `builderHallLevel`, `versusTrophies`, `bestVersusTrophies`, `versusBattleWins`, `timestamp`) ";
 $player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @townHallLevel, @bestTrophies, @warStars, @builderHallLevel, @versusTrophies, @bestVersusTrophies, @versusBattleWins, @timestamp) ";
 $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, townHallLevel=@townHallLevel, bestTrophies=@bestTrophies, warStars=@warStars, builderHallLevel=@builderHallLevel, versusTrophies=@versusTrophies, bestVersusTrophies=@bestVersusTrophies, versusBattleWins=@versusBattleWins, timestamp=@timestamp;";
 
-if (mysqli_multi_query($conn, $player_sql)) {
-    echo "Record for \"" . $player["name"] . "\" updated successfully" . "\n";
+if (mysqli_query($conn, $player_sql)) {
+    echo "Record for player \"" . $player["name"] . "\" updated successfully" . " ----------\n";
 } else {
     echo "Error updating record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
 }
-mysqli_close($conn);
 
 update_troops('troops', $player["troops"]);
 update_troops('spells', $player["spells"]);
@@ -70,6 +72,7 @@ update_troops('heroes', $player["heroes"]);
 function update_troops($type, $troops)
 {
     global $playerid;
+    global $conn;
     
     foreach($troops as $troop)
         {
@@ -80,18 +83,24 @@ function update_troops($type, $troops)
                 $troop_sql .= ", @maxLevel = " . $troop["maxLevel"];
                 $troop_sql .= ", @village = '" . $troop["village"] . "'";
                 $troop_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
-                $troop_sql .= "INSERT INTO troops (`player_tag`, `type`, `name`, `level`, `maxLevel`, `village`, `timestamp`) ";
+                mysqli_query($conn, $troop_sql);
+                
+                $troop_sql = "INSERT INTO troops (`player_tag`, `type`, `name`, `level`, `maxLevel`, `village`, `timestamp`) ";
                 $troop_sql .= "VALUES (@player_tag, @type, @name, @level, @maxLevel, @village, @timestamp) ";
                 $troop_sql .= "ON DUPLICATE KEY UPDATE player_tag=@player_tag, type=@type, name=@name, level=@level, maxLevel=@maxLevel, village=@village, timestamp=@timestamp;";
-
-                include "../mysql_coc.php";
-            if (mysqli_multi_query($conn, $troop_sql)) {
-                echo "Record for \"" . $troop["name"] . "\" updated successfully" . "\n";
-            } else {
-                echo "Error updating troop record for " . $troop["name"] . ": " . mysqli_error($conn) . "\n";
-            }
-            mysqli_close($conn);
+                
+                if (mysqli_multi_query($conn, $troop_sql)) {
+                    #echo "Record for \"" . $troop["name"] . "\" updated successfully" . "\n";
+                } else {
+                    echo "----- Error updating troop record for " . $troop["name"] . ": " . mysqli_error($conn) . "\n";
+                }
+                
+                do{
+                    #nothing
+                }
+                while (mysqli_next_result($conn));
         }
-    
 }
+mysqli_close($conn);
+
 ?>

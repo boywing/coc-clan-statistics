@@ -53,14 +53,16 @@ else
         $clan_sql .= ", @warLosses = 0";
     }
 $clan_sql .= ", @members = " . $clan_data['members'];
-$clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n" . "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
-echo $clan_sql;
-if (mysqli_multi_query($conn, $clan_sql)) {
-    echo "Record for \"" . $clan_data["name"] . "\" updated successfully" . "\n";
+$clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
+
+mysqli_query($conn, $clan_sql);
+$clan_sql = "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
+
+if (mysqli_query($conn, $clan_sql)) {
+    echo "Record for clan \"" . $clan_data["name"] . "\" updated successfully" . " -------------------\n";
 } else {
-    echo "Error updating record for " . $clan_data["name"] . ": " . mysqli_error($conn) . "\n";
+    echo "----- Error updating record for " . $clan_data["name"] . ": " . mysqli_error($conn) . "\n";
 }
-mysqli_close($conn);
 
 $current_members = "('dummy'";
 
@@ -70,7 +72,7 @@ foreach ($players as $player)
         #$player_tag_url = urlencode($player["tag"]);
         $current_members .= ",'" . $player["tag"] . "'";
 
-        include "../mysql_coc.php";
+        #include "../mysql_coc.php";
 
         $player_sql  = "SET @tag = '" . $player["tag"];
         $player_sql .= "', @name = '" . mysqli_real_escape_string($conn, $player["name"]);
@@ -86,16 +88,17 @@ foreach ($players as $player)
         $player_sql .= ", @clan_tag = '" . $clan_data["tag"];
         $player_sql .= "', @clan_name = '" . $clan_data["name"];
         $player_sql .= "', @timestamp = CURRENT_TIMESTAMP;" . "\n";
-        $player_sql .= "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `timestamp`) ";
+        mysqli_query($conn, $player_sql);
+        
+        $player_sql = "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `timestamp`) ";
         $player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @timestamp) ";
         $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, timestamp=@timestamp;";
         
-        if (mysqli_multi_query($conn, $player_sql)) {
-            echo "Record for \"" . $player["name"] . "\" updated successfully" . "\n";
+        if (mysqli_query($conn, $player_sql)) {
+            echo "Record for player \"" . $player["name"] . "\" updated successfully" . "\n";
         } else {
-            echo "Error updating record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
+            echo "----- Error updating record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
         }
-        mysqli_close($conn);
     }
 
 $current_members .= ")";
@@ -103,7 +106,7 @@ $remove_sql = "UPDATE players SET clan_tag=NULL, clan_name=NULL WHERE clan_tag='
 
 include "../mysql_coc.php";
 if (!mysqli_multi_query($conn, $remove_sql)) {
-    echo "Error removing old members in clan: " . mysqli_error($conn) . "\n";
+    echo "----- Error removing old members in clan: " . mysqli_error($conn) . "\n";
 }
 mysqli_close($conn);
 

@@ -15,6 +15,7 @@
           <a class="dropdown-item" href="?mode=clan&clantag=%2380L9VRJR">AktivaVikingar2</a>
           <a class="dropdown-item" href="?mode=clan&clantag=%23YJJ8UGG2">AktivaVikingar3</a>
 	  <a class="dropdown-item" href="?mode=clan&clantag=%23220CLU8G0">AktivaVikingar4</a>
+	  <a class="dropdown-item" href="?mode=clan&clantag=%23209QPLUV2">AktivaVikingar5</a>
 	  <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="?mode=clan&clantag=%23PU2CRG2Y">VilandeVikingar</a>
           <div class="dropdown-divider"></div>
@@ -30,15 +31,17 @@
           <a class="dropdown-item" href="?mode=wars&clantag=<?php echo  urlencode(htmlspecialchars($_GET["clantag"])) ?>">Klanens krig</a>
 	  <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="?mode=players&scope=AV">Alla vikingar</a>
+          <a class="dropdown-item" href="?mode=offence&scope=AV">Alla vikingar trupper</a>
           <a class="dropdown-item" href="?mode=players&scope=ALL">Alla spelare</a>
 	  <div class="dropdown-divider"></div>
           <a class="dropdown-item" style="color:gray">Blandad statistik</a>
         </div>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" disabled>
-      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" disabled>Search</button>
+    <form class="form-inline my-2 my-lg-0" action="index.php" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search_string">
+      <input type="hidden" name="mode" value="search">
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
     </form>
   </div>
 </nav>

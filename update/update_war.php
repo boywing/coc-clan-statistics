@@ -36,6 +36,7 @@ if ($war_data["state"] == "notInWar")
     }
 else
     {
+        include "../mysql_coc.php";
         #if (($war_data["clan"]["stars"] - $war_data["opponent"]["stars"]) > 0)
         #    $result = "Win";
         #else
@@ -55,12 +56,14 @@ else
                 update_attacks($our_players, $our_clan,  $their_clan);
                 update_attacks($their_players, $their_clan, $our_clan);
             }
+        mysqli_close($conn);
     }
 
 function update_attacks($players, $clan, $opponent)
 {
     global $war_data;
-
+    global $conn;
+    
     $sT = date_create_from_format('Ymd\THis\.\0\0\0\Z',$war_data["startTime"]);
     $startTime = $sT->format('Y-m-d H:i:s');
     
@@ -104,17 +107,16 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= ", @order = ";
                             $attack_sql .= $attack["order"];
                             $attack_sql .= ", @startTime=STR_TO_DATE('" . $startTime . "', '%Y-%m-%d %H:%i:%s'); ";
+                            mysqli_query($conn, $attack_sql);
                             
-                            $attack_sql .= "INSERT INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
+                            $attack_sql = "INSERT INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
                             $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attack_stars, @destructionPercentage, @startTime, @order);";
                            
-                            include "../mysql_coc.php";
-                            if (mysqli_multi_query($conn, $attack_sql)) {
-                                echo "Attack record for \"" . $player["name"] . "\" updated successfully" . "\n";
+                            if (mysqli_query($conn, $attack_sql)) {
+                                echo "Attack record for player \"" . $player["name"] . "\" updated successfully" . "\n";
                             } else {
-                                echo "Error updating attack record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
+                                echo "----- Error updating attack record for player " . $player["name"] . ": " . mysqli_error($conn) . "\n";
                             }
-                            mysqli_close($conn);
                         }
                 }
         }  
@@ -123,30 +125,32 @@ function update_attacks($players, $clan, $opponent)
     
 function update_clan($clan)
 {
+    global $conn;
+    
     $clan_sql  = "SET @tag = '";
     $clan_sql .= $clan["tag"];
     $clan_sql .= "', @name = '";
     $clan_sql .= $clan["name"];
     $clan_sql .= "', @clanLevel = ";
     $clan_sql .= $clan['clanLevel'];
-    $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n" . "INSERT INTO clans (`tag`,`name`,`clanLevel`,`timestamp`) VALUES (@tag,@name,@clanLevel,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,clanLevel=@clanLevel,timestamp=@timestamp;";
+    $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
+    mysqli_query($conn, $clan_sql);
     
-    include "../mysql_coc.php";
+    $clan_sql = "INSERT INTO clans (`tag`,`name`,`clanLevel`,`timestamp`) VALUES (@tag,@name,@clanLevel,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,clanLevel=@clanLevel,timestamp=@timestamp;";
     
-    if (mysqli_multi_query($conn, $clan_sql)) {
-        echo "Record for \"" . $clan["name"] . "\" updated successfully" . "\n";
+    if (mysqli_query($conn, $clan_sql)) {
+        echo "Record for war clan \"" . $clan["name"] . "\" updated successfully" . "\n";
     } else {
-        echo "Error updating record for " . $clan["name"] . ": " . mysqli_error($conn) . "\n";
+        echo "----- Error updating record for clan " . $clan["name"] . ": " . mysqli_error($conn) . "\n";
     }
-    mysqli_close($conn);   
 }
 
 function update_players($players, $clan)
 {
+    global $conn;
+    
     foreach($players as $player)
         {
-            include "../mysql_coc.php";
-
             $player_sql  = "SET @tag = '";
             $player_sql .= $player["tag"];
             $player_sql .= "', @name = '";
@@ -155,16 +159,17 @@ function update_players($players, $clan)
             $player_sql .= $clan["tag"];
             $player_sql .= "', @clan_name = '";
             $player_sql .= $clan["name"]; 
-            $player_sql .= "', @timestamp = CURRENT_TIMESTAMP;" . "\n";
-            $player_sql .= "INSERT INTO players (`tag`, `name`, `clan_tag`, `clan_name`, `timestamp`) ";
+            $player_sql .= "', @timestamp = CURRENT_TIMESTAMP;";
+            mysqli_query($conn, $player_sql);
+            
+            $player_sql = "INSERT INTO players (`tag`, `name`, `clan_tag`, `clan_name`, `timestamp`) ";
             $player_sql .= "VALUES (@tag, @name, @clan_tag, @clan_name, @timestamp) ";
             $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, clan_tag=@clan_tag, clan_name=@clan_name, timestamp=@timestamp;";
 
-            if (mysqli_multi_query($conn, $player_sql)) {
-                echo "Record for \"" . $player["name"] . "\" updated successfully" . "\n";
+            if (mysqli_query($conn, $player_sql)) {
+                echo "Record for war player \"" . $player["name"] . "\" updated successfully" . "\n";
             } else {
-                echo "Error updating player record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
+                echo "----- Error updating player record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
             }
-            mysqli_close($conn);
         }
 }

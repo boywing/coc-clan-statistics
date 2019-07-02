@@ -63,7 +63,6 @@ else
     {
         echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
     }
-mysqli_close($conn);
 
 $content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . htmlspecialchars($player['name'], ENT_QUOTES) . "</h1>";
 $content .= '<table width=400 class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
@@ -93,7 +92,6 @@ $content .= "</table>";
 
 $content .= '<br><div class="left small-shadow"><h2>Troops</h2>';
 
-include "../mysql_coc.php";
 $content .= '<table width=200 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;"><tr>';
 $troops = 0;
 if($result = mysqli_query($conn, $troops_sql))
@@ -116,7 +114,7 @@ else
     {
         echo "<br>FAIL! - " . mysqli_error($conn) . "<br>";
     }
-mysqli_close($conn);
+
 
 $content .= "</div></tr></table>";
 
@@ -179,7 +177,6 @@ attacker_clan, defender_clan,
 attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE attacker_tag = '" . $playertag . "'";
 
     
-include "../mysql_coc.php";
 if($result = mysqli_query($conn, $attack_sql))
     {
         if (mysqli_num_rows($result) > 0)
@@ -208,8 +205,6 @@ else
     }
 $content .= "</tbody></table>";
 
-mysqli_close($conn);
-
 $content .= "<p><h2>Defences</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
 $content .= '<thead class="thead-dark"><th>Date</th><th>Defender Clan</th><th>Attacker</th><th>TH</th><th>Attacker Clan</th><th>Stars</th><th>Delta</th></thead>';
@@ -223,7 +218,6 @@ attacker_clan,
 attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM attacks a WHERE defender_tag = '" . $playertag . "'";
 
     
-include "../mysql_coc.php";
 if($result = mysqli_query($conn, $attack_sql))
     {
         if (mysqli_num_rows($result) > 0)
