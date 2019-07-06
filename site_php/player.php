@@ -66,31 +66,31 @@ else
 
 $content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . htmlspecialchars($player['name'], ENT_QUOTES) . "</h1>";
 $content .= '<table width=400 class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
-$content .= "<tr><td>Tag </td><td> " . $player['tag'] . "</td></tr>";
-$content .= "<tr><td>TH </td><td> " . $player['townHallLevel'] . "</td></tr>";
-$content .= "<tr><td>Clan </td><td> " . htmlspecialchars($player['clan_name'], ENT_QUOTES) . "</td></tr>";
-$content .= "<tr><td>Level </td><td> " . $player['expLevel'] . "</td></tr>";
-$content .= "<tr><td>Trophies </td><td> " . $player['trophies'] . "</td></tr>";
-$content .= "<tr><td>Best Trophies </td><td> " . $player['bestTrophies'] . "</td></tr>";
-$content .= "<tr><td>War Stars </td><td> " . $player['warStars'] . "</td></tr>";
-$content .= "<tr><td>Attack stars per war</td><td> " . $player['stars'] . " @ " . $player['percentage'] . "%</td></tr>";
-$content .= "<tr><td>Attack stars mirror</td><td> " . $player['mirr_stars'] . " @ " . $player['mirr_percentage'] . "%</td></tr>";
-$content .= "<tr><td>Attack stars same TH</td><td> " . $player['th_stars'] . " @ " . $player['th_percentage'] . "%</td></tr>";
-$content .= "<tr><td>Def stars per war</td><td> " . $player['def_stars'] . " @ " . $player['def_percentage'] . "%</td></tr>";
-$content .= "<tr><td>3-Stars </td><td> " . $player['three_stars'] . "</td></tr>";
-$content .= "<tr><td>BH </td><td> " . $player['builderHallLevel'] . "</td></tr>";
-$content .= "<tr><td>BH Trophies </td><td> " . $player['versusTrophies'] . "</td></tr>";
-$content .= "<tr><td>BH Best Trophies </td><td> " . $player['bestVersusTrophies'] . "</td></tr>";
-$content .= "<tr><td>BH Battle Wins </td><td> " . $player['versusBattleWins'] . "</td></tr>";
-$content .= "<tr><td>Role </td><td> " . $player['role'] . "<br></td></tr>";
-$content .= "<tr><td>Donations </td><td> " . $player['donations'] . "</td></tr>";
-$content .= "<tr><td>Received </td><td> " . $player['donationsReceived'] . "</td></tr>";
-$content .= "<tr><td>Updated </td><td> " . $player['timestamp'] . "</td></tr>";
-$content .= "<tr><td>Last war </td><td> " . $player['last_war'] . "</td></tr>";
-$content .= "<tr><td>Create Date </td><td> " . $player['createDate'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_TAG"] . "</td><td> " . $player['tag'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_TH"] . "</td><td> " . $player['townHallLevel'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_CLAN"] . "</td><td> " . htmlspecialchars($player['clan_name'], ENT_QUOTES) . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_LEVEL"] . "</td><td> " . $player['expLevel'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_TROPHIES"] . "</td><td> " . $player['trophies'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_BEST_TROPHIES"] . "</td><td> " . $player['bestTrophies'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_WAR_STARS"] . "</td><td> " . $player['warStars'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_STARS"] . "</td><td> " . $player['stars'] . " @ " . $player['percentage'] . "%</td></tr>";
+$content .= "<tr><td>" . $language["PL_STARS_MIRROR"] . "</td><td> " . $player['mirr_stars'] . " @ " . $player['mirr_percentage'] . "%</td></tr>";
+$content .= "<tr><td>" . $language["PL_STARS_TH"] . "</td><td> " . $player['th_stars'] . " @ " . $player['th_percentage'] . "%</td></tr>";
+$content .= "<tr><td>" . $language["PL_DEF_STARS"] . "</td><td> " . $player['def_stars'] . " @ " . $player['def_percentage'] . "%</td></tr>";
+$content .= "<tr><td>" . $language["PL_3_STARS"] . "</td><td> " . $player['three_stars'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_BH"] . "</td><td> " . $player['builderHallLevel'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_BH_TROPHIES"] . "</td><td> " . $player['versusTrophies'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_BH_BEST_TROPHIES"] . "</td><td> " . $player['bestVersusTrophies'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_BH_BATTLE_WINS"] . "</td><td> " . $player['versusBattleWins'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_ROLE"] . "</td><td> " . $player['role'] . "<br></td></tr>";
+$content .= "<tr><td>" . $language["PL_DONATIONS"] . "</td><td> " . $player['donations'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_RECEIVED"] . "</td><td> " . $player['donationsReceived'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_UPDATED"] . "</td><td> " . $player['timestamp'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_LAST_WAR"] . "</td><td> " . $player['last_war'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_FIRST_SEEN"] . "</td><td> " . $player['createDate'] . "</td></tr>";
 $content .= "</table>";
 
-$content .= '<br><div class="left small-shadow"><h2>Troops</h2>';
+$content .= '<br><div class="left small-shadow"><h2>' . $language["PL_TROOPS"] . '</h2>';
 
 $content .= '<table width=200 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;"><tr>';
 $troops = 0;
@@ -118,7 +118,7 @@ else
 
 $content .= "</div></tr></table>";
 
-$content .= "<p><h2>Average stars against TH</h2>";
+$content .= "<p><h2>" . $language["PL_STARS_EACH_TH"] . "</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
 $content .= '<thead class="thead-dark"><th>TH12</th><th>TH11</th><th>TH10</th><th>TH9</th><th>TH8</th><th>TH7</th><th>TH6</th><th>TH5</th><th>TH4</th><th>TH3</th></thead>';
 $content .= "<tbody><tr>";
@@ -164,9 +164,9 @@ else
 $content .= "<td>" . $player['th3'] . " @ " . $player['th3_percent'] . "% (" . $player['th3_attacks'] . " st)</td>";
 $content .= "</tr></body></table>";
 
-$content .= "<p><h2>Attacks</h2>";
+$content .= "<p><h2>" . $language["PL_ATTACKS"] . "</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>Date</th><th>Attacker clan</th><th>Attacker TH</th><th>Defender</th><th>Defender TH</th><th>Defender Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= '<thead class="thead-dark"><th>' . $language["PL_TABLE_DATE"] . "</th><th>" . $language["PL_TABLE_ATT_CLAN"] . "</th><th>" . $language["PL_TABLE_ATT_TH"] . "</th><th>" . $language["PL_TABLE_DEF"] . "</th><th>" . $language["PL_TABLE_DEF_TH"] . "</th><th>" . $language["PL_TABLE_DEF_CLAN"] . "</th><th>" . $language["PL_TABLE_STARS"] . "</th><th>" . $language["PL_TABLE_DELTA"] . '</th></thead>';
 $content .= "<tbody>";
 
 $attack_sql = "SELECT startTime, defender_tag, 
@@ -205,9 +205,9 @@ else
     }
 $content .= "</tbody></table>";
 
-$content .= "<p><h2>Defences</h2>";
+$content .= "<p><h2>" . $language['PL_DEFENCES'] . "</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>Date</th><th>Defender Clan</th><th>Attacker</th><th>TH</th><th>Attacker Clan</th><th>Stars</th><th>Delta</th></thead>';
+$content .= '<thead class="thead-dark"><th>' . $language['PL_TABLE_DATE'] . "</th><th>" . $language['PL_TABLE_DEF_CLAN'] . "</th><th>" . $language['PL_TABLE_ATT'] . "</th><th>" . $language['PL_TABLE_ATT_TH'] . "</th><th>" . $language['PL_TABLE_ATT_CLAN'] . "</th><th>" . $language['PL_TABLE_STARS'] . "</th><th>" . $language['PL_TABLE_DELTA'] . 'Delta</th></thead>';
 $content .= "<tbody>";
 
 $attack_sql = "SELECT startTime, attacker_tag, 

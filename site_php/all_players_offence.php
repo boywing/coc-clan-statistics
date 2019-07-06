@@ -6,61 +6,61 @@ if (empty($sort))
     }
 
 $content = '<h1>Spelare ' . $scope . '</h1>';
-$content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
+$content .= '<table class="table small table-striped table-sm table-hover table-light"  style="font-size: 9px" border=0>';
 $content .= '<thead align=center class="thead-dark"><th>&nbsp;</th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=name%20asc" title="Players name">Name</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=clan_name" title="Player is member of clan">Clan</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=role" title="Players role in the clan">Role</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=townHallLevel%20desc" title="Players Town Hall level">TH</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=warStars%20desc" title="Players collected stars in War">War stars</a</th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=name%20asc" title="Players name">'.$language['CL_TABLE_PL_NAME_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=clan_name" title="Player is member of clan">'.$language['CL_TABLE_NAME_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=role" title="Players role in the clan">'.$language['CL_TABLE_ROLE'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=townHallLevel%20desc" title="Players Town Hall level">'.$language['CL_TABLE_TH'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=warStars%20desc" title="Players collected stars in War">'.$language['CL_TABLE_WAR_STARS'].'</a</th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=king%20desc"><img height=22 src="images/Barbarian King.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=queen%20desc"><img height=22 src="images/Archer Queen.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=warden%20desc"><img height=22 src="images/Grand Warden.png"></a></th>';
 
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=barbarian%20desc"><img height=25 src="images/Barbarian.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=archer%20desc"><img height=25 src="images/Archer.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=giant%20desc"><img height=25 src="images/Giant.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=goblin%20desc"><img height=25 src="images/Goblin.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=wall_breaker%20desc"><img height=25 src="images/Wall Breaker.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=balloon%20desc"><img height=25 src="images/Balloon.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=wizard%20desc"><img height=25 src="images/Wizard.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=healer%20desc"><img height=25 src="images/Healer.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=dragon%20desc"><img height=25 src="images/Dragon.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=pekka%20desc"><img height=25 src="images/P.E.K.K.A.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=baby_dragon%20desc"><img height=25 src="images/Baby Dragon.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=miner%20desc"><img height=25 src="images/Miner.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=minion%20desc"><img height=25 src="images/Minion.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=hog_rider%20desc"><img height=25 src="images/Hog Rider.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=valkyrie%20desc"><img height=25 src="images/Valkyrie.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=golem%20desc"><img height=25 src="images/Golem.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=witch%20desc"><img height=25 src="images/Witch.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=lava_hound%20desc"><img height=25 src="images/Lava Hound.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=bowler%20desc"><img height=25 src="images/Bowler.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=ice_golem%20desc"><img height=25 src="images/Ice Golem.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=wall_wrecker%20desc"><img height=25 src="images/Wall Wrecker.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=battle_blimp%20desc"><img height=25 src="images/Battle Blimp.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=stone_slammer%20desc"><img height=25 src="images/Stone Slammer.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=barbarian%20desc"><img height=22 src="images/Barbarian.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=archer%20desc"><img height=22 src="images/Archer.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=giant%20desc"><img height=22 src="images/Giant.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=goblin%20desc"><img height=22 src="images/Goblin.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=wall_breaker%20desc"><img height=22 src="images/Wall Breaker.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=balloon%20desc"><img height=22 src="images/Balloon.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=wizard%20desc"><img height=22 src="images/Wizard.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=healer%20desc"><img height=22 src="images/Healer.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=dragon%20desc"><img height=22 src="images/Dragon.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=pekka%20desc"><img height=22 src="images/P.E.K.K.A.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=baby_dragon%20desc"><img height=22 src="images/Baby Dragon.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=miner%20desc"><img height=22 src="images/Miner.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=minion%20desc"><img height=22 src="images/Minion.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=hog_rider%20desc"><img height=22 src="images/Hog Rider.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=valkyrie%20desc"><img height=22 src="images/Valkyrie.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=golem%20desc"><img height=22 src="images/Golem.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=witch%20desc"><img height=22 src="images/Witch.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=lava_hound%20desc"><img height=22 src="images/Lava Hound.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=bowler%20desc"><img height=22 src="images/Bowler.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=ice_golem%20desc"><img height=22 src="images/Ice Golem.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=wall_wrecker%20desc"><img height=22 src="images/Wall Wrecker.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=battle_blimp%20desc"><img height=22 src="images/Battle Blimp.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=stone_slammer%20desc"><img height=22 src="images/Stone Slammer.png"></a></th>';
 
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=lightning_spell%20desc"><img height=25 src="images/Lightning Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=healing_spell%20desc"><img height=25 src="images/Healing Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=rage_spell%20desc"><img height=25 src="images/Rage Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=jump_spell%20desc"><img height=25 src="images/Jump Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=freeze_spell%20desc"><img height=25 src="images/Freeze Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=clone_spell%20desc"><img height=25 src="images/Clone Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=poison_spell%20desc"><img height=25 src="images/Poison Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=earthquake_spell%20desc"><img height=25 src="images/Earthquake Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=haste_spell%20desc"><img height=25 src="images/Haste Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=skeleton_spell%20desc"><img height=25 src="images/Skeleton Spell.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=bat_spell%20desc"><img height=25 src="images/Bat Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=lightning_spell%20desc"><img height=22 src="images/Lightning Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=healing_spell%20desc"><img height=22 src="images/Healing Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=rage_spell%20desc"><img height=22 src="images/Rage Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=jump_spell%20desc"><img height=22 src="images/Jump Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=freeze_spell%20desc"><img height=22 src="images/Freeze Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=clone_spell%20desc"><img height=22 src="images/Clone Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=poison_spell%20desc"><img height=22 src="images/Poison Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=earthquake_spell%20desc"><img height=22 src="images/Earthquake Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=haste_spell%20desc"><img height=22 src="images/Haste Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=skeleton_spell%20desc"><img height=22 src="images/Skeleton Spell.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=bat_spell%20desc"><img height=22 src="images/Bat Spell.png"></a></th>';
 
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks during the last '. $days . ' days">Avg stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=mirr_stars%20desc" title="Average stars from mirror attacks during the last '. $days . ' days">Avg mirror stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level during the last '. $days . ' days">Avg TH stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=def_stars%20desc" title="Average stars the opponent made to own base during the last '. $days . ' days">Def stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=three_stars%20desc" title="Total amount of attacks resulting in three stars during the last '. $days . ' days">3-stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=attacks%20desc" title="Total amount of attacks played">Attacks</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=createDate" title="When players first appeared in our database">First seen</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=last_war%20desc">Last War</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_DESC'].'">'.$language['CL_TABLE_AVG_STARS'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=mirr_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_MIRR_DESC'].'">'.$language['CL_TABLE_AVG_STARS_MIRR'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=th_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_TH_DESC'].'">'.$language['CL_TABLE_AVG_STARS_TH'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=def_stars%20desc" title="'.$language['CL_TABLE_DEF_DESC'].'">'.$language['CL_TABLE_DEF_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=three_stars%20desc" title="'.$language['CL_TABLE_3_STARS_DESC'].'">'.$language['CL_TABLE_3_STARS_SHORT'].'</a></th>';
+#$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=attacks%20desc" title="'.$language['CL_TABLE_ATTACKS_DESC'].'">'.$language['CL_TABLE_ATTACKS'].'</a></th>';
+#$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=createDate" title="'.$language['PL_FIRST_SEEN_DESC'].'">'.$language['PL_FIRST_SEEN'].'</a></th>';
+$content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=last_war%20desc">'.$language['PL_LAST_WAR'].'</a></th>';
 $content .= "</thead><tbody>";
 
 if($scope == "AV")
@@ -127,10 +127,8 @@ warStars,
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS def_stars, 
 (SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) AS three_stars, 
-(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag) AS attacks, 
-(SELECT MAX(startTime) FROM attacks WHERE attacker_tag = tag) AS last_war, 
-donations, 
-donationsReceived, 
+(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS attacks, 
+(SELECT MAX(date(startTime)) FROM attacks WHERE attacker_tag = tag) AS last_war, 
 createDate 
 FROM players p" . $scope_sql . "ORDER BY " . $sort;
 
@@ -143,7 +141,7 @@ if($result = mysqli_query($conn, $members_sql))
             {
                 while($member = mysqli_fetch_assoc($result))
                     {
-                        $content .= '<tr><td><img src="' . $member['league'] . '" height=30></td>';
+                        $content .= '<tr><td><img src="' . $member['league'] . '" height=20></td>';
                         $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a></td>';
                         $content .= '<td>' . htmlspecialchars($member['clan_name'], ENT_QUOTES) . '</td>';
 
@@ -304,24 +302,9 @@ break;
                         
                         $content .= "<td align=center " . $stars_color . " >" . $member['th_stars'] . " @ " . $member['th_percentage'] . "%</td>";
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
-                        $content .= "<td align=center>" . $member['three_stars'] . "</td>";
-                        $content .= "<td align=center>" . $member['attacks'] . "</td>";
-                        $content .= "<td align=center>" . $member['createDate'] . "</td>";
+                        $content .= "<td align=center>" . $member['three_stars'] . "/" . $member['attacks'] . "</td>";
+                        #$content .= "<td align=center>" . $member['createDate'] . "</td>";
                         $content .= "<td align=center>" . $member['last_war'] . "</td>";
-                        
-                        $donation_count = round($member['donations']/$member['donationsReceived'], 2);
-                        if ($member['donations'] == 0)
-                            $donation_colour = 'style="background-color:rgb(255,0,0)"';
-                        else if (($donation_count < 0.4) || ($member['donations'] < 2))
-                            $donation_colour = 'class="table-danger"';
-                        else if ((($donation_count <= 0.6) && ($donation_count >= 0.4)) || (($member['donations'] < 50) && ($member['donations'] > 1)))
-                            $donation_colour = 'class="table-warning"';
-                        else if ($donation_count > 0.6)
-                            $donation_colour = 'class="table-success"';
-                        else
-                            $donation_colour = 'class="table-secondary"';
-                        $content .= '<td align=right ' . $donation_colour . ' >' . $member['donations'] . " / " . $member['donationsReceived'] . "</td>";
-                        $content .= "<td align=center " . $donation_colour . ">" . $donation_count . "</td>";
                         $content .= "</tr>";
                     }
             }

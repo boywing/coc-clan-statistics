@@ -6,28 +6,28 @@ if (empty($sort))
     }
 
 $content = '<h1>Spelare ' . $scope . '</h1>';
-$content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
+$content .= '<table class="table small table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead align=center class="thead-dark"><th>&nbsp;</th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=name%20asc" title="Players name">Name</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name" title="Player is member of clan">Clan</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=role" title="Players role in the clan">Role</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=townHallLevel%20desc" title="Players Town Hall level">TH</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=expLevel%20desc" title="Players level">Lvl</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=name%20asc" title="Players name">'.$language['CL_TABLE_PL_NAME_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name" title="Player is member of clan">'.$language['CL_TABLE_NAME_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=role" title="Players role in the clan">'.$language['CL_TABLE_ROLE'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=townHallLevel%20desc" title="Players Town Hall level">'.$language['CL_TABLE_TH'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=expLevel%20desc" title="'.$language['CL_TABLE_LVL_DESC'].'">'.$language['CL_TABLE_LVL'].'</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=trophies%20desc"><img height=25 src="images/Trophy.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warStars%20desc" title="Players collected stars in War">War stars</a</th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warStars%20desc" title="Players collected stars in War">'.$language['CL_TABLE_WAR_STARS'].'</a</th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="Average stars from all attacks during the last '. $days . ' days">Avg stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="Average stars from mirror attacks during the last '. $days . ' days">Avg mirror stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="Average stars agains the same TH level during the last '. $days . ' days">Avg TH stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="Average stars the opponent made to own base during the last '. $days . ' days">Def stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="Total amount of attacks resulting in three stars during the last '. $days . ' days">3-stars</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="Total amount of attacks played">Attacks</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=createDate" title="When players first appeared in our database">First seen</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=last_war%20desc">Last War</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc">Donations</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="Donations ratio donated/recieved during the season">Ratio</a></th></thead>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_DESC'].'">'.$language['CL_TABLE_AVG_STARS'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_MIRR_DESC'].'">'.$language['CL_TABLE_AVG_STARS_MIRR'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_TH_DESC'].'">'.$language['CL_TABLE_AVG_STARS_TH'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="'.$language['CL_TABLE_DEF_DESC'].'">'.$language['CL_TABLE_DEF_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="'.$language['CL_TABLE_3_STARS_DESC'].'">'.$language['CL_TABLE_3_STARS_SHORT'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="'.$language['CL_TABLE_ATTACKS_DESC'].'">'.$language['CL_TABLE_ATTACKS'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=createDate" title="'.$language['PL_FIRST_SEEN_DESC'].'">'.$language['PL_FIRST_SEEN'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=last_war%20desc" title="'.$language['PL_LAST_WAR_DESC'].'">'.$language['PL_LAST_WAR'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="'.$language['PL_DONATIONS_DESC'].'">'.$language['PL_DONATIONS'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="'.$language['CL_TABLE_RATIO_DESC'].'">'.$language['CL_TABLE_RATIO'].'</a></th></thead>';
 $content .= "<tbody>";
 
 if($scope == "AV")
@@ -72,7 +72,7 @@ if($result = mysqli_query($conn, $members_sql))
             {
                 while($member = mysqli_fetch_assoc($result))
                     {
-                        $content .= '<tr><td><img src="' . $member['league'] . '" height=30></td>';
+                        $content .= '<tr><td><img src="' . $member['league'] . '" height=25></td>';
                         $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a></td>';
                         $content .= '<td>' . htmlspecialchars($member['clan_name'], ENT_QUOTES) . '</td>';
 
