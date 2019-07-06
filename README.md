@@ -13,6 +13,12 @@ Usage:
 ./update_war.php clanid=#m42k43j
 ./update_members.php clantag=#m42k43j
 
+The above example commands should be run from crontab. I run them with different frequency.
+For example the clan and it's membbers might only need to be updated once per day.
+But the clan war need to updated as often as possible to get all data stored.
+
+If you are using my tools and included web pages. Please share your ideas of what is needed to be improved.
+Also please let me add your site as an example site below.
 
 Example site: https://aktivavikingar.se/statistik
 
