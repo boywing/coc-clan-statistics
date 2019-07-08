@@ -1,11 +1,9 @@
 #!/bin/bash
 
-/srv/www/htdocs/stats/update/update_clan.php clanid=#9V8RQ2PR
-/srv/www/htdocs/stats/update/update_clan.php clanid=#80L9VRJR
-/srv/www/htdocs/stats/update/update_clan.php clanid=#YJJ8UGG2
+/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#229qjjr9v
 
-/srv/www/htdocs/stats/update/update_player.php playerid=#22LLPCJ8J
-/srv/www/htdocs/stats/update/update_player.php playerid=#2LR09UYLJ
-/srv/www/htdocs/stats/update/update_player.php playerid=#9YG8VQJYY
-/srv/www/htdocs/stats/update/update_player.php playerid=#PVVYYR0YV
-
+/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#9V8RQ2PR
+/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#80L9VRJR
+/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#YJJ8UGG2
+/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#22OCLU8GO
+/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#209QPLUV2
