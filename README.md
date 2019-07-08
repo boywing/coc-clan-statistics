@@ -20,5 +20,14 @@ But the clan war need to updated as often as possible to get all data stored.
 If you are using my tools and included web pages. Please share your ideas of what is needed to be improved.
 Also please let me add your site as an example site below.
 
+Installation:
+1. Import the sql-scripts to your mysql database.
+2. Configure your mysql settings in the mysql_coc.php file.
+3. Set up your options in the site_php/index.php file.
+4. Get a API-token from https://developer.clashofclans.com
+5. Add this API-token to the token.php file.
+6. Run the update scripts from the command line.
+7. See the statistics show up on your new web site.
+
 Example site: https://aktivavikingar.se/statistik
 
