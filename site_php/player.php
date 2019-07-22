@@ -68,9 +68,10 @@ $content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . htmlspecia
 $content .= '<table width=400 class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
 $content .= "<tr><td>" . $language["PL_TAG"] . "</td><td> " . $player['tag'] . "</td></tr>";
 $content .= "<tr><td>" . $language["PL_TH"] . "</td><td> " . $player['townHallLevel'] . "</td></tr>";
-$content .= "<tr><td>" . $language["PL_CLAN"] . "</td><td> " . htmlspecialchars($player['clan_name'], ENT_QUOTES) . "</td></tr>";
-$content .= "<tr><td>" . $language["PL_LEVEL"] . "</td><td> " . $player['expLevel'] . "</td></tr>";
-$content .= "<tr><td>" . $language["PL_TROPHIES"] . "</td><td> " . $player['trophies'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_CLAN"] . "</td><td><a href=\"?mode=clan&clantag=%23" . htmlspecialchars($player['clan_tag'], ENT_QUOTES) . "\"><b>" . htmlspecialchars($player['clan_name'], ENT_QUOTES) . "</b></a></td></tr>";
+$content .= "<tr><td>" . $language["PL_LEVEL"] . "</td><td><div style=\"background-image: url('images/XP.png'); background-size: auto 30px; width: 29px; height: 30px; font-size:13px\"><span style=\"position: relative;  left: 4px;  top: 5px;\"><b>" . $player['expLevel'] . "</b></span></div>" . "</td></tr>";
+
+$content .= "<tr><td>" . $language["PL_TROPHIES"] . "</td><td><img src=\"images/Trophy.png\" height=30> " . $player['trophies'] . "</td></tr>";
 $content .= "<tr><td>" . $language["PL_BEST_TROPHIES"] . "</td><td> " . $player['bestTrophies'] . "</td></tr>";
 $content .= "<tr><td>" . $language["PL_WAR_STARS"] . "</td><td> " . $player['warStars'] . "</td></tr>";
 $content .= "<tr><td>" . $language["PL_STARS"] . "</td><td> " . $player['stars'] . " @ " . $player['percentage'] . "%</td></tr>";
@@ -100,9 +101,9 @@ if($result = mysqli_query($conn, $troops_sql))
             {
                 while($troop = mysqli_fetch_assoc($result))
                     {
-                        if(($troops++ % 10) == 0)
+                        if(($troops++ % 13) == 0)
                             $content .= "</tr><tr>";
-                        $content .= "<td><div style=\"background-image: url('images/" . $troop['name'] . ".png'); background-size: auto 50px; width: 43px; height: 50px;text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -2px 3px 0px #fff, 1px 3px 0 #fff;\"><span class=\"center\"><b>" . $troop['level'] . "</b></span></div></td>";
+                        $content .= "<td><div style=\"background-image: url('images/" . $troop['name'] . ".png'); background-size: auto 60px; width: 53px; height: 60px;text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -2px 3px 0px #fff, 1px 3px 0 #fff;\"><span class=\"center\"><b>" . $troop['level'] . "</b></span></div></td>";
                     }
             }
         else

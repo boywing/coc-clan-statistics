@@ -91,6 +91,8 @@ $language['CL_TABLE_3_STARS_SHORT'] = "3*";
 $language['CL_TABLE_3_STARS_DESC'] = "Totala antalet attacker som har gett 3* under de senaste " . $days . " dagarna";
 $language['CL_TABLE_ATTACKS'] = "Attacker";
 $language['CL_TABLE_ATTACKS_DESC'] = "Totalt antal attacker gjorda";
+$language['CL_TABLE_LAST_WAR_DAYS'] = "Aktivitet";
+$language['CL_TABLE_LAST_WAR_DAYS_DESC'] = "Hur länge sedan vi såg spelaren delta i krig";
 $language['CL_TABLE_RATIO'] = "Kvot";
 $language['CL_TABLE_RATIO_DESC'] = "Donationskvot donerat/mottaget under säsongen";
 

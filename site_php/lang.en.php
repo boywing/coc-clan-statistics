@@ -91,6 +91,8 @@ $language['CL_TABLE_3_STARS_SHORT'] = "3*";
 $language['CL_TABLE_3_STARS_DESC'] = "Total amount of attacks resulting in three stars during the last " . $days . " days";
 $language['CL_TABLE_ATTACKS'] = "Attacks";
 $language['CL_TABLE_ATTACKS_DESC'] = "Total amount of attacks played";
+$language['CL_TABLE_LAST_WAR_DAYS'] = "Last war";
+$language['CL_TABLE_LAST_WAR__DAYS_DESC'] = "Last time we saw the player attacking in a war";
 $language['CL_TABLE_RATIO'] = "Ratio";
 $language['CL_TABLE_RATIO_DESC'] = "Donations ratio donated/recieved during the season";
 

@@ -48,6 +48,7 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clant
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars%20desc" title="' . $language['CL_TABLE_AVG_STARS_MIRR_DESC'] . '">' . $language['CL_TABLE_AVG_STARS_MIRR'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=def_stars%20asc" title="' . $language['CL_TABLE_DEF_DESC'] . '">' . $language['CL_TABLE_DEF'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=three_stars%20desc" title="' . $language['CL_TABLE_3_STARS_DESC'] . '">' . $language['CL_TABLE_3_STARS'] . '</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clans&clantag='. urlencode($clantag) . '&sort=last_war%20desc" title="'.$language['CL_TABLE_LAST_WAR_DAYS_DESC'].'">'.$language['CL_TABLE_LAST_WAR_DAYS'].'</a></th>';
 #$content .= '<th>Donations</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=donations%20desc" title="' . $language['CL_TABLE_RATIO_DESC'] . '">' . $language['CL_TABLE_RATIO'] . '</a></th></thead>';
 $content .= "<tbody>";
@@ -66,6 +67,8 @@ $members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallL
 (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as percentage, 
 (select count(*) from attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
 (select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
+(SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) FROM attacks WHERE attacker_tag = tag) as last_war_week,
+(SELECT COALESCE(TIMESTAMPDIFF( DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_day,
 donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
 if($result = mysqli_query($conn, $members_sql))
@@ -149,6 +152,20 @@ break;
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['three_stars'] . " / ";
                         $content .= $member['attacks'] . "</td>";
+                        if($member['last_war_week'] > 0 || $member['last_war_day'] > 0)
+                        {
+                            $content .= "<td align=center>";
+                            if($member['last_war_week'] > 0)
+                                $content .= $member['last_war_week'] . "w ";
+                            if($member['last_war_day'] > 0)
+                                $content .= $member['last_war_day'] . "d";
+                            $content .= "</td>";
+                        }
+                        else
+                        {
+                            $content .= "<td align=center>-</td>";
+                        }
+                            
                         
                         $donation_count = round($member['donations']/$member['donationsReceived'], 2);
                         if ($member['donations'] == 0)
