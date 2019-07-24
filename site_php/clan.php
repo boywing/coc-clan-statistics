@@ -68,7 +68,9 @@ $members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallL
 (select count(*) from attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
 (select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
 (SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) FROM attacks WHERE attacker_tag = tag) as last_war_week,
-(SELECT COALESCE(TIMESTAMPDIFF( DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_day,
+(SELECT COALESCE(TIMESTAMPDIFF(DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_day,
+(SELECT COALESCE(TIMESTAMPDIFF(HOUR, MAX(startTime), NOW()),0) FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_hour,
+(SELECT COALESCE(TIMESTAMPDIFF(MINUTE, MAX(startTime), NOW()),0) FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_minute,
 donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
 if($result = mysqli_query($conn, $members_sql))
@@ -152,19 +154,28 @@ break;
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['three_stars'] . " / ";
                         $content .= $member['attacks'] . "</td>";
+                        
+                        $content .= "<td align=center>";
                         if($member['last_war_week'] > 0 || $member['last_war_day'] > 0)
                         {
-                            $content .= "<td align=center>";
                             if($member['last_war_week'] > 0)
                                 $content .= $member['last_war_week'] . "w ";
                             if($member['last_war_day'] > 0)
-                                $content .= $member['last_war_day'] . "d";
-                            $content .= "</td>";
+                                $content .= $member['last_war_day'] . "d";                    
+                        }
+                        else if ($member['last_war_hour'] > 0)
+                        {
+                            $content .= $member['last_war_hour'] . "h";
+                        }
+                        else if ($member['last_war_minute'] > 0)
+                        {
+                            $content .= $member['last_war_minute'] . " min";
                         }
                         else
                         {
-                            $content .= "<td align=center>-</td>";
+                            $content .= "-";
                         }
+                        $content .= "</td>";
                             
                         
                         $donation_count = round($member['donations']/$member['donationsReceived'], 2);
