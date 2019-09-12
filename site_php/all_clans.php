@@ -1,6 +1,5 @@
 <?php
 
-
 $content = '<h1>' . $language['CLS_TITLE'] . '</h1>';
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead class="thead-dark"><th>&nbsp;</th><th>' . $language['CL_TABLE_NAME'] . '</th><th>' . $language['CL_TAG'] . '</th><th>' . $language['CL_LOC'] . '</th><th>' . $language['CL_LEVEL'] . '</th>';
