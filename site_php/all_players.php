@@ -2,7 +2,7 @@
 
 if (empty($sort))
     {
-        $sort = 'townHallLevel DESC, stars DESC, three_stars DESC';
+        $sort = 'townHallLevel DESC, th_stars DESC, three_stars DESC';
     }
 
 $content = '<h1>Spelare ' . $scope . '</h1>';
@@ -24,8 +24,8 @@ $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="'.$language['CL_TABLE_DEF_DESC'].'">'.$language['CL_TABLE_DEF_SHORT'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="'.$language['CL_TABLE_3_STARS_DESC'].'">'.$language['CL_TABLE_3_STARS_SHORT'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="'.$language['CL_TABLE_ATTACKS_DESC'].'">'.$language['CL_TABLE_ATTACKS'].'</a></th>';
-$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=createDate" title="'.$language['PL_FIRST_SEEN_DESC'].'">'.$language['PL_FIRST_SEEN'].'</a></th>';
-$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=last_war%20desc" title="'.$language['PL_LAST_WAR_DESC'].'">'.$language['PL_LAST_WAR'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name,createDate" title="'.$language['PL_FIRST_SEEN_DESC'].'">'.$language['PL_FIRST_SEEN'].'</a></th>';
+$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name,last_war%20desc" title="'.$language['PL_LAST_WAR_DESC'].'">'.$language['PL_LAST_WAR'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="'.$language['PL_DONATIONS_DESC'].'">'.$language['PL_DONATIONS'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="'.$language['CL_TABLE_RATIO_DESC'].'">'.$language['CL_TABLE_RATIO'].'</a></th></thead>';
 $content .= "<tbody>";
@@ -33,7 +33,10 @@ $content .= "<tbody>";
 if($scope == "AV")
     $scope_sql = " WHERE clan_tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#220CLU8G0', '#209QPLUV2')"; #, '#PU2CRG2Y', '#LRRPUR88') ";
 else
+{
     $scope_sql = " ";
+    $limit_sql = " LIMIT 1000";
+}
 
 $members_sql = "SELECT name, 
 clan_name, 
@@ -61,7 +64,7 @@ warStars,
 donations, 
 donationsReceived, 
 createDate 
-FROM players p" . $scope_sql . "ORDER BY " . $sort;
+FROM players p" . $scope_sql . "ORDER BY " . $sort . $limit_sql;
 
 
 include "../mysql_coc.php";
