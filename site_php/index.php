@@ -1,20 +1,28 @@
 <?php
 include "../config.php";
 
+
 # Parameters sent to the form
-$clantag = htmlspecialchars($_GET["clantag"]);
-$playertag = htmlspecialchars($_GET["playertag"]);
-$mode = htmlspecialchars($_GET["mode"]);
-$scope = htmlspecialchars($_GET["scope"]);
-$sort = htmlspecialchars($_GET["sort"]);
-$search_string = htmlspecialchars($_GET["search_string"]);
-$lang = htmlspecialchars($_GET["lang"]);
+if (isset($_GET["clantag"]))
+	$clantag = htmlspecialchars($_GET["clantag"]);
+if (isset($_GET["playertag"]))
+	$playertag = htmlspecialchars($_GET["playertag"]);
+if (isset($_GET["mode"]))
+	$mode = htmlspecialchars($_GET["mode"]);
+if (isset($_GET["scope"]))
+	$scope = htmlspecialchars($_GET["scope"]);
+if (isset($_GET["sort"]))
+	$sort = htmlspecialchars($_GET["sort"]);
+if (isset($_GET["search_string"]))
+	$search_string = htmlspecialchars($_GET["search_string"]);
+if (isset($_GET["lang"]))
+	$lang = htmlspecialchars($_GET["lang"]);
 
 # Default values if calling page with no parameters
 if(empty($clantag) && empty($mode))
     {
         $mode = "clan";
-        $clantag = "#9V8RQ2PR";
+        $clantag = "#80j0jrlp";
     }
 
 # Give a cookie if the user want to change language

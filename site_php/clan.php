@@ -177,8 +177,10 @@ break;
                         }
                         $content .= "</td>";
                             
-                        
-                        $donation_count = round($member['donations']/$member['donationsReceived'], 2);
+                        if($member['donationsReceived'] == 0)
+							$donation_count = round($member['donations']/1, 2);
+						else
+							$donation_count = round($member['donations']/$member['donationsReceived'], 2);
                         if ($member['donations'] == 0)
                             $donation_colour = 'style="background-color:rgb(255,0,0)"';
                         else if (($donation_count < 0.4) || ($member['donations'] < 2))
