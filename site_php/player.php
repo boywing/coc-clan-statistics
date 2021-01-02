@@ -42,7 +42,10 @@ $player_sql = "select *,
 (select COUNT(*) from attacks where defender_th = 10 AND attacker_tag = p.tag) AS th10_attacks, 
 (select COUNT(*) from attacks where defender_th = 11 AND attacker_tag = p.tag) AS th11_attacks, 
 (select COUNT(*) from attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12_attacks, 
-createDate FROM players p WHERE tag = '" . $playertag . "'";
+(select min(timestamp) from players where tag = '" . $playertag . "') as createDate
+FROM players p WHERE tag = '" . $playertag . "'";
+
+# createDate FROM players p WHERE tag = '" . $playertag . "'";
 
 $troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' ORDER by type desc, name";
 
@@ -56,7 +59,7 @@ if($result = mysqli_query($conn, $player_sql))
             }
         else
             {
-                echo "Error fetching data for player $playertag <br>";
+                echo "Error fetching player_sql data for player $playertag <br>";
             }
     }
 else
@@ -108,7 +111,7 @@ if($result = mysqli_query($conn, $troops_sql))
             }
         else
             {
-                echo "Error fetching data for player $playertag <br>";
+                echo "Error fetching troops_sql data for player $playertag <br>";
             }
     }
 else
@@ -197,7 +200,7 @@ if($result = mysqli_query($conn, $attack_sql))
             }
         else
             {
-                echo "Error fetching data for player $playertag <br>";
+                echo "Error fetching attack_sql data for player $playertag <br>";
             }
     }
 else
@@ -237,7 +240,7 @@ if($result = mysqli_query($conn, $attack_sql))
             }
         else
             {
-                echo "Error fetching data for player $playertag <br>";
+                echo "Error fetching attack_sql data for player $playertag <br>";
             }
     }
 else

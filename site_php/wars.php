@@ -1,7 +1,7 @@
 <?php
 
 if(empty($clantag))
-    $clantag = "#9V8RQ2PR";
+    $clantag = "#80j0jrlp";
 
 $content = "<h2>Wars</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
