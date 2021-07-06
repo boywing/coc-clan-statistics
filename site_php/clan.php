@@ -44,7 +44,7 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clant
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=expLevel%20desc" title="' . $language['CL_TABLE_LVL_DESC'] . '">' . $language['CL_TABLE_LVL'] . '</a></th>';
 #$content .= '<th><img height=25 src="images/Trophy.png"></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warStars%20desc" title="' . $language['CL_TABLE_WAR_STARS_DESC'] . '">' . $language['CL_TABLE_WAR_STARS'] . '</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png" title="King"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png" title="Queen"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png" title="Grand Warden"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png" title="King"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png" title="Queen"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png" title="Grand Warden"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=royal%20desc"><img height=25 src="images/Royal Champion.png" title="Royal Champion"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars%20desc" title="' . $language['CL_TABLE_AVG_STARS_MIRR_DESC'] . '">' . $language['CL_TABLE_AVG_STARS_MIRR'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=def_stars%20asc" title="' . $language['CL_TABLE_DEF_DESC'] . '">' . $language['CL_TABLE_DEF'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=three_stars%20desc" title="' . $language['CL_TABLE_3_STARS_DESC'] . '">' . $language['CL_TABLE_3_STARS'] . '</a></th>';
@@ -62,6 +62,7 @@ $members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallL
 (select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,
 (select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,
 (select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, 
+(select level from troops where player_tag=p.tag and name=\"Royal Champion\") as royal, 
 (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars, 
 (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
 (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as percentage, 
@@ -116,7 +117,11 @@ break;
                         else
                             $content .= "0-";
                         if(isset($member['warden']))
-                            $content .= "" . $member['warden'] . "</td>";
+                            $content .= "" . $member['warden'] . "-";
+                        else
+                            $content .= "0-";
+                        if(isset($member['royal']))
+                            $content .= "" . $member['royal'] . "</td>";
                         else
                             $content .= "0</td>";
                         if (!isset($member['stars']))

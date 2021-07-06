@@ -20,16 +20,17 @@ if(empty($clantag) && empty($mode))
 # Give a cookie if the user want to change language
 if (empty($lang)){ 
     #Nothing
+    
 }
 else {
-    setcookie("lang", $lang, time()+(60*60*24*30*2), "/", "localhost", 0);
+    setcookie("lang", $lang, time()+(60*60*24*30*2), "/", $site_name, 0);
     $_COOKIE["lang"] = $lang;
 }
 
 # Give cookie with default language setting
 if (empty($_COOKIE["lang"]))
 {
-    setcookie("lang", $default_language, time()+(60*60*24*30*2), "/", "localhost", 0);
+    setcookie("lang", $default_language, time()+(60*60*24*30*2), "/", $site_name, 0);
 }
 
 # If you create a new language file, please submit it to us using github.

@@ -4,11 +4,12 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clantag = $_GET['clantag'];
 
-include "../config.php";
+
+include "/var/www/html/config.php";
 chdir($update_path);
 
-include "../token.php";
-include "../mysql_coc.php";
+include "/etc/ClashOfClans/token.php";
+include "/etc/ClashOfClans/mysql_coc.php";
 
 $clantag = mysqli_real_escape_string($conn, $clantag);
 $clan_sql = "SELECT tag FROM players WHERE clan_tag = '" . $clantag . "'";

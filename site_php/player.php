@@ -44,7 +44,7 @@ $player_sql = "select *,
 (select COUNT(*) from attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12_attacks, 
 createDate FROM players p WHERE tag = '" . $playertag . "'";
 
-$troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' ORDER by type desc, name";
+$troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' AND (NOT name LIKE 'Super%' AND NOT name LIKE 'Sneaky%' AND NOT name LIKE 'Rocket%' AND NOT name LIKE 'Inferno%' AND NOT name LIKE 'Ice%') ORDER BY type desc, name";
 
 include "../mysql_coc.php";
 

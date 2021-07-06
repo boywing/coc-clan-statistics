@@ -21,14 +21,15 @@ If you are using my tools and included web pages. Please share your ideas of wha
 Also please let me add your site as an example site below.
 
 Installation:
-1. Import the sql-scripts to your mysql database.
-2. Configure your mysql settings in the mysql_coc.php file.
-3. Set up your options in the config.php file.
-4. Modify the text in site_php/lang.en.php to match your choice.
-5. Get a API-token from https://developer.clashofclans.com
-6. Add this API-token to the token.php file.
-7. Run the update scripts from the command line.
-8. See the statistics show up on your new web site.
+1. Create a database in MySQL.
+2. Import the sql-scripts to your mysql database.
+3. Configure your mysql settings in the mysql_coc.php file.
+4. Set up your options in the config.php file.
+5. Modify the text in site_php/lang.XX.php to match your choice.
+6. Get a API-token from https://developer.clashofclans.com
+7. Add this API-token to the token.php file.
+8. Run the update scripts from the command line.
+9. See the statistics show up on your new web site.
 
-Example site: https://aktivavikingar.se/statistik
+Example site: http://aktivavikingar.servegame.com/statistik
 

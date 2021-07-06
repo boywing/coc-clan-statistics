@@ -16,6 +16,7 @@ $content .= '<th style="font-size: 9px"><a class="mywhite" href="?mode=offence&s
 $content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=king%20desc"><img height=22 src="images/Barbarian King.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=queen%20desc"><img height=22 src="images/Archer Queen.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=warden%20desc"><img height=22 src="images/Grand Warden.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=royal%20desc"><img height=22 src="images/Royal Champion.png"></a></th>';
 
 $content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=barbarian%20desc"><img height=22 src="images/Barbarian.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=offence&scope=' . $scope . '&sort=archer%20desc"><img height=22 src="images/Archer.png"></a></th>';
@@ -81,6 +82,7 @@ warStars,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Barbarian King\") AS king,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Archer Queen\") AS queen,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Grand Warden\") AS warden,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Royal Champion\") AS royal,
 
 (SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Barbarian\") AS barbarian,
 (SELECT level FROM troops WHERE player_tag=p.tag AND village='home' AND name=\"Archer\") AS archer,
@@ -171,6 +173,7 @@ break;
                         $content .= "<td align=center style=\"background-color:rgb(200,200,255)\">" . $member['king'] . "</td>";
                         $content .= "<td align=center style=\"background-color:rgb(210,210,255)\">" . $member['queen'] . "</td>";
                         $content .= "<td align=center style=\"background-color:rgb(200,200,255)\">" . $member['warden'] . "</td>";
+                        $content .= "<td align=center style=\"background-color:rgb(210,210,255)\">" . $member['royal'] . "</td>";
 
                         $content .= "<td align=center>" . $member['barbarian'] . "</td>";
                         $content .= "<td align=center>" . $member['archer'] . "</td>";

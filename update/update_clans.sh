@@ -1,9 +1,11 @@
 #!/bin/bash
 
-/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#229qjjr9v
+clans=('#9V8RQ2PR' '#80L9VRJR' '#YJJ8UGG2' '#220CLU8G0' '#209QPLUV2' '#PU2CRG2Y' '#LRRPUR88' '#229qjjr9v' '#9GPLVPRU')
 
-/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#9V8RQ2PR
-/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#80L9VRJR
-/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#YJJ8UGG2
-/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#22OCLU8GO
-/var/www/html/clash_of_clans/coc-clan-statistics/update/update_clan.php clanid=#209QPLUV2
+DIR="/path/to/scripts" # path to scripts
+cd $DIR
+
+for clan in "${clans[@]}"
+do
+    "$DIR"/update_clan.php clanid="$clan"
+done

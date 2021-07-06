@@ -4,10 +4,10 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clanid = $_GET['clanid'];
 
-include "../config.php";
+include "/var/www/html/config.php";
 chdir($update_path);
 
-include "../token.php";
+include "/etc/ClashOfClans/token.php";
 
 $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar";
 
@@ -37,7 +37,7 @@ if ($war_data["state"] == "notInWar")
     }
 else
     {
-        include "../mysql_coc.php";
+        include "/etc/ClashOfClans/mysql_coc.php";
         #if (($war_data["clan"]["stars"] - $war_data["opponent"]["stars"]) > 0)
         #    $result = "Win";
         #else

@@ -4,10 +4,10 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clanid = $_GET['clanid'];
 
-include "../config.php";
+include "/var/www/html/config.php";
 chdir($update_path);
 
-include "../token.php";
+include "/etc/ClashOfClans/token.php";
 
 $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid);
 $curl = curl_init($url);
@@ -29,7 +29,7 @@ if (isset($clan_data["reason"])) {
     echo "\n";
 }
 
-include "../mysql_coc.php";
+include "/etc/ClashOfClans/mysql_coc.php";
 
 $clan_sql  = "SET @tag = '" . $clan_data["tag"];
 $clan_sql .= "', @name = '" . mysqli_real_escape_string($conn, $clan_data["name"]);
@@ -105,7 +105,7 @@ foreach ($players as $player)
 $current_members .= ")";
 $remove_sql = "UPDATE players SET clan_tag=NULL, clan_name=NULL WHERE clan_tag='" . $clan_data["tag"] . "' AND tag NOT IN " . $current_members;
 
-include "../mysql_coc.php";
+include "/etc/ClashOfClans/mysql_coc.php";
 if (!mysqli_multi_query($conn, $remove_sql)) {
     echo "----- Error removing old members in clan: " . mysqli_error($conn) . "\n";
 }

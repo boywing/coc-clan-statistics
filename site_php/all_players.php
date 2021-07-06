@@ -18,6 +18,7 @@ $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png"></a></th>';
+$content .= '<th><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=royal%20desc"><img height=25 src="images/Royal Champion.png"></a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_DESC'].'">'.$language['CL_TABLE_AVG_STARS'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=mirr_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_MIRR_DESC'].'">'.$language['CL_TABLE_AVG_STARS_MIRR'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_TH_DESC'].'">'.$language['CL_TABLE_AVG_STARS_TH'].'</a></th>';
@@ -50,7 +51,8 @@ league,
 warStars,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Barbarian King\") AS king,
 (SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Archer Queen\") AS queen,
-(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Grand Warden\") AS warden, 
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Grand Warden\") AS warden,
+(SELECT level FROM troops WHERE player_tag=p.tag AND name=\"Royal Champion\") AS royal, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS stars, 
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS percentage, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,
@@ -107,6 +109,7 @@ break;
                         $content .= "<td align=center>" . $member['king'] . "</td>";
                         $content .= "<td align=center>" . $member['queen'] . "</td>";
                         $content .= "<td align=center>" . $member['warden'] . "</td>";
+                        $content .= "<td align=center>" . $member['royal'] . "</td>";
                         if (!isset($member['stars']))
                             $member['stars'] = 0;
                         if (!isset($member['percentage']))
