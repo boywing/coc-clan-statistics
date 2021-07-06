@@ -7,7 +7,7 @@ $playerid = $_GET['playerid'];
 include "/var/www/html/config.php";
 chdir($update_path);
 
-include "/etc/ClashOfClans/token.php";
+include ($secret_path . "token.php");
 
 $url = "https://api.clashofclans.com/v1/players/" . urlencode($playerid);
 
@@ -30,7 +30,7 @@ if (isset($player["reason"])) {
     echo "\n";
 }
 
-include "/etc/ClashOfClans/mysql_coc.php";
+include ($secret_path . "mysql_coc.php");
 
 $player_sql  = "SET @tag = '" . $player["tag"];
 $player_sql .= "', @name = '" . mysqli_real_escape_string($conn, $player["name"]);

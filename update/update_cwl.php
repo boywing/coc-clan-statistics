@@ -9,7 +9,7 @@ chdir($update_path);
 
 include ($secret_path . "token.php");
 
-$url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar";
+$url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar/leaguegroup";
 
 $curl = curl_init($url);
 $header = array();
@@ -21,44 +21,82 @@ curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 $result = curl_exec($curl);
-$war_data = json_decode($result, true);
+$group_data = json_decode($result, true);
 curl_close($curl);
 
-if (isset($war_data["reason"])) {
+if (isset($group_data["reason"])) {
     $error = true;
-    echo $war_data["reason"];
-    echo $war_data["message"];
+    echo $group_data["reason"];
+    echo $group_data["message"];
     echo "\n";
 }
 
-if ($war_data["state"] == "notInWar")
+if ($group_data["state"] == "notInWar")
     {
         echo "Clan " . $clanid . " not in war...\n";
     }
-else
+ else if ($group_data["state"] == "preparation")
     {
-      include ($secret_path . "mysql_coc.php");
-        #if (($war_data["clan"]["stars"] - $war_data["opponent"]["stars"]) > 0)
-        #    $result = "Win";
-        #else
-        #    $result = "Loss";
-        
-        $our_players = $war_data["clan"]["members"];
-        $their_players = $war_data["opponent"]["members"];
-        $our_clan = $war_data["clan"];
-        $their_clan = $war_data["opponent"];
-        
-        update_clan($our_clan);
-        update_clan($their_clan);
-        update_players($our_players, $our_clan);
-        update_players($their_players, $their_clan);
-        if($war_data["state"] == "inWar")
-            {
-                update_attacks($our_players, $our_clan,  $their_clan);
-                update_attacks($their_players, $their_clan, $our_clan);
-            }
-        mysqli_close($conn);
+      echo "Clan " . $clanid . " in war preparation...\n";
     }
+ else
+   {
+     foreach($group_data["rounds"] as $round)
+       {
+	 foreach($round["warTags"] as $war_tag)
+	   {
+	     if ($war_tag != "#0")
+	       {
+		 $url = "https://api.clashofclans.com/v1/clanwarleagues/wars/" . urlencode($war_tag);
+		 
+		 $curl = curl_init($url);
+		 $header = array();
+		 $header[] = "Accept: application/json";
+		 $header[] = "Content-type: text/html; charset=UTF-8";
+		 $header[] = "Authorization: Bearer ".$api_token;
+		 curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+		 curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+		 curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+		 curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		 $result = curl_exec($curl);
+		 $war_data = json_decode($result, true);
+		 curl_close($curl);
+		 
+		 if (isset($war_data["reason"])) {
+		   $error = true;
+		   echo $war_data["reason"];
+		   echo $war_data["message"];
+		   echo "\n";
+		 }
+		 
+		 if ($war_data["state"] == "notInWar")
+		   {
+		     echo "Clan " . $clanid . " not in war...\n";
+		   }
+		 else
+		   {
+		     include ($secret_path . "mysql_coc.php");
+
+		     $our_players = $war_data["clan"]["members"];
+		     $their_players = $war_data["opponent"]["members"];
+		     $our_clan = $war_data["clan"];
+		     $their_clan = $war_data["opponent"];
+		     
+		     update_clan($our_clan);
+		     update_clan($their_clan);
+		     update_players($our_players, $our_clan);
+		     update_players($their_players, $their_clan);
+		     if($war_data["state"] == "inWar" || $war_data["state"] == "warEnded")
+		       {
+			 update_attacks($our_players, $our_clan,  $their_clan);
+			 update_attacks($their_players, $their_clan, $our_clan);
+		       }
+		     mysqli_close($conn);
+		   }		 		 
+	       }
+	   }
+       }
+   }
 
 function update_attacks($players, $clan, $opponent)
 {
@@ -110,7 +148,7 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= ", @startTime=STR_TO_DATE('" . $startTime . "', '%Y-%m-%d %H:%i:%s'); ";
                             mysqli_query($conn, $attack_sql);
                             
-                            $attack_sql = "INSERT INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
+                            $attack_sql = "INSERT INTO attacks_cwl (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
                             $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attack_stars, @destructionPercentage, @startTime, @order);";
                            
                             if (mysqli_query($conn, $attack_sql)) {

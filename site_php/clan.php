@@ -46,6 +46,7 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clant
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warStars%20desc" title="' . $language['CL_TABLE_WAR_STARS_DESC'] . '">' . $language['CL_TABLE_WAR_STARS'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png" title="King"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png" title="Queen"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png" title="Grand Warden"></a>-<a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=royal%20desc"><img height=25 src="images/Royal Champion.png" title="Royal Champion"></a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars%20desc" title="' . $language['CL_TABLE_AVG_STARS_MIRR_DESC'] . '">' . $language['CL_TABLE_AVG_STARS_MIRR'] . '</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=stars_cwl%20desc" title="' . $language['CL_TABLE_AVG_STARS_CWL_DESC'] . '">' . $language['CL_TABLE_AVG_STARS_CWL'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=def_stars%20asc" title="' . $language['CL_TABLE_DEF_DESC'] . '">' . $language['CL_TABLE_DEF'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag='. urlencode($clantag) . '&sort=three_stars%20desc" title="' . $language['CL_TABLE_3_STARS_DESC'] . '">' . $language['CL_TABLE_3_STARS'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clans&clantag='. urlencode($clantag) . '&sort=last_war%20desc" title="'.$language['CL_TABLE_LAST_WAR_DAYS_DESC'].'">'.$language['CL_TABLE_LAST_WAR_DAYS'].'</a></th>';
@@ -64,10 +65,12 @@ $members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallL
 (select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, 
 (select level from troops where player_tag=p.tag and name=\"Royal Champion\") as royal, 
 (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars, 
+(select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl, 
 (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
 (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as percentage, 
-(select count(*) from attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
-(select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
+(select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl, 
+(select(select count(*) from attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day))+(select count(*) from attacks_cwl where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day))) as three_stars, 
+(select(select count(*) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day))+(select count(*) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day))) as attacks, 
 (SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) FROM attacks WHERE attacker_tag = tag) as last_war_week,
 (SELECT COALESCE(TIMESTAMPDIFF(DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_day,
 (SELECT COALESCE(TIMESTAMPDIFF(HOUR, MAX(startTime), NOW()),0) FROM attacks a WHERE a.attacker_tag = p.tag) as last_war_hour,
@@ -126,10 +129,13 @@ break;
                             $content .= "0</td>";
                         if (!isset($member['stars']))
                             $member['stars'] = 0;
+                        if (!isset($member['stars_cwl']))
+                            $member['stars_cwl'] = 0;
                         if (!isset($member['def_stars']))
                             $member['def_stars'] = '-';
                         if (!isset($member['percentage']))
                             $member['percentage'] = 0;
+
                         if($member['stars'] <= 2.0)
                             {
                                 $r = 255-255;
@@ -155,7 +161,33 @@ break;
                         else
                             $stars_color = "";
                         
-                        $content .= "<td align=center " . $stars_color . " >" . $member['stars'] . " @ " . $member['percentage'] . "%</td>";
+                        if($member['stars_cwl'] <= 2.0)
+                            {
+                                $r = 255-255;
+                                $g = 255-155;
+                                $b = 255-155;
+                                $s = 2 - $member['stars_cwl'];
+                                $r1 = round($r*$s+255,0);
+                                $g1 = round(230-$g*$s,0);
+                                $b1 = round(230-$b*$s,0);
+                                $stars_cwl_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
+                            }                            
+                        else if($member['stars_cwl'] > 2.0)
+                            {
+                                $r = 255-100;
+                                $g = 255-200;
+                                $b = 255-110;
+                                $s = 3 - $member['stars_cwl'];
+                                $r1 = round($r*$s+108,0);
+                                $g1 = round($g*$s+215,0);
+                                $b1 = round($b*$s+111,0);
+                                $stars_cwl_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
+                            }
+                        else
+                            $stars_cwl_color = "";
+
+			$content .= "<td align=center " . $stars_color . " >" . $member['stars'] . " @ " . $member['percentage'] . "%</td>";
+                        $content .= "<td align=center " . $stars_cwl_color . " >" . $member['stars_cwl'] . " @ " . $member['percentage_cwl'] . "%</td>";
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
                         $content .= "<td align=center>" . $member['three_stars'] . " / ";
                         $content .= $member['attacks'] . "</td>";

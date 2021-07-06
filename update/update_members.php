@@ -8,8 +8,8 @@ $clantag = $_GET['clantag'];
 include "/var/www/html/config.php";
 chdir($update_path);
 
-include "/etc/ClashOfClans/token.php";
-include "/etc/ClashOfClans/mysql_coc.php";
+include ($secret_path . "token.php");
+include ($secret_path . "mysql_coc.php");
 
 $clantag = mysqli_real_escape_string($conn, $clantag);
 $clan_sql = "SELECT tag FROM players WHERE clan_tag = '" . $clantag . "'";
