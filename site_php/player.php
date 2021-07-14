@@ -225,7 +225,7 @@ $content .= "</tbody></table>";
 
 $content .= "<p><h2>" . $language['PL_DEFENCES'] . "</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>' . $language['PL_TABLE_DATE'] . "</th><th>" . $language['PL_TABLE_DEF_CLAN'] . "</th><th>" . $language['PL_TABLE_ATT'] . "</th><th>" . $language['PL_TABLE_ATT_TH'] . "</th><th>" . $language['PL_TABLE_ATT_CLAN'] . "</th><th>" . $language['PL_TABLE_STARS'] . "</th><th>" . $language['PL_TABLE_DELTA'] . 'Delta</th></thead>';
+$content .= '<thead class="thead-dark"><th>' . $language['PL_TABLE_DATE'] . "</th><th>" . $language['PL_TABLE_DEF_CLAN'] . "</th><th>" . $language['PL_TABLE_ATT'] . "</th><th>" . $language['PL_TABLE_ATT_TH'] . "</th><th>" . $language['PL_TABLE_ATT_CLAN'] . "</th><th>" . $language['PL_TABLE_STARS'] . "</th><th>" . $language['PL_TABLE_DELTA'] . '</th></thead>';
 $content .= "<tbody>";
 
 $attack_sql = "SELECT startTime, attacker_tag, 
