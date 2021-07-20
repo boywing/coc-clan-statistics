@@ -227,7 +227,7 @@ if($result = mysqli_query($conn, $members_sql))
 		    $b1 = round(230 - $b * $s, 0);
 		    $stars_cwl_color = 'style="background-color:rgb(' . $r1 . ',' . $g1 . ',' . $b1 . ')"';
 		  } else if ($member['stars_cwl'] > 2.0) {
-		    $member['stars_cwl'] = $member['stars_cwl'] . ' @ ' . $member['percentage_cwl'];
+		    $member['stars_cwl'] = $member['stars_cwl'] . ' @ ' . $member['percentage_cwl'] . "%";
 		    $r = 255 - 100;
 		    $g = 255 - 200;
 		    $b = 255 - 110;
@@ -244,7 +244,7 @@ if($result = mysqli_query($conn, $members_sql))
 		  $content .= "<td align=center " . $stars_cwl_color . " >" . $member['stars_cwl'] . "</td>";
 		  if ($member['def_stars'] != '-')
 		    {
-		      $member['def_stars'] = $member['def_stars'] . " @ " . $member['def_percentage'];
+		      $member['def_stars'] = $member['def_stars'] . " @ " . $member['def_percentage'] . "%";
 		    }
 		  $content .= "<td align=center>" . $member['def_stars'] . "</td>";
 		  $content .= "<td align=center>" . $member['three_stars'] . " / " . $member['attacks'] . "</td>";
