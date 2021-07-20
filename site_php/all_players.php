@@ -24,7 +24,7 @@ $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=th_stars%20desc" title="'.$language['CL_TABLE_AVG_STARS_TH_DESC'].'">'.$language['CL_TABLE_AVG_STARS_TH'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=def_stars%20desc" title="'.$language['CL_TABLE_DEF_DESC'].'">'.$language['CL_TABLE_DEF_SHORT'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=three_stars%20desc" title="'.$language['CL_TABLE_3_STARS_DESC'].'">'.$language['CL_TABLE_3_STARS_SHORT'].'</a></th>';
-$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="'.$language['CL_TABLE_ATTACKS_DESC'].'">'.$language['CL_TABLE_ATTACKS'].'</a></th>';
+#$content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=attacks%20desc" title="'.$language['CL_TABLE_ATTACKS_DESC'].'">'.$language['CL_TABLE_ATTACKS'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name,createDate" title="'.$language['PL_FIRST_SEEN_DESC'].'">'.$language['PL_FIRST_SEEN'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=clan_name,last_war%20desc" title="'.$language['PL_LAST_WAR_DESC'].'">'.$language['PL_LAST_WAR'].'</a></th>';
 $content .= '<th style="font-size: 14px"><a class="mywhite" href="?mode=players&scope=' . $scope . '&sort=donations%20desc" title="'.$language['PL_DONATIONS_DESC'].'">'.$language['PL_DONATIONS'].'</a></th>';
@@ -60,9 +60,9 @@ warStars,
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_stars,
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage, 
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS def_stars, 
-(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) AS three_stars, 
-(SELECT COUNT(*) FROM attacks WHERE attacker_tag = p.tag) AS attacks, 
-(SELECT MAX(startTime) FROM attacks WHERE attacker_tag = tag) AS last_war, 
+(SELECT COUNT(*) FROM v_attacks WHERE attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) AS three_stars, 
+(SELECT COUNT(*) FROM v_attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS attacks, 
+(SELECT MAX(startTime) FROM v_attacks WHERE attacker_tag = tag) AS last_war, 
 donations, 
 donationsReceived, 
 createDate 
@@ -205,8 +205,8 @@ break;
                         
                         $content .= "<td align=center " . $stars_color . " >" . $member['th_stars'] . " @ " . $member['th_percentage'] . "%</td>";
                         $content .= "<td align=center>" . $member['def_stars'] . "</td>";
-                        $content .= "<td align=center>" . $member['three_stars'] . "</td>";
-                        $content .= "<td align=center>" . $member['attacks'] . "</td>";
+                        $content .= "<td align=center>" . $member['three_stars'] . " / " . $member['attacks'] . "</td>";
+#                        $content .= "<td align=center>" . $member['attacks'] . "</td>";
                         $content .= "<td align=center>" . $member['createDate'] . "</td>";
                         $content .= "<td align=center>" . $member['last_war'] . "</td>";
                         
