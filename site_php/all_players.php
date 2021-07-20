@@ -61,8 +61,10 @@ warStars,
 (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_stars,
 (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage,
 (select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl,
-(select round(avg(attack_stars),1) from attacks_cwl where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars_cwl, 
-(SELECT ROUND(AVG(attack_stars),1) FROM v_attacks WHERE defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS def_stars, 
+(select round(avg(attack_stars),1) from attacks_cwl where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars_cwl,
+(select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl, 
+(SELECT ROUND(AVG(attack_stars),1) FROM v_attacks WHERE defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS def_stars,
+(select round(avg(destructionPercentage)) from v_attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_percentage, 
 (SELECT COUNT(*) FROM v_attacks WHERE attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) AS three_stars, 
 (SELECT COUNT(*) FROM v_attacks WHERE attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) AS attacks, 
 (SELECT MAX(startTime) FROM v_attacks WHERE attacker_tag = tag) AS last_war, 
@@ -131,6 +133,8 @@ if($result = mysqli_query($conn, $members_sql))
 		    $member['percentage_cwl'] = '-';
 		  if (!isset($member['def_stars']))
 		    $member['def_stars'] = '-';
+		  if (!isset($member['def_percentage']))
+		    $member['def_percentage'] = '-';
 		  if($member['stars'] <= 2.0)
 		    {
 		      $r = 255-255;
@@ -238,6 +242,10 @@ if($result = mysqli_query($conn, $members_sql))
 		  
 		  $content .= "<td align=center " . $stars_color . " >" . $member['th_stars'] . " @ " . $member['th_percentage'] . "%</td>";
 		  $content .= "<td align=center " . $stars_cwl_color . " >" . $member['stars_cwl'] . "</td>";
+		  if ($member['def_stars'] != '-')
+		    {
+		      $member['def_stars'] = $member['def_stars'] . " @ " . $member['def_percentage'];
+		    }
 		  $content .= "<td align=center>" . $member['def_stars'] . "</td>";
 		  $content .= "<td align=center>" . $member['three_stars'] . " / " . $member['attacks'] . "</td>";
 		  #                        $content .= "<td align=center>" . $member['attacks'] . "</td>";
