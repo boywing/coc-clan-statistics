@@ -43,7 +43,7 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clan
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=stars_cwl%20desc" title="' . $language['CL_TABLE_AVG_STARS_CWL_DESC'] . '">' . $language['CL_TABLE_AVG_STARS_CWL'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=def_stars%20asc" title="' . $language['CL_TABLE_DEF_DESC'] . '">' . $language['CL_TABLE_DEF'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=three_stars%20desc" title="' . $language['CL_TABLE_3_STARS_DESC'] . '">' . $language['CL_TABLE_3_STARS'] . '</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=clans&clantag=' . urlencode($clantag) . '&sort=last_war%20desc" title="' . $language['CL_TABLE_LAST_WAR_DAYS_DESC'] . '">' . $language['CL_TABLE_LAST_WAR_DAYS'] . '</a></th>';
+$content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=last_war_week%20desc,last_war_day%20desc,last_war_hour%20desc" title="' . $language['CL_TABLE_LAST_WAR_DAYS_DESC'] . '">' . $language['CL_TABLE_LAST_WAR_DAYS'] . '</a></th>';
 #$content .= '<th>Donations</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=donations%20desc" title="' . $language['CL_TABLE_RATIO_DESC'] . '">' . $language['CL_TABLE_RATIO'] . '</a></th></thead>';
 $content .= "<tbody>";

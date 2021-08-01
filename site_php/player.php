@@ -198,7 +198,7 @@ $attack_sql = "SELECT startTime, war_type, defender_tag,
 (SELECT name FROM players WHERE tag=a.defender_tag) AS defender, 
 attacker_clan, defender_clan, 
 (SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, 
-attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE attacker_tag = '" . $playertag . "'";
+attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE attacker_tag = '" . $playertag . "' ORDER BY startTime DESC";
 
     
 if($result = mysqli_query($conn, $attack_sql))
@@ -255,7 +255,7 @@ $attack_sql = "SELECT startTime, war_type, attacker_tag,
 (SELECT name FROM players WHERE tag=a.attacker_tag) AS attacker, 
 attacker_clan, 
 (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, 
-attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE defender_tag = '" . $playertag . "'";
+attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE defender_tag = '" . $playertag . "' ORDER BY startTime DESC";
 
     
 if($result = mysqli_query($conn, $attack_sql))
