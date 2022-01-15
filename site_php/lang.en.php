@@ -65,6 +65,7 @@ $language['CL_VS_POINTS'] = "vs Points";
 $language['CL_CW_LOSSES'] = "CW Losses";
 $language['CL_REQ_TROPHIES'] = "Required Trophies";
 $language['CL_MEMBERS'] = "Members";
+$language['CL_AVG_TH'] = "Avg TH";
 $language['CL_UPDATED'] = "Info Updated";
 $language['CL_TABLE_NAME'] = "Clan name";
 $language['CL_TABLE_NAME_SHORT'] = "Clan";

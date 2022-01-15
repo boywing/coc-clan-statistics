@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $playerid = $_GET['playerid'];
 
-include "/var/www/html/config.php";
+include "/var/www/html/aktivavikingar/config.php";
 chdir($update_path);
 
 include ($secret_path . "token.php");
@@ -44,7 +44,7 @@ $player_sql .= ", @trophies = " . $player["trophies"];
 $player_sql .= ", @donations = " . $player["donations"];
 $player_sql .= ", @donationsReceived = " . $player["donationsReceived"];
 $player_sql .= ", @clan_tag = '" . $player["clan"]["tag"];
-$player_sql .= "', @clan_name = '" . $player["clan"]["name"];
+$player_sql .= "', @clan_name = '" . mysqli_real_escape_string($conn, $player["clan"]["name"]);
 $player_sql .= "', @townHallLevel = " . $player["townHallLevel"];
 $player_sql .= ", @bestTrophies = " . $player["bestTrophies"];
 $player_sql .= ", @warStars = " . $player["warStars"];

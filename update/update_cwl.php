@@ -169,7 +169,7 @@ function update_clan($clan)
     $clan_sql  = "SET @tag = '";
     $clan_sql .= $clan["tag"];
     $clan_sql .= "', @name = '";
-    $clan_sql .= $clan["name"];
+    $clan_sql .= mysqli_real_escape_string($conn, $clan["name"]);
     $clan_sql .= "', @clanLevel = ";
     $clan_sql .= $clan['clanLevel'];
     $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
@@ -197,7 +197,7 @@ function update_players($players, $clan)
             $player_sql .= "', @clan_tag = '";
             $player_sql .= $clan["tag"];
             $player_sql .= "', @clan_name = '";
-            $player_sql .= $clan["name"]; 
+            $player_sql .= mysqli_real_escape_string($conn, $clan["name"]); 
             $player_sql .= "', @timestamp = CURRENT_TIMESTAMP;";
             mysqli_query($conn, $player_sql);
             

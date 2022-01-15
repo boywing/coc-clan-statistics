@@ -49,33 +49,39 @@ $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clan
 $content .= "<tbody>";
 
 if (empty($sort)) {
-    $sort = "townHallLevel desc, stars desc, three_stars desc";
+    $sort = "townHallLevel DESC, stars DESC, stars_cwl DESC, three_stars DESC";
 }
 
-$members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars,
-  (select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,
-  (select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,
-  (select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden, 
-  (select level from troops where player_tag=p.tag and name=\"Royal Champion\") as royal, 
-  (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars, 
-  (select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl, 
-  (select round(avg(attack_stars),1) from v_attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day))  as def_stars,
-  (select round(avg(attack_stars),1) from attacks_cwl where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars_cwl, 
-  (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as percentage, 
-  (select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl, 
-  (SELECT count(*) from v_attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
-  (SELECT count(*) from v_attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks,
-  (SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) FROM v_attacks WHERE attacker_tag = p.tag) as last_war_week,
-  (SELECT COALESCE(TIMESTAMPDIFF(DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_day,
-  (SELECT COALESCE(TIMESTAMPDIFF(HOUR, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_hour,
-  (SELECT COALESCE(TIMESTAMPDIFF(MINUTE, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_minute,
-  donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
+$members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars, unix_timestamp(createDate) as createDate, ";
+$members_sql .= "(select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,";
+$members_sql .= "(select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,";
+$members_sql .= "(select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden,";
+$members_sql .= "(select level from troops where player_tag=p.tag and name=\"Royal Champion\") as royal,";
+$members_sql .= "(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars,";
+$members_sql .= "(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,";
+$members_sql .= "(select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl,";
+$members_sql .= "(select round(avg(attack_stars),1) from v_attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day))  as def_stars,";
+$members_sql .= "(select round(avg(attack_stars),1) from attacks_cwl where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars_cwl,";
+$members_sql .= "(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as percentage,";
+$members_sql .= "(select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl,";
+$members_sql .= "(SELECT count(*) from v_attacks where attacker_tag = p.tag AND attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars,";
+$members_sql .= "(SELECT count(*) from v_attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks,";
+$members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) FROM v_attacks WHERE attacker_tag = p.tag) as last_war_week,";
+$members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_day,";
+$members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(HOUR, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_hour,";
+$members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(MINUTE, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_minute,";
+$members_sql .= "donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
 if ($result = mysqli_query($conn, $members_sql)) {
     if (mysqli_num_rows($result) > 0) {
         while ($member = mysqli_fetch_assoc($result)) {
             $content .= '<tr><td><img src="' . $member['league'] . '" height=25></td>';
-            $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a></td>';
+            $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a>';
+	    if(($member['role'] != "leader") && $member['th_stars'] >= 2.3 && $member['attacks'] >= 10)
+	      $content .= '<x style="color:#22BB22;font-size:17px;"> ▲</x>';
+	    else if(($member['role'] != "leader") && ($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || (time() - $member['createDate'] > (60*60*24*21))))
+	      $content .= '<x style="color:#CC3333;font-size:17px;"> ▼' . '</x>';
+	    $content .= '</td>';
 
             switch ($member['role']) {
                 case "leader":
@@ -197,8 +203,12 @@ if ($result = mysqli_query($conn, $members_sql)) {
             }
             $content .= "</td>";
 
-
-            $donation_count = round($member['donations'] / $member['donationsReceived'], 2);
+	    if (version_compare(phpversion(), "8.0.0", ">=")) {
+	      $donation_count = round(fdiv($member['donations'], $member['donationsReceived']), 2);
+	    }
+	    else {
+	      $donation_count = round($member['donations'] / $member['donationsReceived'], 2);
+	    }
             if ($member['donations'] == 0)
                 $donation_colour = 'style="background-color:rgb(255,0,0)"';
             else if (($donation_count < 0.4) || ($member['donations'] < 2))

@@ -4,7 +4,7 @@
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 $clantag = $_GET['clantag'];
 
-include "/var/www/html/config.php";
+include "/var/www/html/aktivavikingar/config.php";
 chdir($update_path);
 
 include ($secret_path . "token.php");

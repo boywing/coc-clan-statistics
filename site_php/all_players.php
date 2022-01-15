@@ -252,7 +252,12 @@ if($result = mysqli_query($conn, $members_sql))
 		  $content .= "<td align=center>" . $member['createDate'] . "</td>";
 		  $content .= "<td align=center>" . $member['last_war'] . "</td>";
 		  
-		  $donation_count = round($member['donations']/$member['donationsReceived'], 2);
+		  if (version_compare(phpversion(), "8.0.0", ">=")) {
+		    $donation_count = round(fdiv($member['donations'], $member['donationsReceived']), 2);
+		  }
+		  else {
+		    $donation_count = round($member['donations'] / $member['donationsReceived'], 2);
+		  }
 		  if ($member['donations'] == 0)
 		    $donation_colour = 'style="background-color:rgb(255,0,0)"';
 		  else if (($donation_count < 0.4) || ($member['donations'] < 2))

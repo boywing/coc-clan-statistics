@@ -65,6 +65,7 @@ $language['CL_VS_POINTS'] = "vs Poäng";
 $language['CL_CW_LOSSES'] = "Krigsförluster";
 $language['CL_REQ_TROPHIES'] = "Minst antal troféer";
 $language['CL_MEMBERS'] = "Medlemmar";
+$language['CL_AVG_TH'] = "TH Medel";
 $language['CL_UPDATED'] = "Info Uppdaterad";
 $language['CL_TABLE_NAME'] = "Klannamn";
 $language['CL_TABLE_NAME_SHORT'] = "Klan";
