@@ -70,6 +70,7 @@ $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) 
 $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_day,";
 $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(HOUR, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_hour,";
 $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(MINUTE, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_minute,";
+$members_sql .= "(select MAX(startTime) from v_attacks where attacker_tag = tag) AS last_war,";
 $members_sql .= "donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
 if ($result = mysqli_query($conn, $members_sql)) {
@@ -79,7 +80,7 @@ if ($result = mysqli_query($conn, $members_sql)) {
             $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a>';
 	    if(($member['role'] != "leader") && $member['th_stars'] >= 2.3 && $member['attacks'] >= 10)
 	      $content .= '<x style="color:#22BB22;font-size:17px;"> ▲</x>';
-	    else if(($member['role'] != "leader") && ($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || (time() - $member['createDate'] > (60*60*24*21))))
+	    else if(($member['role'] != "leader") && ($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || ((time() - $member['createDate'] > (60*60*24*21)) && (time() - $member['last_war'] > (60*60*24*21)))))
 	      $content .= '<x style="color:#CC3333;font-size:17px;"> ▼' . '</x>';
 	    $content .= '</td>';
 
@@ -103,7 +104,10 @@ if ($result = mysqli_query($conn, $members_sql)) {
                     break;
             }
 
-            $content .= "<td align=center " . $role_color . ">" . $member['role'] . "</td>";
+            $content .= "<td align=center " . $role_color . ">" . $member['role'];
+	    if($member['donations'] > 1500)
+	      $content .= " ★";
+	    $content .= "</td>";
             $content .= "<td align=center>" . $member['townHallLevel'] . "</td>";
             $content .= "<td align=center>" . $member['expLevel'] . "</td>";
             #                        $content .= '<td align=center>' . $member['trophies'] . "</td>";
@@ -220,8 +224,8 @@ if ($result = mysqli_query($conn, $members_sql)) {
             else
                 $donation_colour = 'class="table-secondary"';
             #                        $content .= '<td align=right ' . $donation_colour . ' >' . $member['donations'] . " / " . $member['donationsReceived'] . "</td>";
-            $content .= "<td align=center " . $donation_colour . ">" . $donation_count . "</td>";
-            $content .= "</tr>";
+            $content .= "<td align=center " . $donation_colour . ">" . $donation_count;
+	    $content .= "</td></tr>";
         }
     } else {
         echo "Error fetching data for $clantag <br>";
