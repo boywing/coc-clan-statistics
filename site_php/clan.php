@@ -33,9 +33,10 @@ $content .= '<table class="table table-striped table-sm table-hover table-light"
 $content .= '<thead align=center class="thead-dark">';
 $content .= '<th>&nbsp;</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=name%20asc" title="' . $language['CL_TABLE_PL_NAME_DESC'] . '">' . $language['CL_TABLE_PL_NAME'] . '</a></th>';
+$content .= '<th>&nbsp;</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=role%20asc" title="' . $language['CL_TABLE_ROLE_DESC'] . '">' . $language['CL_TABLE_ROLE'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=townHallLevel%20desc" title="' . $language['CL_TABLE_TH_DESC'] . '">' . $language['CL_TABLE_TH'] . '</a></th>';
-$content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=expLevel%20desc" title="' . $language['CL_TABLE_LVL_DESC'] . '">' . $language['CL_TABLE_LVL'] . '</a></th>';
+#$content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=expLevel%20desc" title="' . $language['CL_TABLE_LVL_DESC'] . '">' . $language['CL_TABLE_LVL'] . '</a></th>';
 #$content .= '<th><img height=25 src="images/Trophy.png"></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=warStars%20desc" title="' . $language['CL_TABLE_WAR_STARS_DESC'] . '">' . $language['CL_TABLE_WAR_STARS'] . '</a></th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=king%20desc"><img height=25 src="images/Barbarian King.png" title="King"></a>-<a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=queen%20desc"><img height=25 src="images/Archer Queen.png" title="Queen"></a>-<a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=warden%20desc"><img height=25 src="images/Grand Warden.png" title="Grand Warden"></a>-<a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=royal%20desc"><img height=25 src="images/Royal Champion.png" title="Royal Champion"></a></th>';
@@ -58,7 +59,7 @@ $members_sql .= "(select level from troops where player_tag=p.tag and name=\"Arc
 $members_sql .= "(select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden,";
 $members_sql .= "(select level from troops where player_tag=p.tag and name=\"Royal Champion\") as royal,";
 $members_sql .= "(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars,";
-$members_sql .= "(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,";
+$members_sql .= "(SELECT ROUND(AVG(attack_stars),1) FROM v_attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,";
 $members_sql .= "(select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl,";
 $members_sql .= "(select round(avg(attack_stars),1) from v_attacks where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day))  as def_stars,";
 $members_sql .= "(select round(avg(attack_stars),1) from attacks_cwl where defender_tag = p.tag AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as def_stars_cwl,";
@@ -70,22 +71,71 @@ $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(WEEK, MAX(startTime), NOW()),0) 
 $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(DAY, MAX(startTime), DATE_SUB(NOW(),INTERVAL last_war_week WEEK)),0)FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_day,";
 $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(HOUR, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_hour,";
 $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(MINUTE, MAX(startTime), NOW()),0) FROM v_attacks a WHERE a.attacker_tag = p.tag) as last_war_minute,";
-$members_sql .= "(select MAX(startTime) from v_attacks where attacker_tag = tag) AS last_war,";
+$members_sql .= "(select MAX(unix_timestamp(startTime)) from v_attacks where attacker_tag = tag) AS last_war,";
+
+$members_sql .= "(select MAX(unix_timestamp(startTime)) from v_attacks where attacker_tag = tag AND attacker_clan = p.clan_tag) AS last_war_clan,";
+$members_sql .= "(SELECT count(*) from v_attacks where attacker_tag = p.tag AND attacker_clan = p.clan_tag AND startTime >= date_sub(now(), interval $days day)) as attacks_clan,";
+$members_sql .= "(SELECT ROUND(AVG(attack_stars),1) FROM v_attacks WHERE attacker_tag = p.tag AND attacker_clan = p.clan_tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars_clan,";
+
 $members_sql .= "donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
 if ($result = mysqli_query($conn, $members_sql)) {
-    if (mysqli_num_rows($result) > 0) {
-        while ($member = mysqli_fetch_assoc($result)) {
-            $content .= '<tr><td><img src="' . $member['league'] . '" height=25></td>';
-            $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a>';
-	    if(($member['role'] != "leader") && $member['th_stars'] >= 2.3 && $member['attacks'] >= 10)
-	      $content .= '<x style="color:#22BB22;font-size:17px;"> ▲</x>';
-	    else if(($member['role'] != "leader") && ($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || ((time() - $member['createDate'] > (60*60*24*21)) && (time() - $member['last_war'] > (60*60*24*21)))))
-	      $content .= '<x style="color:#CC3333;font-size:17px;"> ▼' . '</x>';
-	    $content .= '</td>';
+  if (mysqli_num_rows($result) > 0) {      
+    while ($member = mysqli_fetch_assoc($result)) {
+      $weak_attacker   = false;
+      $newcomer        = false;
+      $strong_attacker = false;
+      $donator         = false;
+      $inactive        = false;
 
-            switch ($member['role']) {
-                case "leader":
+      #--------------------For weak and strong attackers. Make sure that we have different requirements for different klans. Also maks ure we only count the attacks made in the current clan.
+												   
+      if (($member['th_stars_clan'] < 1.5) && ($member['attacks_clan'] >= 10))
+	$weak_attacker = true;
+      if (!isset($member['last_war_clan']))
+	$newcomer = true;
+      if ($member['th_stars_clan'] >= 2.3 && $member['attacks_clan'] >= 10)
+	$strong_attacker = true;
+      if($member['donations'] > 1500)
+	$donator = true;
+      if((time() - $member['last_war'] > (60*60*24*21)) || (!isset($member['last_war']) && (time() - $member['createDate'] > (60*60*24*21))))
+	$inactive = true;
+      
+      # TMP (($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || ((time() - $member['createDate'] > (60*60*24*21)) && (time() - $member['last_war'] > (60*60*24*21)))))
+
+      $content .= '<tr><td><img src="' . $member['league'] . '" height=25></td>';
+      $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a>';
+      $content .= '</td>';
+
+      $content .= '<td>';
+      if (time() - $member['createDate'] > (60*60*24*365*3))
+	  $content .= '🏆';
+      else if (time() - $member['createDate'] > (60*60*24*365*1))
+	  $content .= '🥇';
+      if ($newcomer)
+	$content .= '🐵';
+      if($member['donations'] > 4000)
+	$content .= '⭐';
+      else if($member['donations'] > 3000)
+	$content .= '<x style="color:#FF0000;font-size:17px;">★</x>';
+      else if($member['donations'] > 2500)
+	$content .= '<x style="color:#3333FF;font-size:17px;">★</x>';
+      else if($member['donations'] > 1500)
+	$content .= '<x alt="asd" style="color:#000000;font-size:17px;">★</x>';
+
+      if(($member['role'] != "leader") && $strong_attacker)
+	$content .= '<x style="color:#22BB22;font-size:17px;">▲</x>';
+      else if(($member['role'] != "leader") && ($weak_attacker))
+	$content .= '<x style="color:#FFAA33;font-size:17px;">▼</x>';
+      else if(($member['role'] != "leader") && ($inactive))
+	$content .= '<x style="color:#FF0000;font-size:17px;">▼</x>';
+      
+
+      # ACE      	  $content .= ' 🂡';
+      $content .= '</td>';
+      
+      switch ($member['role']) {
+      case "leader":
                     $member['role'] = "Leader";
                     $role_color = 'class="table-danger"';
                     break;
@@ -105,12 +155,10 @@ if ($result = mysqli_query($conn, $members_sql)) {
             }
 
             $content .= "<td align=center " . $role_color . ">" . $member['role'];
-	    if($member['donations'] > 1500)
-	      $content .= " ★";
 	    $content .= "</td>";
             $content .= "<td align=center>" . $member['townHallLevel'] . "</td>";
-            $content .= "<td align=center>" . $member['expLevel'] . "</td>";
-            #                        $content .= '<td align=center>' . $member['trophies'] . "</td>";
+	    #            $content .= "<td align=center>" . $member['expLevel'] . "</td>";
+            #            $content .= '<td align=center>' . $member['trophies'] . "</td>";
             $content .= "<td align=center>" . $member['warStars'] . "</td>";
             if (isset($member['king']))
                 $content .= "<td align=center>" . $member['king'] . "-";
