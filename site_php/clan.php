@@ -90,15 +90,15 @@ if ($result = mysqli_query($conn, $members_sql)) {
 
       #--------------------For weak and strong attackers. Make sure that we have different requirements for different klans. Also maks ure we only count the attacks made in the current clan.
 												   
-      if (($member['th_stars_clan'] < 1.5) && ($member['attacks_clan'] >= 10))
+      if (($member['th_stars_clan'] < 1.5) && ($member['attacks_clan'] >= 12))
 	$weak_attacker = true;
       if (!isset($member['last_war_clan']))
 	$newcomer = true;
-      if ($member['th_stars_clan'] >= 2.3 && $member['attacks_clan'] >= 10)
+      if ($member['th_stars_clan'] >= 2.3 && $member['attacks_clan'] >= 12)
 	$strong_attacker = true;
       if($member['donations'] > 1500)
 	$donator = true;
-      if((time() - $member['last_war'] > (60*60*24*21)) || (!isset($member['last_war']) && (time() - $member['createDate'] > (60*60*24*21))))
+      if((isset($member['last_war']) && (time() - $member['last_war'] > (60*60*24*21))) || (!isset($member['last_war']) && (time() - $member['createDate'] > (60*60*24*21))))
 	$inactive = true;
       
       # TMP (($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || ((time() - $member['createDate'] > (60*60*24*21)) && (time() - $member['last_war'] > (60*60*24*21)))))
@@ -109,26 +109,26 @@ if ($result = mysqli_query($conn, $members_sql)) {
 
       $content .= '<td>';
       if (time() - $member['createDate'] > (60*60*24*365*3))
-	  $content .= '🏆';
+	  $content .= '<img height=25 src="images/trophy_1f3c6.png">';
       else if (time() - $member['createDate'] > (60*60*24*365*1))
-	  $content .= '🥇';
+	  $content .= '<img height=25 src="images/1st-place-medal_1f947.png">';
       if ($newcomer)
-	$content .= '🐵';
+	$content .= '<img height=25 src="images/monkey-face_1f435.png">';
       if($member['donations'] > 4000)
-	$content .= '⭐';
+	$content .= '<img height=25 src="images/star_2b50.png">';
       else if($member['donations'] > 3000)
-	$content .= '<x style="color:#FF0000;font-size:17px;">★</x>';
+	$content .= '<x style="color:#FF0000;font-size:20px;">★</x>';
       else if($member['donations'] > 2500)
-	$content .= '<x style="color:#3333FF;font-size:17px;">★</x>';
+	$content .= '<x style="color:#3333FF;font-size:20px;">★</x>';
       else if($member['donations'] > 1500)
-	$content .= '<x alt="asd" style="color:#000000;font-size:17px;">★</x>';
+	$content .= '<x alt="asd" style="color:#000000;font-size:20px;">★</x>';
 
       if(($member['role'] != "leader") && $strong_attacker)
-	$content .= '<x style="color:#22BB22;font-size:17px;">▲</x>';
+	$content .= '<x style="color:#22BB22;font-size:20px;">▲</x>';
       else if(($member['role'] != "leader") && ($weak_attacker))
-	$content .= '<x style="color:#FFAA33;font-size:17px;">▼</x>';
+	$content .= '<x style="color:#FFAA33;font-size:20px;">▼</x>';
       else if(($member['role'] != "leader") && ($inactive))
-	$content .= '<x style="color:#FF0000;font-size:17px;">▼</x>';
+	$content .= '<x style="color:#FF0000;font-size:20px;">▼</x>';
       
 
       # ACE      	  $content .= ' 🂡';
