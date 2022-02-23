@@ -1,18 +1,18 @@
 <?php
 
 $player_sql = "select *,
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos) as mirr_stars,
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_stars,
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos) as mirr_percentage, 
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel) as th_percentage, 
-(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag) as stars, 
-(select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag) as stars_cwl, 
-(select round(avg(attack_stars),1) from attacks where defender_tag = p.tag) as def_stars, 
-(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag) as percentage, 
-(select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag) as percentage_cwl, 
-(select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag) as def_percentage, 
-(select count(*) from v_attacks where attacker_tag = p.tag and attack_stars=3) as three_stars, 
-(select count(*) from v_attacks where attacker_tag = p.tag) as attacks, 
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_stars,
+(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage, 
+(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_percentage, 
+(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars, 
+(select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl, 
+(select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
+(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage, 
+(select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl, 
+(select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_percentage, 
+(select count(*) from v_attacks where attacker_tag = p.tag and attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
+(select count(*) from v_attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
 (select MAX(startTime) from v_attacks where attacker_tag = tag) AS last_war,
 (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 3 AND attacker_tag = p.tag) AS th3, 
 (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 4 AND attacker_tag = p.tag) AS th4, 
@@ -91,7 +91,7 @@ $content .= "<tr><td>" . $language["PL_STARS_MIRROR"] . "</td><td> " . $player['
 $content .= "<tr><td>" . $language["PL_STARS_TH"] . "</td><td> " . $player['th_stars'] . " @ " . $player['th_percentage'] . "%</td></tr>";
 $content .= "<tr><td>" . $language["PL_STARS_CWL"] . "</td><td> " . $player['stars_cwl'] . " @ " . $player['percentage_cwl'] . "%</td></tr>";
 $content .= "<tr><td>" . $language["PL_DEF_STARS"] . "</td><td> " . $player['def_stars'] . " @ " . $player['def_percentage'] . "%</td></tr>";
-$content .= "<tr><td>" . $language["PL_3_STARS"] . "</td><td> " . $player['three_stars'] . " / " . $player['attacks'] . "</td></tr>";
+$content .= "<tr><td>" . $language["PL_3_STARS"] . "</td><td> " . round($player['three_stars'] / $player['attacks']*100) . "%</td></tr>";
 $content .= "</table></td><td><table width=410>";
 $content .= "<tr><td>" . $language["PL_BH"] . "</td><td> " . $player['builderHallLevel'] . "</td></tr>";
 $content .= "<tr><td>" . $language["PL_BH_TROPHIES"] . "</td><td> " . $player['versusTrophies'] . "</td></tr>";

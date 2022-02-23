@@ -74,8 +74,8 @@ $members_sql .= "(SELECT COALESCE(TIMESTAMPDIFF(MINUTE, MAX(startTime), NOW()),0
 $members_sql .= "(select MAX(unix_timestamp(startTime)) from v_attacks where attacker_tag = tag) AS last_war,";
 
 $members_sql .= "(select MAX(unix_timestamp(startTime)) from v_attacks where attacker_tag = tag AND attacker_clan = p.clan_tag) AS last_war_clan,";
-$members_sql .= "(SELECT count(*) from v_attacks where attacker_tag = p.tag AND attacker_clan = p.clan_tag AND startTime >= date_sub(now(), interval $days day)) as attacks_clan,";
-$members_sql .= "(SELECT ROUND(AVG(attack_stars),1) FROM v_attacks WHERE attacker_tag = p.tag AND attacker_clan = p.clan_tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars_clan,";
+$members_sql .= "(SELECT count(*) from v_attacks where attacker_tag = p.tag AND attacker_clan = p.clan_tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as attacks_clan,";
+$members_sql .= "(SELECT ROUND(AVG(attack_stars),1) FROM v_attacks WHERE attacker_tag = p.tag AND attacker_clan = p.clan_tag AND attacker_th = defender_th AND defender_th = p.townHallLevel+1 AND startTime >= date_sub(now(), interval $days day)) as th_stars_clan,";
 
 $members_sql .= "donations, donationsReceived from players p where clan_tag = \"$clantag\" order by $sort";
 
@@ -85,17 +85,20 @@ if ($result = mysqli_query($conn, $members_sql)) {
       $weak_attacker   = false;
       $newcomer        = false;
       $strong_attacker = false;
+      $ace_attacker    = false;
       $donator         = false;
       $inactive        = false;
 
-      #--------------------For weak and strong attackers. Make sure that we have different requirements for different klans. Also maks ure we only count the attacks made in the current clan.
+      #--------------------For weak and strong attackers. Make sure that we have different requirements for different klans. Also make sure we only count the attacks made in the current clan.
 												   
-      if (($member['th_stars_clan'] < 1.5) && ($member['attacks_clan'] >= 12))
-	$weak_attacker = true;
       if (!isset($member['last_war_clan']))
 	$newcomer = true;
+      if ((isset($member['th_stars_clan'])) && ($member['th_stars_clan'] < 1.5) && ($member['attacks_clan'] >= 12))
+	$weak_attacker = true;
       if ($member['th_stars_clan'] >= 2.3 && $member['attacks_clan'] >= 12)
 	$strong_attacker = true;
+      if ($member['th_stars_clan'] == 3.0 && $member['attacks_clan'] >= 5)
+	$ace_attacker = true;     
       if($member['donations'] > 1500)
 	$donator = true;
       if((isset($member['last_war']) && (time() - $member['last_war'] > (60*60*24*21))) || (!isset($member['last_war']) && (time() - $member['createDate'] > (60*60*24*21))))
@@ -130,8 +133,8 @@ if ($result = mysqli_query($conn, $members_sql)) {
       else if(($member['role'] != "leader") && ($inactive))
 	$content .= '<x style="color:#FF0000;font-size:20px;">▼</x>';
       
-
-      # ACE      	  $content .= ' 🂡';
+      if($ace_attacker)
+	$content .= ' 🂡';
       $content .= '</td>';
       
       switch ($member['role']) {
