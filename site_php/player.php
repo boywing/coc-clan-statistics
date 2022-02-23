@@ -91,7 +91,7 @@ $content .= "<tr><td>" . $language["PL_STARS_MIRROR"] . "</td><td> " . $player['
 $content .= "<tr><td>" . $language["PL_STARS_TH"] . "</td><td> " . $player['th_stars'] . " @ " . $player['th_percentage'] . "%</td></tr>";
 $content .= "<tr><td>" . $language["PL_STARS_CWL"] . "</td><td> " . $player['stars_cwl'] . " @ " . $player['percentage_cwl'] . "%</td></tr>";
 $content .= "<tr><td>" . $language["PL_DEF_STARS"] . "</td><td> " . $player['def_stars'] . " @ " . $player['def_percentage'] . "%</td></tr>";
-$content .= "<tr><td>" . $language["PL_3_STARS"] . "</td><td> " . round($player['three_stars'] / $player['attacks']*100) . "%</td></tr>";
+$content .= "<tr><td>" . $language["PL_3_STARS"] . "</td><td> " . round(fdiv($player['three_stars'], $player['attacks'])*100) . "%</td></tr>";
 $content .= "</table></td><td><table width=410>";
 $content .= "<tr><td>" . $language["PL_BH"] . "</td><td> " . $player['builderHallLevel'] . "</td></tr>";
 $content .= "<tr><td>" . $language["PL_BH_TROPHIES"] . "</td><td> " . $player['versusTrophies'] . "</td></tr>";
