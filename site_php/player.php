@@ -1,59 +1,59 @@
 <?php
 
 $player_sql = "select *,
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_stars,
-(SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage, 
-(SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_percentage, 
-(select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars, 
-(select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl, 
-(select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
-(select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage, 
-(select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl, 
-(select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_percentage, 
-(select count(*) from v_attacks where attacker_tag = p.tag and attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
-(select count(*) from v_attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
-(select MAX(startTime) from v_attacks where attacker_tag = tag) AS last_war,
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 3 AND attacker_tag = p.tag) AS th3, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 4 AND attacker_tag = p.tag) AS th4, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 5 AND attacker_tag = p.tag) AS th5, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 6 AND attacker_tag = p.tag) AS th6, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 7 AND attacker_tag = p.tag) AS th7, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 8 AND attacker_tag = p.tag) AS th8, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 9 AND attacker_tag = p.tag) AS th9, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 10 AND attacker_tag = p.tag) AS th10, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 11 AND attacker_tag = p.tag) AS th11, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 13 AND attacker_tag = p.tag) AS th13, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 14 AND attacker_tag = p.tag) AS th14, 
-(select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 15 AND attacker_tag = p.tag) AS th15, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 3 AND attacker_tag = p.tag) as th3_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 4 AND attacker_tag = p.tag) as th4_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 5 AND attacker_tag = p.tag) as th5_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 6 AND attacker_tag = p.tag) as th6_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 7 AND attacker_tag = p.tag) as th7_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 8 AND attacker_tag = p.tag) as th8_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 9 AND attacker_tag = p.tag) as th9_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 10 AND attacker_tag = p.tag) as th10_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 11 AND attacker_tag = p.tag) as th11_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 12 AND attacker_tag = p.tag) as th12_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 13 AND attacker_tag = p.tag) as th13_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 14 AND attacker_tag = p.tag) as th14_percent, 
-(SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 15 AND attacker_tag = p.tag) as th15_percent, 
-(select COUNT(*) from v_attacks where defender_th = 3 AND attacker_tag = p.tag) AS th3_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 4 AND attacker_tag = p.tag) AS th4_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 5 AND attacker_tag = p.tag) AS th5_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 6 AND attacker_tag = p.tag) AS th6_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 7 AND attacker_tag = p.tag) AS th7_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 8 AND attacker_tag = p.tag) AS th8_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 9 AND attacker_tag = p.tag) AS th9_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 10 AND attacker_tag = p.tag) AS th10_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 11 AND attacker_tag = p.tag) AS th11_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 12 AND attacker_tag = p.tag) AS th12_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 13 AND attacker_tag = p.tag) AS th13_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 14 AND attacker_tag = p.tag) AS th14_attacks, 
-(select COUNT(*) from v_attacks where defender_th = 15 AND attacker_tag = p.tag) AS th15_attacks, 
-createDate FROM players p WHERE tag = '" . $playertag . "'";
+    (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_stars,
+    (SELECT ROUND(AVG(attack_stars),1) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_stars,
+    (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as mirr_percentage, 
+    (SELECT ROUND(AVG(destructionPercentage)) FROM attacks WHERE attacker_tag = p.tag AND attacker_th = defender_th AND defender_th = p.townHallLevel AND startTime >= date_sub(now(), interval $days day)) as th_percentage, 
+    (select round(avg(attack_stars),1) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars, 
+    (select round(avg(attack_stars),1) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as stars_cwl, 
+    (select round(avg(attack_stars),1) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_stars, 
+    (select round(avg(destructionPercentage)) from attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage, 
+    (select round(avg(destructionPercentage)) from attacks_cwl where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as percentage_cwl, 
+    (select round(avg(destructionPercentage)) from attacks where defender_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as def_percentage, 
+    (select count(*) from v_attacks where attacker_tag = p.tag and attack_stars=3 AND startTime >= date_sub(now(), interval $days day)) as three_stars, 
+    (select count(*) from v_attacks where attacker_tag = p.tag AND startTime >= date_sub(now(), interval $days day)) as attacks, 
+    (select MAX(startTime) from v_attacks where attacker_tag = tag) AS last_war,
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 3 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th3, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 4 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th4, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 5 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th5, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 6 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th6, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 7 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th7, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 8 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th8, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 9 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th9, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 10 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th10, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 11 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th11, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 12 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th12, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 13 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th13, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 14 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th14, 
+    (select ROUND(AVG(attack_stars),1) from v_attacks where defender_th = 15 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th15, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 3 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th3_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 4 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th4_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 5 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th5_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 6 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th6_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 7 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th7_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 8 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th8_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 9 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th9_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 10 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th10_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 11 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th11_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 12 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th12_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 13 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th13_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 14 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th14_percent, 
+    (SELECT round(avg(destructionPercentage)) FROM v_attacks WHERE defender_th = 15 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) as th15_percent, 
+    (select COUNT(*) from v_attacks where defender_th = 3 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th3_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 4 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th4_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 5 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th5_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 6 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th6_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 7 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th7_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 8 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th8_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 9 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th9_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 10 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th10_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 11 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th11_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 12 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th12_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 13 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th13_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 14 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th14_attacks, 
+    (select COUNT(*) from v_attacks where defender_th = 15 AND attacker_tag = p.tag AND attacker_th = p.townHallLevel) AS th15_attacks, 
+    createDate FROM players p WHERE tag = '" . $playertag . "'";
 
 $troops_sql = "SELECT * FROM troops WHERE player_tag = '" . $playertag . "' AND village = 'home' AND (NOT name LIKE 'Super%' AND NOT name LIKE 'Sneaky%' AND NOT name LIKE 'Rocket%' AND NOT name LIKE 'Inferno%' AND NOT name LIKE 'Ice%') ORDER BY type desc, name";
 
@@ -136,8 +136,12 @@ $content .= "</div></tr></table>";
 
 $content .= "<p><h2>" . $language["PL_STARS_EACH_TH"] . "</h2>";
 $content .= '<table class="table table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;" border=1>';
-$content .= '<thead class="thead-dark"><th>TH14</th><th>TH13</th><th>TH12</th><th>TH11</th><th>TH10</th><th>TH9</th><th>TH8</th><th>TH7</th><th>TH6</th><th>TH5</th><th>TH4</th><th>TH3</th></thead>';
+$content .= '<thead class="thead-dark"><th>TH15</th><th>TH14</th><th>TH13</th><th>TH12</th><th>TH11</th><th>TH10</th><th>TH9</th><th>TH8</th><th>TH7</th><th>TH6</th><th>TH5</th><th>TH4</th><th>TH3</th></thead>';
 $content .= "<tbody><tr>";
+if(empty($player['th15']))
+    $content .= "<td>-</td>";
+else
+    $content .= "<td>" . $player['th15'] . " @ " . $player['th15_percent'] . "% (" . $player['th15_attacks'] . " st)</td>";
 if(empty($player['th14']))
     $content .= "<td>-</td>";
 else
@@ -198,7 +202,7 @@ $attack_sql = "SELECT startTime, war_type, defender_tag,
 (SELECT name FROM players WHERE tag=a.defender_tag) AS defender, 
 attacker_clan, defender_clan, 
 (SELECT name FROM clans WHERE tag=a.defender_clan) AS defender_clan_name, 
-attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE attacker_tag = '" . $playertag . "' ORDER BY startTime DESC";
+attack_stars, destructionPercentage, attacker_th, defender_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE attacker_tag = '" . $playertag . "' ORDER BY startTime DESC LIMIT 50";
 
     
 if($result = mysqli_query($conn, $attack_sql))
@@ -255,7 +259,7 @@ $attack_sql = "SELECT startTime, war_type, attacker_tag,
 (SELECT name FROM players WHERE tag=a.attacker_tag) AS attacker, 
 attacker_clan, 
 (SELECT name FROM clans WHERE tag=a.attacker_clan) AS attacker_clan_name, 
-attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE defender_tag = '" . $playertag . "' ORDER BY startTime DESC";
+attack_stars, destructionPercentage, attacker_th, attacker_map_pos-defender_map_pos AS delta FROM v_attacks a WHERE defender_tag = '" . $playertag . "' ORDER BY startTime DESC LIMIT 50";
 
     
 if($result = mysqli_query($conn, $attack_sql))
