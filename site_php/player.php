@@ -79,7 +79,12 @@ $content = "<h1><img src=\"" . $player['league'] . "\" height=100>" . htmlspecia
 $content .= '<table class="table-light" style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
 $content .= "<tr><td>";
 $content .= "<table width=410><tr><td>" . $language["PL_TAG"] . "</td><td> " . $player['tag'] . "</td></tr>";
-$content .= "<tr><td>" . $language["PL_TH"] . "</td><td> " . $player['townHallLevel'] . "</td></tr>";
+
+$content .= "<tr><td>" . $language["PL_TH"] . "</td><td> " . $player['townHallLevel'];
+if ($player['townHallWeaponLevel'] > 0)
+  $content .= "<sup>" . $player['townHallWeaponLevel'] . "</sup>";
+$content .= "</td></tr>";
+
 $content .= "<tr><td>" . $language["PL_CLAN"] . "</td><td><a href=\"?mode=clan&clantag=" . urlencode($player['clan_tag']) . "\"><b>" . htmlspecialchars($player['clan_name'], ENT_QUOTES) . "</b></a></td></tr>";
 $content .= "<tr><td>" . $language["PL_LEVEL"] . "</td><td><div style=\"background-image: url('images/XP.png'); background-size: auto 30px; width: 29px; height: 30px; font-size:13px\"><span style=\"position: relative;  left: 4px;  top: 5px;\"><b>" . $player['expLevel'] . "</b></span></div>" . "</td></tr>";
 

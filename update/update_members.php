@@ -46,6 +46,7 @@ if($result = mysqli_query($conn, $clan_sql)) {
                     $player_sql  = "SET @tag = '" . $player["tag"];
                     $player_sql .= "', @name = '" . mysqli_real_escape_string($conn, $player["name"]);
                     $player_sql .= "', @role = '" . $player["role"];
+                    $player_sql .= "', @warPreference = '" . $player["warPreference"];
                     $player_sql .= "', @expLevel = " . $player["expLevel"];
                     if(isset($player["league"]["iconUrls"]["medium"]))
                         {
@@ -57,7 +58,11 @@ if($result = mysqli_query($conn, $clan_sql)) {
                     $player_sql .= ", @clan_tag = '" . $player["clan"]["tag"];
                     $player_sql .= "', @clan_name = '" . mysqli_real_escape_string($conn, $player["clan"]["name"]);
                     $player_sql .= "', @townHallLevel = " . $player["townHallLevel"];
-                    $player_sql .= ", @bestTrophies = " . $player["bestTrophies"];
+		    if(isset($player["townHallWeaponLevel"]))
+		      $player_sql .= ", @townHallWeaponLevel = " . $player["townHallWeaponLevel"];
+		    else
+		      $player_sql .= ", @townHallWeaponLevel = 0";
+		    $player_sql .= ", @bestTrophies = " . $player["bestTrophies"];
                     $player_sql .= ", @warStars = " . $player["warStars"];
                     if(isset($player["builderHallLevel"]))
                         {
@@ -67,12 +72,13 @@ if($result = mysqli_query($conn, $clan_sql)) {
                     $player_sql .= ", @bestVersusTrophies = " . $player["bestVersusTrophies"];
                     $player_sql .= ", @versusBattleWins = " . $player["versusBattleWins"];
                     $player_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n";
+
                     mysqli_query($conn, $player_sql);
                     
-                    $player_sql = "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `townHallLevel`, `bestTrophies`, `warStars`, `builderHallLevel`, `versusTrophies`, `bestVersusTrophies`, `versusBattleWins`, `timestamp`) ";
-                    $player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @townHallLevel, @bestTrophies, @warStars, @builderHallLevel, @versusTrophies, @bestVersusTrophies, @versusBattleWins, @timestamp) ";
-                    $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, townHallLevel=@townHallLevel, bestTrophies=@bestTrophies, warStars=@warStars, builderHallLevel=@builderHallLevel, versusTrophies=@versusTrophies, bestVersusTrophies=@bestVersusTrophies, versusBattleWins=@versusBattleWins, timestamp=@timestamp;";
-                    
+                    $player_sql = "INSERT INTO players (`tag`, `name`, `role`, `warPreference`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `townHallLevel`, `townHallWeaponLevel`, `bestTrophies`, `warStars`, `builderHallLevel`, `versusTrophies`, `bestVersusTrophies`, `versusBattleWins`, `timestamp`) ";
+                    $player_sql .= "VALUES (@tag, @name, @role, @warPreference, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @townHallLevel, @townHallWeaponLevel, @bestTrophies, @warStars, @builderHallLevel, @versusTrophies, @bestVersusTrophies, @versusBattleWins, @timestamp) ";
+                    $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, warPreference=@warPreference, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, townHallLevel=@townHallLevel, townHallWeaponLevel=@townHallWeaponLevel, bestTrophies=@bestTrophies, warStars=@warStars, builderHallLevel=@builderHallLevel, versusTrophies=@versusTrophies, bestVersusTrophies=@bestVersusTrophies, versusBattleWins=@versusBattleWins, timestamp=@timestamp;";
+
                     if (mysqli_query($conn, $player_sql)) {
                         echo "Member record for player \"" . $player["name"] . "\" updated successfully.\n";
                     } else {

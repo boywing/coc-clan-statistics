@@ -1,4 +1,4 @@
-<?php
+<?Php
 
 $clan_sql = "SELECT * FROM clans WHERE tag = '" . $clantag . "'";
 
@@ -32,6 +32,7 @@ $content .= "<p/>";
 $content .= '<table class="table table-striped table-sm table-hover table-light" border=0>';
 $content .= '<thead align=center class="thead-dark">';
 $content .= '<th>&nbsp;</th>';
+$content .= '<th>&nbsp;</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=name%20asc" title="' . $language['CL_TABLE_PL_NAME_DESC'] . '">' . $language['CL_TABLE_PL_NAME'] . '</a></th>';
 $content .= '<th>&nbsp;</th>';
 $content .= '<th><a class="mywhite" href="?mode=clan&clantag=' . urlencode($clantag) . '&sort=role%20asc" title="' . $language['CL_TABLE_ROLE_DESC'] . '">' . $language['CL_TABLE_ROLE'] . '</a></th>';
@@ -53,7 +54,7 @@ if (empty($sort)) {
     $sort = "townHallLevel DESC, stars DESC, stars_cwl DESC, three_stars DESC";
 }
 
-$members_sql = "select name, role, tag, trophies, expLevel, clan_name, townHallLevel, league, warStars, unix_timestamp(createDate) as createDate, ";
+$members_sql = "select name, role, warPreference, tag, trophies, expLevel, clan_name, townHallLevel, townHallWeaponLevel, league, warStars, unix_timestamp(createDate) as createDate, ";
 $members_sql .= "(select level from troops where player_tag=p.tag and name=\"Barbarian King\") as king,";
 $members_sql .= "(select level from troops where player_tag=p.tag and name=\"Archer Queen\") as queen,";
 $members_sql .= "(select level from troops where player_tag=p.tag and name=\"Grand Warden\") as warden,";
@@ -107,6 +108,7 @@ if ($result = mysqli_query($conn, $members_sql)) {
       # TMP (($member['th_stars'] <= 1.5 || !isset($member['th_stars'])) && ($member['attacks'] >= 10 || ((time() - $member['createDate'] > (60*60*24*21)) && (time() - $member['last_war'] > (60*60*24*21)))))
 
       $content .= '<tr><td><img src="' . $member['league'] . '" height=25></td>';
+      $content .= '<td><img src="images/' . $member['warPreference'] . '.png" height=25></td>';
       $content .= '<td><a href="?mode=player&playertag=' . urlencode($member['tag']) . '"><b>' . htmlspecialchars($member['name'], ENT_QUOTES) . '</b></a>';
       $content .= '</td>';
 
@@ -159,7 +161,12 @@ if ($result = mysqli_query($conn, $members_sql)) {
 
             $content .= "<td align=center " . $role_color . ">" . $member['role'];
 	    $content .= "</td>";
-            $content .= "<td align=center>" . $member['townHallLevel'] . "</td>";
+	    
+	    if ($member['townHallWeaponLevel'] == 0)
+	      $content .= "<td align=center>" . $member['townHallLevel'] . "</td>";
+	    else
+	      $content .= "<td align=center>" . $member['townHallLevel'] . "<sup>" . $member['townHallWeaponLevel'] . "</sup></td>";
+	    
 	    #            $content .= "<td align=center>" . $member['expLevel'] . "</td>";
             #            $content .= '<td align=center>' . $member['trophies'] . "</td>";
             $content .= "<td align=center>" . $member['warStars'] . "</td>";
