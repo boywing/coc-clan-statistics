@@ -265,23 +265,31 @@ if ($result = mysqli_query($conn, $members_sql)) {
             }
             $content .= "</td>";
 
+	    if($member['donationsReceived'] == 0)
+	      $donation_received = 1;
+	    else
+	      $donation_received = $member['donationsReceived'];
+		
 	    if (version_compare(phpversion(), "8.0.0", ">=")) {
-	      $donation_count = round(fdiv($member['donations'], $member['donationsReceived']), 2);
+	      $donation_count = round(fdiv($member['donations'], $donation_received), 2);
 	    }
 	    else {
-	      $donation_count = round($member['donations'] / $member['donationsReceived'], 2);
+	      $donation_count = round($member['donations'] / $donation_received, 2);
 	    }
+	    
             if ($member['donations'] == 0)
-                $donation_colour = 'style="background-color:rgb(255,0,0)"';
-            else if (($donation_count < 0.4) || ($member['donations'] < 2))
-                $donation_colour = 'class="table-danger"';
-            else if ((($donation_count <= 0.6) && ($donation_count >= 0.4)) || (($member['donations'] < 50) && ($member['donations'] > 1)))
-                $donation_colour = 'class="table-warning"';
+	      $donation_colour = 'style="background-color:rgb(255,0,0)"';
+	    else if ($member['donations'] > 1000)
+	      $donation_colour = 'class="table-success"';
+            else if (($donation_count < 0.4) || ($member['donations'] < 10))
+	      $donation_colour = 'class="table-danger"';
+            else if ((($donation_count <= 0.6) && ($donation_count >= 0.4)) || ($member['donations'] < 100))
+	      $donation_colour = 'class="table-warning"';
             else if ($donation_count > 0.6)
-                $donation_colour = 'class="table-success"';
+	      $donation_colour = 'class="table-success"';
             else
-                $donation_colour = 'class="table-secondary"';
-            #                        $content .= '<td align=right ' . $donation_colour . ' >' . $member['donations'] . " / " . $member['donationsReceived'] . "</td>";
+	      $donation_colour = 'class="table-secondary"';
+
             $content .= "<td align=center " . $donation_colour . ">" . $donation_count;
 	    $content .= "</td></tr>";
         }
