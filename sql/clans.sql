@@ -1,13 +1,14 @@
 CREATE TABLE `clans` (
   `id` int NOT NULL AUTO_INCREMENT,
   `tag` varchar(12) NOT NULL,
-  `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `description` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `location` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `name` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `description` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `location` varchar(25) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `badge` varchar(100) DEFAULT NULL,
   `clanLevel` int DEFAULT NULL,
   `clanPoints` int DEFAULT NULL,
   `clanVersusPoints` int DEFAULT NULL,
+  `clanCapitalPoints` int DEFAULT NULL,
   `requiredTrophies` int DEFAULT NULL,
   `warFrequency` varchar(20) DEFAULT NULL,
   `warWinStreak` int DEFAULT NULL,
@@ -20,4 +21,4 @@ CREATE TABLE `clans` (
   `createDate` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `tag_UNIQUE` (`tag`)
-) ENGINE=InnoDB AUTO_INCREMENT=24694 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11083835 DEFAULT CHARSET=latin1;
