@@ -39,6 +39,7 @@ $clan_sql .= "', @badge = '" . $clan_data['badgeUrls']['medium'];
 $clan_sql .= "', @clanLevel = " . $clan_data['clanLevel'];
 $clan_sql .= ", @clanPoints = " . $clan_data['clanPoints'];
 $clan_sql .= ", @clanVersusPoints = " . $clan_data['clanVersusPoints'];
+$clan_sql .= ", @clanCapitalPoints = " . $clan_data['clanCapitalPoints'];
 $clan_sql .= ", @requiredTrophies = " . $clan_data['requiredTrophies'];
 $clan_sql .= ", @warFrequency = '" . $clan_data['warFrequency'];
 $clan_sql .= "', @warWinStreak = " . $clan_data['warWinStreak'];
@@ -57,7 +58,7 @@ $clan_sql .= ", @members = " . $clan_data['members'];
 $clan_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
 
 mysqli_query($conn, $clan_sql);
-$clan_sql = "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
+$clan_sql = "INSERT INTO clans (`tag`,`name`,`description`,`location`,`badge`,`clanLevel`,`clanPoints`,`clanVersusPoints`,`clanCapitalPoints`,`requiredTrophies`,`warFrequency`,`warWinStreak`,`warWins`,`warTies`,`warLosses`,`members`,`timestamp`) VALUES (@tag,@name,@description,@location,@badge,@clanLevel,@clanPoints,@clanVersusPoints,@clanCapitalPoints, @requiredTrophies,@warFrequency,@warWinStreak,@warWins,@warTies,@warLosses,@members,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,description=@description,location=@location,badge=@badge,clanLevel=@clanLevel,clanPoints=@clanPoints,clanVersusPoints=@clanVersusPoints,clanCapitalPoints=@clanCapitalPoints,requiredTrophies=@requiredTrophies,warFrequency=@warFrequency,warWinStreak=@warWinStreak,warWins=@warWins,warTies=@warTies,warLosses=@warLosses,members=@members,timestamp=@timestamp;";
 
 if (mysqli_query($conn, $clan_sql)) {
     echo "Record for clan \"" . $clan_data["name"] . "\" updated successfully" . " -------------------\n";

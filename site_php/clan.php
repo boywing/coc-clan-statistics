@@ -15,16 +15,16 @@ if ($result = mysqli_query($conn, $clan_sql)) {
 }
 
 $content = "<h1><img src=\"" . $clan['badge'] . "\" height=100>" . htmlspecialchars($clan['name'], ENT_QUOTES) . "</h1>";
-$content .= '<table width=100%><tr><td><table class="table-light" width=670 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
+$content .= '<table width=100%><tr><td><table class="table-light" width=680 style="border-collapse: separate; border-spacing: 1px;border:1px solid black;">';
 $content .= "<tr><td colspan=4 valign=top width=100>" . $clan['description'] . "</td></tr>";
 $content .= "<tr><td colspan=4>&nbsp;</td></tr>";
-$content .= "<tr><td width=160 ><b>" . $language['CL_TAG'] . "</b></td><td>" . $clan['tag'] . "</td><td width=100><b>" . $language['CL_FREQ'] . "</b></td><td>" . $clan['warFrequency'] . "</td></tr>";
+$content .= "<tr><td width=160><b>" . $language['CL_TAG'] . "</b></td><td>" . $clan['tag'] . "</td><td width=150><b>" . $language['CL_FREQ'] . "</b></td><td>" . $clan['warFrequency'] . "</td></tr>";
 $content .= "<tr><td><b>" . $language['CL_LOC'] . "</b></td><td>" . $clan['location'] . "</td><td><b>" . $language['CL_WIN_STREAK'] . "</b></td><td>" . $clan['warWinStreak'] . " war</td></tr>";
 $content .= "<tr><td><b>" . $language['CL_LEVEL'] . "</b></td><td>" . $clan['clanLevel'] . "</td><td><b>" . $language['CL_CW_WINS'] . "</b></td><td>" . $clan['warWins'] . "</td></tr>";
 $content .= "<tr><td><b>" . $language['CL_POINTS'] . "</b></td><td>" . $clan['clanPoints'] . "</td><td><b>" . $language['CL_CW_TIES'] . "</b></td><td>" . $clan['warTies'] . "</td></tr>";
 $content .= "<tr><td><b>" . $language['CL_VS_POINTS'] . "</b></td><td>" . $clan['clanVersusPoints'] . "</td><td><b>" . $language['CL_CW_LOSSES'] . "</b></td><td>" . $clan['warLosses'] . "</td></tr>";
-$content .= "<tr><td><b>" . $language['CL_REQ_TROPHIES'] . "</b></td><td>" . $clan['requiredTrophies'] . "</td><td><b>" . $language['CL_MEMBERS'] . "</b></td><td>" . $clan['members'] . " of 50</td></tr>";
-$content .= "<tr><td><b>" . $language['CL_UPDATED'] . "</b></td><td colspan=3>" . $clan['timestamp'] . "</td></tr></table>";
+$content .= "<tr><td><b>" . $language['CL_CAPITAL_POINTS'] . "</b></td><td>" . $clan['clanCapitalPoints'] . "</td><td><b>" . $language['CL_MEMBERS'] . "</b></td><td>" . $clan['members'] . " of 50</td></tr>";
+$content .= "<tr><td><b>" . $language['CL_REQ_TROPHIES'] . "</b></td><td>" . $clan['requiredTrophies'] . "</td><td><b>" . $language['CL_UPDATED'] . "</b></td><td>" . $clan['timestamp'] . "</td></tr></table>";
 
 mysqli_free_result($result);
 $content .= "<p/>";

@@ -46,6 +46,7 @@ $player_sql .= ", @donationsReceived = " . $player["donationsReceived"];
 $player_sql .= ", @clan_tag = '" . $player["clan"]["tag"];
 $player_sql .= "', @clan_name = '" . mysqli_real_escape_string($conn, $player["clan"]["name"]);
 $player_sql .= "', @townHallLevel = " . $player["townHallLevel"];
+$player_sql .= "', @townHallWeaponLevel = " . $player["townHallWeaponLevel"];
 $player_sql .= ", @bestTrophies = " . $player["bestTrophies"];
 $player_sql .= ", @warStars = " . $player["warStars"];
 $player_sql .= ", @builderHallLevel = " . $player["builderHallLevel"];
@@ -56,8 +57,8 @@ $player_sql .= ", @timestamp = CURRENT_TIMESTAMP;";
 
 mysqli_query($conn, $player_sql);
 
-$player_sql = "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `townHallLevel`, `bestTrophies`, `warStars`, `builderHallLevel`, `versusTrophies`, `bestVersusTrophies`, `versusBattleWins`, `timestamp`) ";
-$player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @townHallLevel, @bestTrophies, @warStars, @builderHallLevel, @versusTrophies, @bestVersusTrophies, @versusBattleWins, @timestamp) ";
+$player_sql = "INSERT INTO players (`tag`, `name`, `role`, `expLevel`, `league`, `trophies`, `donations`, `donationsReceived`,`clan_tag`, `clan_name`, `townHallLevel`, `townHallWeaponLevel`, `bestTrophies`, `warStars`, `builderHallLevel`, `versusTrophies`, `bestVersusTrophies`, `versusBattleWins`, `timestamp`) ";
+$player_sql .= "VALUES (@tag, @name, @role, @expLevel, @league, @trophies, @donations, @donationsReceived, @clan_tag, @clan_name, @townHallLevel, @townHallWeaponLevel, @bestTrophies, @warStars, @builderHallLevel, @versusTrophies, @bestVersusTrophies, @versusBattleWins, @timestamp) ";
 $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, role=@role, expLevel=@expLevel, league=@league, trophies=@trophies, donations=@donations, donationsReceived=@donationsReceived, clan_tag=@clan_tag, clan_name=@clan_name, townHallLevel=@townHallLevel, bestTrophies=@bestTrophies, warStars=@warStars, builderHallLevel=@builderHallLevel, versusTrophies=@versusTrophies, bestVersusTrophies=@bestVersusTrophies, versusBattleWins=@versusBattleWins, timestamp=@timestamp;";
 
 if (mysqli_query($conn, $player_sql)) {

@@ -4,9 +4,11 @@ $content .= '<p/><table class="small table table-striped table-sm table-hover ta
 $content .= '<thead  align=center class="thead-dark">';
 $content .= '<th>&nbsp;</th>';
 $content .= '<th>' . $language['CL_TABLE_NAME'] . '</th>';
-$content .= '<th>' . $language['CL_LEVEL'] . '</th>';
+$content .= '<th>' . $language['CL_TABLE_LVL'] . '</th>';
 $content .= '<th>' . $language['CL_TABLE_WAR_STARS'] . '</th>';
 $content .= '<th><img height=25 src="images/Trophy.png"></th>';
+$content .= '<th>' . $language['CL_CAPITAL_POINTS'] . '</th>';
+$content .= '<th>' . $language['CL_BUILDER_HOME'] . '</th>';
 $content .= '<th>' . $language['CL_MEMBERS'] . '</th>';
 $content .= '<th>' . $language['CL_AVG_TH'] . '</th>';
 $content .= '<th>' . $language['CL_TABLE_AVG_STARS'] . '</th>';
@@ -23,11 +25,13 @@ if($result = mysqli_query($conn, $cl_sql))
 	while($cl = mysqli_fetch_assoc($result))
 	  {
 	    
-	    $content .= "<tr><td><img src=\"" . $cl['badge'] . "\" height=20></td>";
+	    $content .= "<tr><td><img src=\"" . $cl['badge'] . "\" height=22></td>";
 	    $content .= "<td><a href=?mode=clan&clantag=" . urlencode($cl['tag']) . "><b>" . htmlspecialchars($cl['name'], ENT_QUOTES) . "</b></a></td>";
 	    $content .= "<td align=center>" . $cl['clanLevel'] . "</td>";
 	    $content .= "<td align=center>" . $cl['warStars'] . "</td>";
 	    $content .= "<td align=center>" . $cl['clanPoints'] . "</td>";
+	    $content .= "<td align=center>" . $cl['clanCapitalPoints'] . "</td>";
+	    $content .= "<td align=center>" . $cl['clanVersusPoints'] . "</td>";
 	    $content .= "<td align=center>" . $cl['members'] . "</td>";
 	    $content .= "<td align=center>" . $cl['avg_th'] . "</td>";	
 	    $content .= "<td align=center>" . $cl['stars'] . "</td>";
