@@ -10,11 +10,18 @@ $content .= '<th><img height=25 src="images/Trophy.png"></th>';
 $content .= '<th>' . $language['CL_CAPITAL_POINTS'] . '</th>';
 $content .= '<th>' . $language['CL_BUILDER_HOME'] . '</th>';
 $content .= '<th>' . $language['CL_MEMBERS'] . '</th>';
+$content .= '<th>' . $language['CL_MEMBERS_GREEN'] . '</th>';
 $content .= '<th>' . $language['CL_AVG_TH'] . '</th>';
 $content .= '<th>' . $language['CL_TABLE_AVG_STARS'] . '</th>';
 $content .= "<tbody>";
 
-$cl_sql = "SELECT *,(select round(avg(attack_stars),1) from attacks where attacker_clan = c.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars,(SELECT SUM(warStars) FROM players where clan_tag = c.tag) as warStars, (SELECT ROUND(AVG(townHallLevel),1) FROM players where clan_tag=c.tag) AS avg_th FROM clans c WHERE tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#220CLU8G0', '#PU2CRG2Y', '#209QPLUV2', '#229qjjr9v', '#2LGRUG8YP', '#2Q0UPCCJ2') ORDER BY name ASC";
+$cl_sql = "SELECT *,";
+$cl_sql .= "(select count(*) from players where clan_tag = c.tag and warPreference='in') as green,";
+$cl_sql .= "(select count(*) from players where clan_tag = c.tag and warPreference='out') as red,";
+$cl_sql .= "(select round(avg(attack_stars),1) from attacks where attacker_clan = c.tag AND attacker_map_pos = defender_map_pos AND startTime >= date_sub(now(), interval $days day)) as stars,";
+$cl_sql .= "(SELECT SUM(warStars) FROM players where clan_tag = c.tag) as warStars, ";
+$cl_sql .= "(SELECT ROUND(AVG(townHallLevel),1) FROM players where clan_tag=c.tag) AS avg_th ";
+$cl_sql .= "FROM clans c WHERE tag IN ('#9V8RQ2PR', '#80L9VRJR', '#YJJ8UGG2', '#220CLU8G0', '#209QPLUV2', '#2LGRUG8YP', '#2Q0UPCCJ2') ORDER BY name ASC";
 
 include "../mysql_coc.php";
 
@@ -33,6 +40,7 @@ if($result = mysqli_query($conn, $cl_sql))
 	    $content .= "<td align=center>" . $cl['clanCapitalPoints'] . "</td>";
 	    $content .= "<td align=center>" . $cl['clanVersusPoints'] . "</td>";
 	    $content .= "<td align=center>" . $cl['members'] . "</td>";
+	    $content .= "<td align=center style=\"color: green;\"><b>" . $cl['green'] . "</b></td>";
 	    $content .= "<td align=center>" . $cl['avg_th'] . "</td>";	
 	    $content .= "<td align=center>" . $cl['stars'] . "</td>";
 	  }
