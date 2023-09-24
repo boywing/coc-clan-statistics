@@ -166,7 +166,7 @@ function update_players($players, $clan)
             $player_sql = "INSERT INTO players (`tag`, `name`, `clan_tag`, `clan_name`, `timestamp`) ";
             $player_sql .= "VALUES (@tag, @name, @clan_tag, @clan_name, @timestamp) ";
             $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, clan_tag=@clan_tag, clan_name=@clan_name, timestamp=@timestamp;";
-
+            // echo mb_detect_encoding($player["name"]) . " - " . urlencode($player["name"]) . "\n";
             if (mysqli_query($conn, $player_sql)) {
                 echo "Record for war player \"" . $player["name"] . "\" updated successfully" . "\n";
             } else {

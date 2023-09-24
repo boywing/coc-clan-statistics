@@ -36,6 +36,11 @@ include "../mysql_coc.php";
 $wars = $war_items['items'];
 foreach ($wars as $war)
     {
+        if (!array_key_exists("tag", $war["opponent"])) {
+            $war["opponent"]["tag"] = "UNKNOWN";
+            $war["opponent"]["name"] = "UNKNOWN";
+        }
+
         $war_sql  = "SET @result = '" . $war["result"];
         
         $eT = date_create_from_format('Ymd\THis\.\0\0\0\Z',$war["endTime"]);
@@ -63,7 +68,9 @@ foreach ($wars as $war)
         $war_sql .= ", @clan2_stars = '" . $war["opponent"]["stars"];
         $war_sql .= "', @clan2_destructionPercentage = " . $war["opponent"]["destructionPercentage"] . ";\n";
 
-        $war_sql .= "INSERT INTO wars (`result`, `endTime`, `teamSize`, `clan1_tag`, `clan1_name`, `clan1_level`, `clan1_attacks`, `clan1_stars`,`clan1_destructionPercentage`, `clan2_tag`, `clan2_name`, `clan2_level`, `clan2_attacks`, `clan2_stars`, `clan2_destructionPercentage`) ";
+        $check_result = mysqli_query($conn, $war_sql);
+
+        $war_sql = "INSERT INTO wars (`result`, `endTime`, `teamSize`, `clan1_tag`, `clan1_name`, `clan1_level`, `clan1_attacks`, `clan1_stars`,`clan1_destructionPercentage`, `clan2_tag`, `clan2_name`, `clan2_level`, `clan2_attacks`, `clan2_stars`, `clan2_destructionPercentage`) ";
         $war_sql .= "VALUES (@result, @endTime, @teamSize, @clan1_tag, @clan1_name, @clan1_level, @clan1_attacks, @clan1_stars, @clan1_destructionPercentage, @clan2_tag, @clan2_name, @clan2_level, @clan2_attacks, @clan2_stars, @clan2_destructionPercentage) ";
         $war_sql .= "ON DUPLICATE KEY UPDATE result=@result, clan1_stars=@clan1_stars, clan2_stars=@clan2_stars, clan1_destructionPercentage=@clan1_destructionPercentage, clan2_destructionPercentage=@clan2_destructionPercentage, clan1_attacks=@clan1_attacks;";
 
@@ -73,10 +80,13 @@ foreach ($wars as $war)
         $check = mysqli_fetch_row($check_result);
         if($check[0]< 1)
             {
-                if (mysqli_multi_query($conn, $war_sql)) {
+                $check_result = mysqli_query($conn, $war_sql);
+                
+                if ($check_result) {
                     echo "Record for \"" . $war["clan"]["name"] . "\" vs. \"" . $war["opponent"]["name"] . "\" updated successfully" . "\n";
                 } else {
                     echo "Error updating record for " . $war["clan"]["name"] . ": " . mysqli_error($conn) . "\n";
+                    echo $war_sql . '\n';
                 }
                 
                 while(mysqli_more_results($conn))

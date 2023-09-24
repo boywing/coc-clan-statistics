@@ -1,4 +1,24 @@
 <?php
+
+session_start();
+
+// https://developer.okta.com/blog/2018/07/09/five-minute-php-app-auth
+
+// If there is a username, they are logged in, and we'll show the logged-in view
+if(isset($_SESSION['username'])) {
+  echo '<p>Logged in as</p>';
+  echo '<p>' . $_SESSION['username'] . '</p>';
+  echo '<p><a href="/?logout">Log Out</a></p>';
+  die();
+}
+
+// If there is no username, they are logged out, so show them the login link
+if(!isset($_SESSION['username'])) {
+  $authorize_url = 'TODO';
+  echo '<p>Not logged in</p>';
+  echo '<p><a href="'.$authorize_url.'">Log In</a></p>';
+}
+
 include "../config.php";
 
 
@@ -27,6 +47,7 @@ if(empty($clantag) && empty($mode))
 
 # Give a cookie if the user want to change language
 if (empty($lang)){ 
+	$lang = 'en';
     #Nothing
 }
 else {
@@ -35,13 +56,18 @@ else {
 }
 
 # Give cookie with default language setting
-if (empty($_COOKIE["lang"]))
+if (!isset($_COOKIE["lang"]))
 {
     setcookie("lang", $default_language, time()+(60*60*24*30*2), "/", "localhost", 0);
 }
 
 # If you create a new language file, please submit it to us using github.
-include("lang." . $_COOKIE["lang"] . ".php");
+
+# adding this in case a browser refuses cookies - default lang is en
+if (!isset($_COOKIE["lang"]))
+	include("lang.en.php");
+else
+	include("lang." . $_COOKIE["lang"] . ".php");
 
 include("html/head.html");
 include("html/menu.html");
