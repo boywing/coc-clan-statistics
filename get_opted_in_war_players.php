@@ -200,7 +200,7 @@ function clearWarLogRoster($conn): void
 function getExcludedMemberList($conn): array
 {
     $result = [];
-    $sqlStatement = "SELECT tag, name, expires, reason, cwltoo from players_excluded_from_war;";
+    $sqlStatement = "SELECT tag, name, expires, reason, cwltoo from players_excluded_from_war where expires > now() or expires is null;";
     $check_result = mysqli_query($conn, $sqlStatement);
     if (mysqli_num_rows($check_result) == 0) {
         echo "function getExcludedMemberList:  No rows found in players_excluded_from_war table";
