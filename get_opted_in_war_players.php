@@ -2,7 +2,14 @@
 <?php
 
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
-$clantag = $_GET['clantag'];
+if (array_key_exists('clantag', $_GET)) {
+    $clantag = $_GET['clantag'];
+}
+else {
+    echo "\nNo clan specified, defaulting to #80J0JRLP";
+    $clantag = '#80J0JRLP';
+}
+
 
 include "./config.php";
 chdir($install_path);
@@ -74,6 +81,7 @@ foreach($members as $member) {
 
 $excludedMembers = getExcludedMemberList($conn);
 $includedMembers = getIncludedMemberList($conn);
+$membersLeftOutLastWar = getMembersLeftOutLastWar($conn);
 
 $optedInMembers = getOptedInMembers($members);
 
@@ -126,6 +134,10 @@ function getWarRoster($conn, $optedInMembers): array
     // add minis
     $remainder = count($results) % 5;
     $numMinisToAdd = 5-$remainder;
+    if (count($results) + $numMinisToAdd < ($warSize / 2)) {
+        echo "\nNot enough lower players, adding more minis.  Might have to find more people";
+        $numMinisToAdd += 5;
+    }
 
     echo "\nTotal number of players so far: " . count($results);
     echo "\nNumber of Minis needed for an even multiple of 10: " . $numMinisToAdd;
@@ -176,7 +188,7 @@ function putWarLogRoster($conn, $tag, $name, $warPreference, $inWar, $wasOnInclu
 
 function updateWarLogRoster($conn, $tag, $key, $value): void
 {
-    $sqlStatement = mysqli_prepare($conn, "UPDATE war_roster_log SET " . $key . "=? WHERE tag=?;");
+    $sqlStatement = mysqli_prepare($conn, "UPDATE war_roster_log SET " . $key . "=? WHERE tag=? and opponenttag = 'WarSearch';");
     if ($sqlStatement === false) {
         trigger_error($this->mysqli->error, E_USER_ERROR);
         exit;
@@ -232,6 +244,24 @@ function getIncludedMemberList($conn): array
     return $result;
 }
 
+function getMembersLeftOutLastWar($conn): array
+{
+    $result = [];
+    $sqlStatement = "select name, tag from war_roster_log where warpreference = 'in' and inwar = 'out' " . 
+        "and datecreated = (select max(datecreated) from war_roster_log where opponenttag <> 'WarSearch') " . 
+        "and tag not in (select tag from players_excluded_from_war);";
+    $check_result = mysqli_query($conn, $sqlStatement);
+    if (mysqli_num_rows($check_result) == 0) {
+        echo "function getMembersLeftOutLastWar:  No rows returned from sql query: ". $sqlStatement;
+    }
+    else {
+        while ($row = mysqli_fetch_assoc($check_result)) {
+            array_push($result, $row);
+        }
+    }
+    return $result;     
+}
+
 function excludeMember($conn, $tag, $name, $expires, $reason, $cwltoo): void
 {
     $sqlStatement = mysqli_prepare($conn, "INSERT INTO players_excluded_from_war (tag, name, expires, reason, cwltoo) VALUES (?, ?, null, ?, ?);");
@@ -261,20 +291,29 @@ function trimMemberList($conn,$members, $max): array
 
 function pickMembersFromGroup($conn, $members, $numToPick): array 
 {
-    global $LeftOuts, $includedMembers;
+    global $LeftOuts, $includedMembers, $membersLeftOutLastWar;
     echo "\nGolden Children: ";
     for($i=0; $i<count($members); $i++) {
         $members[$i]['random value'] = rand(0, 100000);
 
         //set all included members to max random value so they are included in war
+        // echo ;
 
         foreach($includedMembers as $goldenChild) {
             if($members[$i]['tag'] == $goldenChild['tag']) {
                 updateWarLogRoster($conn, $goldenChild['tag'], 'wasonincludelist', 'Y');
                 $members[$i]['random value'] = 100000;
-                echo $members[$i]['name'] . ", ";
+                echo "\nAlways In list - " .$members[$i]['name'] . ", ";
             }
-        }       
+        }
+        // echo ;
+        foreach($membersLeftOutLastWar as $goldenChild) {
+            if($members[$i]['tag'] == $goldenChild['tag']) {
+                updateWarLogRoster($conn, $goldenChild['tag'], 'wasonincludelist', 'Y');
+                $members[$i]['random value'] = 100000;
+                echo "\nOut last war so in this war - " . $members[$i]['name'] . ", ";
+            }
+        }
     }
 
     $randColumn = array_column($members, 'random value');
@@ -352,7 +391,7 @@ function getOptedInMembers($members): array
 
 function getMemberStatus($members, $api_token): array
 {
-    echo 'Retrieving Member List';
+    echo "\nRetrieving Member List";
     $results = [];
     foreach ($members as $member) {
         echo '.';
