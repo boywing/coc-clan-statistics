@@ -11,17 +11,15 @@ mysqli_report(MYSQLI_REPORT_ERROR);
 $prev_row = getMostRecentHeartbeat($conn);
 insertHeartbeatRecord($conn);
 $new_row = getMostRecentHeartbeat($conn);
-var_dump($prev_row['state']);
-echo "\n\n";
-var_dump($new_row['state']);
+
 if ($prev_row['state'] != $new_row['state']){
     echo "New state!  Previous state: " . $prev_row['state'] . ", New state: " . $new_row['state'];
     switch($new_row['state']) {
-        // case 'inWar':
-        //     include "./config.php";
-        //     chdir($update_path);
-        //     include "./update_war.php";
-        //     break;
+        case 'preparation':
+            include "./config.php";
+            chdir($update_path);
+            include "./update_war_roster_log.php";
+            break;               
         case 'warEnded':
             include "./config.php";
             chdir($update_path);
