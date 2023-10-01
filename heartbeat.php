@@ -6,25 +6,29 @@ include "./mysql_coc.php";
 
 // Globals
 $clantag = '#80J0JRLP';
+mysqli_report(MYSQLI_REPORT_ERROR);
 
-$sqlStatement = "select state, startTime, endTime, preparationStartTime, max(hbTimestamp) as hbTimestamp from heartbeat;";
-$check_result = mysqli_query($conn, $sqlStatement);
-var_dump(mysqli_num_rows($check_result));
-if (mysqli_num_rows($check_result) == 0) {
-    echo "Error; No rows found in heartbeat table";
-    insertHeartbeatRecord($conn);
-}
-$row = mysqli_fetch_assoc($check_result);
-$now = gmdate('Y-m-d H:i:s');
-var_dump($row['endTime'], $now);
-die('Timestamps are for whole war, prep and in war both.  Need to work on logic for when to write a heartbeat record');
-if (array_key_exists('endTime', $row)) {
-    if (is_null($row['endTime']) || $row['endTime'] < $now) {
-        insertHeartbeatRecord($conn);
+$prev_row = getMostRecentHeartbeat($conn);
+insertHeartbeatRecord($conn);
+$new_row = getMostRecentHeartbeat($conn);
+var_dump($prev_row['state']);
+echo "\n\n";
+var_dump($new_row['state']);
+if ($prev_row['state'] != $new_row['state']){
+    echo "New state!  Previous state: " . $prev_row['state'] . ", New state: " . $new_row['state'];
+    switch($new_row['state']) {
+        // case 'inWar':
+        //     include "./config.php";
+        //     chdir($update_path);
+        //     include "./update_war.php";
+        //     break;
+        case 'warEnded':
+            include "./config.php";
+            chdir($update_path);
+            include "./update_war.php";
+            break;            
     }
-}
-else {
-    insertHeartbeatRecord($conn);
+
 }
 
 function insertHeartbeatRecord($conn): void
@@ -43,13 +47,25 @@ function insertHeartbeatRecord($conn): void
     $pST = date_create_from_format('Ymd\THis\.\0\0\0\Z',$currentwar['preparationStartTime']);
     $preparationStartTime = $pST->format('Y-m-d H:i:s');
 
-    $sqlStatement = mysqli_prepare($conn, "INSERT INTO heartbeat(state, startTime, endTime, preparationStartTime, hbTimestamp) VALUES (?, ?, ?, ?, GETUTCDATE())");
+    $sqlStatement = mysqli_prepare($conn, "INSERT INTO heartbeat(state, startTime, endTime, preparationStartTime, hbTimestamp) VALUES (?, ?, ?, ?, UTC_TIMESTAMP())");
     mysqli_stmt_bind_param($sqlStatement, "ssss", $currentwar['state'], $startTime, $endTime, $preparationStartTime);
     
     $check_result = mysqli_stmt_execute($sqlStatement);
     if (!$check_result) {
         echo "Error inserting heartbeat record - " . $currentwar['state'] . " - " . $currentwar['startTime'] . " - " . $currentwar['endTime'] . " - " . $currentwar['preparationStartTime'] . ": " . mysqli_error($conn) . "\n";
     }     
+}
+
+function getMostRecentHeartbeat($conn): array
+{
+    $sqlStatement = "select a.state, a.startTime, a.endTime, a.preparationStartTime, a.hbTimestamp from heartbeat a inner join (select max(hbTimestamp) as hbTimestamp from heartbeat) b on a.hbTimestamp = b.hbTimestamp;";
+    $check_result = mysqli_query($conn, $sqlStatement);
+    // var_dump(mysqli_num_rows($check_result));
+    if (mysqli_num_rows($check_result) == 0) {
+        echo "Error; No rows found in heartbeat table";
+        insertHeartbeatRecord($conn);
+    }
+    return mysqli_fetch_assoc($check_result);
 }
 
 function callAPI($url, $api_token) 
