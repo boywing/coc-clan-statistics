@@ -54,7 +54,7 @@ else
         update_clan($their_clan);
         update_players($our_players, $our_clan);
         update_players($their_players, $their_clan);
-        if($war_data["state"] == "inWar")
+        if($war_data["state"] == "inWar" || $war_data["state"] == "warEnded")
             {
                 update_attacks($our_players, $our_clan,  $their_clan);
                 update_attacks($their_players, $their_clan, $our_clan);
