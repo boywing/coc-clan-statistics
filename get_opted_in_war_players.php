@@ -403,7 +403,8 @@ function getMemberStatus($members, $api_token): array
             'name' => $player_info['name'],
             'tag' => $player_info['tag'],
             'townHallLevel' => $player_info['townHallLevel'],
-            'warPreference' => $player_info['warPreference']
+            'warPreference' => $player_info['warPreference'],
+            'trophies' => $player_info['trophies']
         ]);
     }
 

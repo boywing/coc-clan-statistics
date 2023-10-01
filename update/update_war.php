@@ -1,8 +1,10 @@
 #!/usr/bin/php
 <?php
 
-parse_str(implode('&', array_slice($argv, 1)), $_GET);
-$clanid = $_GET['clanid'];
+// parse_str(implode('&', array_slice($argv, 1)), $_GET);
+// $clanid = $_GET['clanid'];
+$clanid = '#80J0JRLP';
+echo "\n\nUpdating war statistics\n\n";
 
 include "../config.php";
 chdir($update_path);
