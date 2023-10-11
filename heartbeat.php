@@ -5,11 +5,12 @@ include "./token.php";
 include "./mysql_coc.php";
 
 // Globals
+
 $clantag = '#80J0JRLP';
 mysqli_report(MYSQLI_REPORT_ERROR);
 
 $prev_row = getMostRecentHeartbeat($conn);
-insertHeartbeatRecord($conn);
+$currentwar = insertHeartbeatRecord($conn);
 $new_row = getMostRecentHeartbeat($conn);
 
 if ($prev_row['state'] != $new_row['state']){
@@ -18,6 +19,7 @@ if ($prev_row['state'] != $new_row['state']){
         case 'preparation':
             include "./config.php";
             chdir($update_path);
+            // var_dump($currentwar);
             include "./update_war_roster_log.php";
             break;               
         case 'warEnded':
@@ -29,7 +31,7 @@ if ($prev_row['state'] != $new_row['state']){
 
 }
 
-function insertHeartbeatRecord($conn): void
+function insertHeartbeatRecord($conn): array
 {
     global $clantag, $api_token;
 
@@ -51,7 +53,8 @@ function insertHeartbeatRecord($conn): void
     $check_result = mysqli_stmt_execute($sqlStatement);
     if (!$check_result) {
         echo "Error inserting heartbeat record - " . $currentwar['state'] . " - " . $currentwar['startTime'] . " - " . $currentwar['endTime'] . " - " . $currentwar['preparationStartTime'] . ": " . mysqli_error($conn) . "\n";
-    }     
+    }
+    return $currentwar;     
 }
 
 function getMostRecentHeartbeat($conn): array

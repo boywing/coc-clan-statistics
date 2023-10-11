@@ -1,9 +1,13 @@
 #!/usr/bin/php
 <?php
 
-// parse_str(implode('&', array_slice($argv, 1)), $_GET);
-// $clanid = $_GET['clanid'];
-$clanid = '#80J0JRLP';
+parse_str(implode('&', array_slice($argv, 1)), $_GET);
+if (isset($_GET['clanid'])) {
+    $clanid = $_GET['clanid'];
+} else {
+    $clanid = '#80J0JRLP';
+}
+
 echo "\n\nUpdating war statistics\n\n";
 
 include "../config.php";
@@ -11,20 +15,26 @@ chdir($update_path);
 
 include "../token.php";
 
-$url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar";
+if (isset($_GET['testing'])) {
+    $result = file_get_contents('D:\xampp\coc-clan-statistics\update\war-ended.json');
+} else {
+    $url = "https://api.clashofclans.com/v1/clans/" . urlencode($clanid) . "/currentwar";
 
-$curl = curl_init($url);
-$header = array();
-$header[] = "Accept: application/json";
-$header[] = "Content-type: text/html; charset=UTF-8";
-$header[] = "Authorization: Bearer ".$api_token;
-curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
-curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-$result = curl_exec($curl);
+    $curl = curl_init($url);
+    $header = array();
+    $header[] = "Accept: application/json";
+    $header[] = "Content-type: text/html; charset=UTF-8";
+    $header[] = "Authorization: Bearer ".$api_token;
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    $result = curl_exec($curl);
+    curl_close($curl);
+}
+
 $war_data = json_decode($result, true);
-curl_close($curl);
+
 
 if (isset($war_data["reason"])) {
     $error = true;
@@ -58,9 +68,46 @@ else
             {
                 update_attacks($our_players, $our_clan,  $their_clan);
                 update_attacks($their_players, $their_clan, $our_clan);
+                check_for_missed_attacks($our_players, $war_data["state"]);
             }
         mysqli_close($conn);
     }
+
+function check_for_missed_attacks($players, $state)
+{
+    global $conn;
+    if ($state == "warEnded") {
+        foreach($players as $player)
+        {
+            if (isset($player["attacks"])) {
+                if(count($player["attacks"]) == 1) {
+                    set_missed_attack($player, 1);
+                }
+            }
+            else {
+                set_missed_attack($player, 2);
+            }
+        }
+    }    
+}
+
+function set_missed_attack($player, $numMissed)
+{
+    global $days_susp_low_lvl, $days_susp_high_lvl;
+
+    echo "Tag: " . $player['tag'] . " Name: " . $player['name'] . " missed " . $numMissed . " attacks!  ";
+    if ($player['townhallLevel'] < 14) {
+        $days_susp = $days_susp_low_lvl * $numMissed;
+        echo "TH" .$player['townhallLevel'] . " missed " . $numMissed . " attack(s).  Suspended " . $days_susp . " day(s).  ";
+        // echo "Logging only for TH" . $player['townhallLevel'];
+    }
+    else {
+        $days_susp = $days_susp_high_lvl * $numMissed;
+        echo "TH" .$player['townhallLevel'] . " missed " . $numMissed . " attack(s).  Suspended " . $days_susp . " day(s).  ";        
+
+    }
+    echo "\n";
+}
 
 function update_attacks($players, $clan, $opponent)
 {

@@ -1,0 +1,318 @@
+{
+  "state": "preparation",
+  "teamSize": 20,
+  "attacksPerMember": 2,
+  "preparationStartTime": "20230929T012858.000Z",
+  "startTime": "20230930T002858.000Z",
+  "endTime": "20231001T002858.000Z",
+  "clan": {
+    "tag": "#80J0JRLP",
+    "name": "GivMeDemCookies",
+    "badgeUrls": {
+      "small": "https://api-assets.clashofclans.com/badges/70/vAK2_2gB9hh-TIBUhvh0B_1fzYJflCtk0i32r_Nsr6I.png",
+      "large": "https://api-assets.clashofclans.com/badges/512/vAK2_2gB9hh-TIBUhvh0B_1fzYJflCtk0i32r_Nsr6I.png",
+      "medium": "https://api-assets.clashofclans.com/badges/200/vAK2_2gB9hh-TIBUhvh0B_1fzYJflCtk0i32r_Nsr6I.png"
+    },
+    "clanLevel": 27,
+    "attacks": 0,
+    "stars": 0,
+    "destructionPercentage": 0.0,
+    "members": [
+      {
+        "tag": "#9CLVUCV2Y",
+        "name": "Tip1",
+        "townhallLevel": 6,
+        "mapPosition": 19,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#LY9LGJQQ",
+        "name": "ajpm22",
+        "townhallLevel": 15,
+        "mapPosition": 6,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#QL9PLCGL",
+        "name": "mike",
+        "townhallLevel": 15,
+        "mapPosition": 10,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#QLJVY9CY",
+        "name": "✨Patzner✨",
+        "townhallLevel": 15,
+        "mapPosition": 5,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#Q0QLURJY",
+        "name": "JokerOneSix",
+        "townhallLevel": 15,
+        "mapPosition": 2,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#2LYG0JCP9",
+        "name": "Blue Devil",
+        "townhallLevel": 15,
+        "mapPosition": 4,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#8P0UCVGV",
+        "name": "grateful-red",
+        "townhallLevel": 15,
+        "mapPosition": 7,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#9RYYJ20U2",
+        "name": "-= Ilwrath =-",
+        "townhallLevel": 13,
+        "mapPosition": 12,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#YVJGLCY0L",
+        "name": "Unknown",
+        "townhallLevel": 13,
+        "mapPosition": 11,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#2900LQRLP",
+        "name": "ghalvan",
+        "townhallLevel": 15,
+        "mapPosition": 9,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#9QV2LR898",
+        "name": "-= Spathi =-",
+        "townhallLevel": 6,
+        "mapPosition": 20,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#9QRRUR90R",
+        "name": "-= Yehat =-",
+        "townhallLevel": 12,
+        "mapPosition": 15,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#GRGG8R2U",
+        "name": "Wolfie 2.0",
+        "townhallLevel": 15,
+        "mapPosition": 8,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#QCJ9QCJY",
+        "name": "jag",
+        "townhallLevel": 12,
+        "mapPosition": 14,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#8Q0U2CU2Y",
+        "name": "--== Pkunk ==--",
+        "townhallLevel": 12,
+        "mapPosition": 16,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#2ULJ82JR2",
+        "name": "VISHAL",
+        "townhallLevel": 15,
+        "mapPosition": 3,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#2QCPCG028",
+        "name": "Aavixx",
+        "townhallLevel": 15,
+        "mapPosition": 1,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#8LGU0GJQ9",
+        "name": "BIGFATTIEDATTIE",
+        "townhallLevel": 10,
+        "mapPosition": 18,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#9PLJJPPRR",
+        "name": "-= Orz =-",
+        "townhallLevel": 12,
+        "mapPosition": 17,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#LVUJULVV",
+        "name": "El Miguel",
+        "townhallLevel": 12,
+        "mapPosition": 13,
+        "opponentAttacks": 0
+      }
+    ]
+  },
+  "opponent": {
+    "tag": "#200QUCYJC",
+    "name": "Hydrogen FC",
+    "badgeUrls": {
+      "small": "https://api-assets.clashofclans.com/badges/70/Ebye8ESGIVIJSniMohGhaa2WDAZJEGAyzEwhMb-UXzc.png",
+      "large": "https://api-assets.clashofclans.com/badges/512/Ebye8ESGIVIJSniMohGhaa2WDAZJEGAyzEwhMb-UXzc.png",
+      "medium": "https://api-assets.clashofclans.com/badges/200/Ebye8ESGIVIJSniMohGhaa2WDAZJEGAyzEwhMb-UXzc.png"
+    },
+    "clanLevel": 17,
+    "attacks": 0,
+    "stars": 0,
+    "destructionPercentage": 0.0,
+    "members": [
+      {
+        "tag": "#9LGR880JY",
+        "name": "Goblincleaver",
+        "townhallLevel": 15,
+        "mapPosition": 5,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#PRP9C2QP",
+        "name": "m’KiloLA",
+        "townhallLevel": 15,
+        "mapPosition": 3,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#G0QJC2JU",
+        "name": "miniKiloLA",
+        "townhallLevel": 12,
+        "mapPosition": 14,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#2GUC8Y88C",
+        "name": "joe",
+        "townhallLevel": 15,
+        "mapPosition": 2,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#QQQY090PJ",
+        "name": "Cactus Practice",
+        "townhallLevel": 11,
+        "mapPosition": 17,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#LYY8VUCUQ",
+        "name": "Sky",
+        "townhallLevel": 10,
+        "mapPosition": 18,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#U29RUQCV",
+        "name": "HG⚡️Goblin",
+        "townhallLevel": 15,
+        "mapPosition": 1,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#QUY09JQG",
+        "name": "Stacks⭐️⭐️⭐️",
+        "townhallLevel": 15,
+        "mapPosition": 7,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#LRCG00280",
+        "name": "joe*2",
+        "townhallLevel": 12,
+        "mapPosition": 16,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#LCLGJRV2C",
+        "name": "kyle",
+        "townhallLevel": 9,
+        "mapPosition": 20,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#20U8VQYVP",
+        "name": "KenCas24",
+        "townhallLevel": 15,
+        "mapPosition": 10,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#8R88C8RQ2",
+        "name": "Dr. Strange",
+        "townhallLevel": 15,
+        "mapPosition": 9,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#YPQGUGCGC",
+        "name": "Icarus",
+        "townhallLevel": 15,
+        "mapPosition": 4,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#VQLQUL0Y",
+        "name": "Jelky",
+        "townhallLevel": 9,
+        "mapPosition": 19,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#LQGVG2G09",
+        "name": "LOKI",
+        "townhallLevel": 12,
+        "mapPosition": 13,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#90LU9C9Q",
+        "name": "A d i r a",
+        "townhallLevel": 15,
+        "mapPosition": 11,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#L0CJ2089P",
+        "name": "Thor",
+        "townhallLevel": 15,
+        "mapPosition": 8,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#9G2QR8Y2G",
+        "name": "KenCas88",
+        "townhallLevel": 15,
+        "mapPosition": 6,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#PQRQYJR2P",
+        "name": "jjjjj",
+        "townhallLevel": 13,
+        "mapPosition": 12,
+        "opponentAttacks": 0
+      },
+      {
+        "tag": "#9PCGLG2V0",
+        "name": "Dynasty21",
+        "townhallLevel": 12,
+        "mapPosition": 15,
+        "opponentAttacks": 0
+      }
+    ]
+  }
+}

@@ -125,11 +125,11 @@ function getWarRoster($conn, $optedInMembers): array
     }
 
     // add th14s
-    echo "\nAdding TH14s: ";
-    $thfourteens  = trimMemberList($conn, $ThFourteen, $maxThFourteens);
-    foreach ($thfourteens as $member) {
-        array_push($results, $member);  
-    }
+    // echo "\nAdding TH14s: ";
+    // $thfourteens  = trimMemberList($conn, $ThFourteen, $maxThFourteens);
+    // foreach ($thfourteens as $member) {
+    //     array_push($results, $member);  
+    // }
 
     // add minis
     $remainder = count($results) % 5;
@@ -365,7 +365,8 @@ function sortMemberListByTH($conn, $members): void
                     array_push($ThFifteen, $member);
                     break;
                 case '14':
-                    array_push($ThFourteen, $member);
+                    // changing this to TH15s because I want to group 15s and 14s together now
+                    array_push($ThFifteen, $member);
                     break;
                 default:
                     if (!in_array($member['tag'], getTagsFromArray($MyMinis)) && !in_array($member['tag'], getTagsFromArray($sandbags))) {
