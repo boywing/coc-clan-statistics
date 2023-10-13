@@ -2,7 +2,7 @@
 <?php
 
 function writeLog($conn, $logEntry) {
-    echo "\n" . $logEntry;
+    echo "\n" . $logEntry . "\n";
     $sqlStatement = mysqli_prepare($conn, "insert into log (timestamp, action) values (now(), ?);");
     mysqli_stmt_bind_param($sqlStatement, "s", $logEntry);
 

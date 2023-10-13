@@ -3,6 +3,7 @@
 
 include "./token.php";
 include "./mysql_coc.php";
+include "./write_log.php";
 
 // Globals
 
@@ -14,7 +15,7 @@ $currentwar = insertHeartbeatRecord($conn);
 $new_row = getMostRecentHeartbeat($conn);
 
 if ($prev_row['state'] != $new_row['state']){
-    echo "New state!  Previous state: " . $prev_row['state'] . ", New state: " . $new_row['state'];
+    writeLog($conn, "New state!  Previous state: " . $prev_row['state'] . ", New state: " . $new_row['state']);
     switch($new_row['state']) {
         case 'preparation':
             include "./config.php";
@@ -52,7 +53,7 @@ function insertHeartbeatRecord($conn): array
     
     $check_result = mysqli_stmt_execute($sqlStatement);
     if (!$check_result) {
-        echo "Error inserting heartbeat record - " . $currentwar['state'] . " - " . $currentwar['startTime'] . " - " . $currentwar['endTime'] . " - " . $currentwar['preparationStartTime'] . ": " . mysqli_error($conn) . "\n";
+        writeLog($conn, "Error inserting heartbeat record - " . $currentwar['state'] . " - " . $currentwar['startTime'] . " - " . $currentwar['endTime'] . " - " . $currentwar['preparationStartTime'] . ": " . mysqli_error($conn));
     }
     return $currentwar;     
 }
@@ -63,7 +64,7 @@ function getMostRecentHeartbeat($conn): array
     $check_result = mysqli_query($conn, $sqlStatement);
     // var_dump(mysqli_num_rows($check_result));
     if (mysqli_num_rows($check_result) == 0) {
-        echo "Error; No rows found in heartbeat table";
+        writeLog($conn, "Error; No rows found in heartbeat table");
         insertHeartbeatRecord($conn);
     }
     return mysqli_fetch_assoc($check_result);
