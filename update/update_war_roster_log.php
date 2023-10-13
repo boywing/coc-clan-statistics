@@ -8,7 +8,7 @@ include "../write_log.php";
 // parse_str(implode('&', array_slice($argv, 1)), $_GET);
 // $clanid = $_GET['clanid'];
 $clanid = '#80J0JRLP';
-writeLog($conn, "\n\nUpdating war roster log\n\n");
+writeLog($conn, "Updating war roster log");
 
 $sqlStatement = "select * from war_roster_log where opponenttag = 'WarSearch';";
 $check_result = mysqli_query($conn, $sqlStatement);
@@ -48,7 +48,7 @@ else {
     
         $check_result = mysqli_stmt_execute($sqlStatement);
         if (!$check_result) {
-            writeLog($conn, "Error excluding member - " . $tag . " - " . $key . " - " . $value . ": " . mysqli_error($conn) . "\n");
+            writeLog($conn, "Error excluding member - " . $tag . " - " . $key . " - " . $value . ": " . mysqli_error($conn));
         }  
     }
     else {

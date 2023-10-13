@@ -1,5 +1,9 @@
 #!/usr/bin/php
 <?php
+include "../write_log.php";
+include "../mysql_coc.php";
+include "../config.php";
+include "../token.php";
 
 parse_str(implode('&', array_slice($argv, 1)), $_GET);
 if (isset($_GET['clanid'])) {
@@ -8,12 +12,10 @@ if (isset($_GET['clanid'])) {
     $clanid = '#80J0JRLP';
 }
 
-echo "\n\nUpdating war statistics\n\n";
+writeLog($conn, "update_war.php - Updating war statistics");
 
-include "../config.php";
 chdir($update_path);
 
-include "../token.php";
 
 if (isset($_GET['testing'])) {
     $result = file_get_contents('D:\xampp\coc-clan-statistics\update\war-ended.json');
@@ -38,18 +40,17 @@ $war_data = json_decode($result, true);
 
 if (isset($war_data["reason"])) {
     $error = true;
-    echo $war_data["reason"];
-    echo $war_data["message"];
-    echo "\n";
+    writeLog($conn,  $war_data["reason"]);
+    writeLog($conn, $war_data["message"]);
 }
 
 if ($war_data["state"] == "notInWar")
     {
-        echo "Clan " . $clanid . " not in war...\n";
+        writeLog($conn, "Clan " . $clanid . " not in war...");
     }
 else
     {
-        include "../mysql_coc.php";
+
         #if (($war_data["clan"]["stars"] - $war_data["opponent"]["stars"]) > 0)
         #    $result = "Win";
         #else
@@ -93,20 +94,18 @@ function check_for_missed_attacks($players, $state)
 
 function set_missed_attack($player, $numMissed)
 {
-    global $days_susp_low_lvl, $days_susp_high_lvl;
+    global $conn, $days_susp_low_lvl, $days_susp_high_lvl;
 
-    echo "Tag: " . $player['tag'] . " Name: " . $player['name'] . " missed " . $numMissed . " attacks!  ";
+    writeLog($conn,  "Tag: " . $player['tag'] . " Name: " . $player['name'] . " missed " . $numMissed . " attacks!  ");
     if ($player['townhallLevel'] < 14) {
         $days_susp = $days_susp_low_lvl * $numMissed;
-        echo "TH" .$player['townhallLevel'] . " missed " . $numMissed . " attack(s).  Suspended " . $days_susp . " day(s).  ";
+        writeLog($conn, "TH" .$player['townhallLevel'] . " missed " . $numMissed . " attack(s).  Suspended " . $days_susp . " day(s).  ");
         // echo "Logging only for TH" . $player['townhallLevel'];
     }
     else {
         $days_susp = $days_susp_high_lvl * $numMissed;
-        echo "TH" .$player['townhallLevel'] . " missed " . $numMissed . " attack(s).  Suspended " . $days_susp . " day(s).  ";        
-
+        writeLog($conn, "TH" .$player['townhallLevel'] . " missed " . $numMissed . " attack(s).  Suspended " . $days_susp . " day(s).  ");        
     }
-    echo "\n";
 }
 
 function update_attacks($players, $clan, $opponent)
@@ -163,9 +162,9 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attack_stars, @destructionPercentage, @startTime, @order);";
                            
                             if (mysqli_query($conn, $attack_sql)) {
-                                echo "Attack record for player \"" . $player["name"] . "\" updated successfully" . "\n";
+                                writeLog($conn, "Attack record for player \"" . $player["name"] . "\" updated successfully");
                             } else {
-                                echo "----- Error updating attack record for player " . $player["name"] . ": " . mysqli_error($conn) . "\n";
+                                writeLog($conn, "----- Error updating attack record for player " . $player["name"] . ": " . mysqli_error($conn));
                             }
                         }
                 }
@@ -189,9 +188,9 @@ function update_clan($clan)
     $clan_sql = "INSERT INTO clans (`tag`,`name`,`clanLevel`,`timestamp`) VALUES (@tag,@name,@clanLevel,@timestamp) ON DUPLICATE KEY UPDATE tag = @tag,name = @name,clanLevel=@clanLevel,timestamp=@timestamp;";
     
     if (mysqli_query($conn, $clan_sql)) {
-        echo "Record for war clan \"" . $clan["name"] . "\" updated successfully" . "\n";
+        writeLog($conn, "Record for war clan \"" . $clan["name"] . "\" updated successfully");
     } else {
-        echo "----- Error updating record for clan " . $clan["name"] . ": " . mysqli_error($conn) . "\n";
+        writeLog($conn, "----- Error updating record for clan " . $clan["name"] . ": " . mysqli_error($conn));
     }
 }
 
@@ -217,9 +216,9 @@ function update_players($players, $clan)
             $player_sql .= "ON DUPLICATE KEY UPDATE tag=@tag, name=@name, clan_tag=@clan_tag, clan_name=@clan_name, timestamp=@timestamp;";
             // echo mb_detect_encoding($player["name"]) . " - " . urlencode($player["name"]) . "\n";
             if (mysqli_query($conn, $player_sql)) {
-                echo "Record for war player \"" . $player["name"] . "\" updated successfully" . "\n";
+                writeLog($conn, "Record for war player \"" . $player["name"] . "\" updated successfully");
             } else {
-                echo "----- Error updating player record for " . $player["name"] . ": " . mysqli_error($conn) . "\n";
+                writeLog($conn, "----- Error updating player record for " . $player["name"] . ": " . mysqli_error($conn));
             }
         }
 }

@@ -318,7 +318,7 @@ function pickMembersFromGroup($conn, $members, $numToPick): array
 
     $randColumn = array_column($members, 'random value');
     $thLevel = array_column($members, 'townHallLevel');
-    array_multisort($thLevel, SORT_DESC, $randColumn, SORT_DESC, $members);
+    array_multisort($randColumn, SORT_DESC, $members);
     $results = array_slice($members, 0, $numToPick);
     $leftOutList = array_slice($members, $numToPick, count($members));
 
@@ -336,6 +336,7 @@ function pickMembersFromGroup($conn, $members, $numToPick): array
         // var_dump($loser);
         array_push($LeftOuts, $loser);
     }
+    echo "\n\n";
     return $results;
 }
 
