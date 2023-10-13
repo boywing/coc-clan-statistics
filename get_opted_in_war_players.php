@@ -73,7 +73,7 @@ $clan_url = "https://api.clashofclans.com/v1/clans/" . urlencode($clantag) . "/m
 $curl_result = callAPI($clan_url, $api_token);
 
 $clan_members = json_decode($curl_result, true);
-$members = getMemberStatus($clan_members['items'], $api_token);
+$members = getMemberStatus($conn, $clan_members['items'], $api_token);
 clearWarLogRoster($conn);
 foreach($members as $member) {
     putWarLogRoster($conn, $member['tag'], $member['name'], $member['warPreference'], 'out', 'N', 'N', 'WarSearch', 'WarSearch');
@@ -317,8 +317,8 @@ function pickMembersFromGroup($conn, $members, $numToPick): array
     }
 
     $randColumn = array_column($members, 'random value');
-    $thLevel = array_column($members, 'townHallLevel');
-    array_multisort($randColumn, SORT_DESC, $members);
+    $skipped = array_column($members, 'skipped');
+    array_multisort($skipped, SORT_DESC, $randColumn, SORT_DESC, $members);
     $results = array_slice($members, 0, $numToPick);
     $leftOutList = array_slice($members, $numToPick, count($members));
 
@@ -391,7 +391,7 @@ function getOptedInMembers($members): array
     return $results;
 }
 
-function getMemberStatus($members, $api_token): array
+function getMemberStatus($conn, $members, $api_token): array
 {
     echo "\nRetrieving Member List";
     $results = [];
@@ -400,13 +400,22 @@ function getMemberStatus($members, $api_token): array
         $player_url = "https://api.clashofclans.com/v1/players/" . urlencode($member['tag']);
         $curl_result = callAPI($player_url, $api_token);
         $player_info = json_decode($curl_result, true);
+        $sqlStatement = "select count(tag) as skipped from war_roster_log where tag = '" . $player_info['tag'] . "' and warpreference = 'in' and inwar = 'out' and wasonexcludelist = 'N';";
+        $check_result = mysqli_query($conn, $sqlStatement);
+        if (mysqli_num_rows($check_result) == 0) {
+            echo "function getMemberStatus:  No rows found in players_excluded_from_war table";
+        }
+        $row = mysqli_fetch_assoc($check_result);
+        // var_dump($player_info, $row);
+        // die();
         array_push($results, 
         [
             'name' => $player_info['name'],
             'tag' => $player_info['tag'],
             'townHallLevel' => $player_info['townHallLevel'],
             'warPreference' => $player_info['warPreference'],
-            'trophies' => $player_info['trophies']
+            'trophies' => $player_info['trophies'],
+            'skipped' => (int)$row['skipped']
         ]);
     }
 
