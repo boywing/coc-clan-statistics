@@ -11,3 +11,24 @@ th {
 .myred {
     color:#CC3333;
 }
+
+.
+.clan-tab .tab-pane {
+    border:solid 1px black;
+    border-top: 0;
+
+}
+
+#clanTab li a {
+    border-color: #222222;
+    background-color:#555555;
+    color:white;
+}
+
+#clanTab a.active {
+    border-color: #222222;
+    border-bottom-color: transparent;
+    background-color: #222222;
+    color:white;
+}
+

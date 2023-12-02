@@ -1,7 +1,5 @@
 <?php
 
-$version = "Clash Of Clans Statistics version 0.0.1";
-
-print "$version";
+print "Clash Of Clans Statistics version 2.0.0 alpha";
 
 ?>
