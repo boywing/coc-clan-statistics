@@ -38,7 +38,7 @@ $clan_sql .= "', @location = '" . $clan_data['location']['name'];
 $clan_sql .= "', @badge = '" . $clan_data['badgeUrls']['medium'];
 $clan_sql .= "', @clanLevel = " . $clan_data['clanLevel'];
 $clan_sql .= ", @clanPoints = " . $clan_data['clanPoints'];
-$clan_sql .= ", @clanVersusPoints = " . $clan_data['clanVersusPoints'];
+$clan_sql .= ", @clanVersusPoints = " . $clan_data['clanBuilderBasePoints'];
 $clan_sql .= ", @clanCapitalPoints = " . $clan_data['clanCapitalPoints'];
 $clan_sql .= ", @requiredTrophies = " . $clan_data['requiredTrophies'];
 $clan_sql .= ", @warFrequency = '" . $clan_data['warFrequency'];

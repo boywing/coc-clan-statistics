@@ -68,9 +68,9 @@ if($result = mysqli_query($conn, $clan_sql)) {
                         {
                             $player_sql .= ", @builderHallLevel = " . $player["builderHallLevel"];
                         }
-                    $player_sql .= ", @versusTrophies = " . $player["versusTrophies"];
-                    $player_sql .= ", @bestVersusTrophies = " . $player["bestVersusTrophies"];
-                    $player_sql .= ", @versusBattleWins = " . $player["versusBattleWins"];
+                    $player_sql .= ", @versusTrophies = " . $player["builderBaseTrophies"];
+                    $player_sql .= ", @bestVersusTrophies = " . $player["bestBuilderBaseTrophies"];
+                    $player_sql .= ", @versusBattleWins = 0";
                     $player_sql .= ", @timestamp = CURRENT_TIMESTAMP;" . "\n";
 
                     mysqli_query($conn, $player_sql);

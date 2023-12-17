@@ -110,9 +110,9 @@ function update_attacks($players, $clan, $opponent)
                             $attack_sql .= ", @startTime=STR_TO_DATE('" . $startTime . "', '%Y-%m-%d %H:%i:%s'); ";
                             mysqli_query($conn, $attack_sql);
                             
-                            $attack_sql = "INSERT INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
+                            $attack_sql = "INSERT IGNORE INTO attacks (`attacker_tag`, `defender_tag`, `attacker_clan`, `defender_clan`, `attacker_th`, `defender_th`, `attacker_map_pos`, `defender_map_pos`, `attack_stars`, `destructionPercentage`, `startTime`, `order`) ";
                             $attack_sql .= "VALUES (@attacker_tag, @defender_tag, @attacker_clan, @defender_clan, @attacker_th, @defender_th, @attacker_map_pos, @defender_map_pos, @attack_stars, @destructionPercentage, @startTime, @order);";
-                           
+			    
                             if (mysqli_query($conn, $attack_sql)) {
                                 echo "Attack record for player \"" . $player["name"] . "\" updated successfully" . "\n";
                             } else {
