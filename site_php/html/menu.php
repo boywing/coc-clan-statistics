@@ -1,0 +1,53 @@
+<?php
+global $menu_title, $language;
+?>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="#"><img src="images/Barbarian King.png" width="30" height="30" class="d-inline-block align-top" alt="">&nbsp;<?php echo $menu_title; ?></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <?php echo $language["CLANS"]; ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="?mode=clan&clantag=%239V8RQ2PR">Aktiva Vikingar</a>
+          <a class="dropdown-item" href="?mode=clan&clantag=%2380L9VRJR">AktivaVikingar2</a>
+          <a class="dropdown-item" href="?mode=clan&clantag=%23YJJ8UGG2">AktivaVikingar3</a>
+	  <a class="dropdown-item" href="?mode=clan&clantag=%23220CLU8G0">AktivaVikingar4</a>
+	  <a class="dropdown-item" href="?mode=clan&clantag=%23209QPLUV2">AktivaVikingar5</a>
+	  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?mode=clan&clantag=%23PU2CRG2Y">VilandeVikingar</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?mode=clans"><?php echo $language["ALL_CLANS"]; ?></a>
+        </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <?php echo $language["FUNCTIONS"]; ?>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item disabled" style="color:gray"><?php echo $language["PRESENT_WAR"]; ?></a>
+          <a class="dropdown-item" href="?mode=wars&clantag=<?php echo  urlencode(htmlspecialchars($_GET["clantag"])) ?>"><?php echo $language["CLANS_WARS"]; ?></a>
+	  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="?mode=players&scope=AV"><?php echo $language["FAMILY_MEMBERS"]; ?></a>
+          <a class="dropdown-item" href="?mode=offence&scope=AV"><?php echo $language["FAMILY_TROOPS"]; ?></a>
+          <a class="dropdown-item" href="?mode=players&scope=ALL"><?php echo $language["ALL_PLAYERS"]; ?></a>
+	  <div class="dropdown-divider"></div>
+          <a class="dropdown-item" style="color:gray"><?php echo $language["MIXED_STATS"]; ?></a>
+        </div>
+      </li>
+    </ul>
+    <a class="nav-link white" style="color:white" href="?lang=se">se</a> | <a class="nav-link" style="color:white" href="?lang=en">en</a>
+    &nbsp;
+    <form class="form-inline my-2 my-lg-0" action="index.php" method="get">
+      <input class="form-control mr-sm-2" type="search" placeholder="<?php echo $language["SEARCH_PLACEHOLDER"]; ?>" aria-label="Search" name="search_string">
+      <input type="hidden" name="mode" value="search">
+      <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><?php echo $language["SEARCH_LABEL"]; ?></button>
+    </form>
+  </div>
+</nav>

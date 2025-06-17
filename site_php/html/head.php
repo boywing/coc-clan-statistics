@@ -1,0 +1,25 @@
+<?php
+global $www_path;
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+  
+  <head>
+    <base href=<?php echo $www_path; ?>>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title><?php echo $site_title; ?></title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <!-- Custom styles -->
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+  
+  <body style="background-image:url(images/background.png);background-size:1900px;">
+
+
+<div style="padding: 5px">
